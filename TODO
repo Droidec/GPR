@@ -1,11 +1,15 @@
+TODO
+====
+
+Daily routine
+=============
+- Verify "// TODO" or "// WARN" markers regularly
+
 TODO list
 =========
 
-- Find a good auto indent software
+- Force indentation before commit
+- Add a way to check indentation
+- Detail a good way to use git branches
 - Find a good auto C-documentation software
-- Find a good auto analyzer for memory leaks
-- Write an ASCII graphic with GPR module levels of inclusion
-- Write a code indenting convention + markers convention (// TODO or // WARN, ...) + TODO list when adding modules (take header model, update ASCII graphic, generate new C-documentation, generate new graphic visualizer, ...)
-- Write models in the model/ repo
-- Write a "make install" utility which overwrite "/usr/lib/GPR/" and "/usr/include/GPR"
 
