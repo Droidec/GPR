@@ -1,0 +1,49 @@
+README for the GPR library
+==========================
+
+GPR is a multi-tool C library project, open source and free to use. The goal
+is to offer common functionnalities such as date manipulation, network
+management and log writing. It gathers diversified features in a single,
+easy to use, library.
+
+Project content:
+==================
+
+doc/             - Auto-documentation generation
+extras/          - Extra features to help development
+include/         - Header files
+lib/             - Library files
+models/          - Model files
+obj/             - Object files
+src/             - Source code
+tests/           - Samples to launch unitary tests
+
+Usage:
+======
+
+GPR library:
+Use the "make" utility to compile the shared library.
+Use the "make install" utility with sudo privilege to install shared library on a Linux system.
+Use the "make graph" utility to graph shared library dependencies. (Optional)
+Use the "mahe uninstall" utility with sudo privilege to uninstall shared library from your Linux system.
+Use the "make clean" utility to clean local dynamic library and object files.
+
+tests/:
+Use the "make" utility to compile tests samples.
+Launch executables to see results.
+
+External libraries usage:
+=========================
+
+- C standard library
+
+Author:
+=======
+
+GIANNETTI Marc
+
+Thanks to:
+==========
+
+"Darxus" & "francis@flourish.org" for the PERL script "cinclude2dot" in the extras/ section
+
