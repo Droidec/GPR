@@ -1,7 +1,7 @@
 # Compiler
 CC              = gcc
 # Dynamic library flags
-CFLAGS          = -Wall -Wextra -Werror -O3
+CFLAGS          = -Wall -Wextra -Werror -O3 -fPIC
 # Linker flags
 LDFLAGS         = -shared
 # Header repository

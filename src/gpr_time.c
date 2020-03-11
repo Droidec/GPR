@@ -25,10 +25,16 @@
  *
  *****************************************************************************/
 
-#include <gpr_time.h>
+#include "gpr_time.h"
+#include "gpr_builtin.h"
+
 #include <time.h>
 #include <string.h>
 #include <sys/time.h>
+
+/*****************************************************************************
+ * Public functions
+ *****************************************************************************/
 
 size_t gpr_time_get_date_sec(char * const psz_buffer)
 {
@@ -45,13 +51,22 @@ size_t gpr_time_get_date_sec(char * const psz_buffer)
 
 size_t gpr_time_get_date_millisec(char * const psz_buffer)
 {
-    size_t length;
+    size_t sec_length;
+    int ms_length;
     struct timeval timeinfo;
 
     memset(psz_buffer, 0, GPR_DATE_MILLISEC_LEN + 1);
 
-    length = gpr_time_get_date_sec(psz_buffer);
-    gettimeofday(&timeinfo, NULL); // WARN: Not portable
+    sec_length = gpr_time_get_date_sec(psz_buffer);
 
-    return (length += snprintf(psz_buffer + GPR_DATE_SEC_LEN, (GPR_DATE_MILLISEC_LEN - GPR_DATE_SEC_LEN) + 1, ".%.3ld", timeinfo.tv_usec / 1000L));
+    if (UNLIKELY(sec_length == 0))
+        return 0;
+
+    gettimeofday(&timeinfo, NULL); // WARN: Not portable
+    ms_length = SCNPRINTF(psz_buffer + GPR_DATE_SEC_LEN, (GPR_DATE_MILLISEC_LEN - GPR_DATE_SEC_LEN) + 1, ".%.3ld", timeinfo.tv_usec / 1000L);
+
+    if (UNLIKELY(ms_length <= 0))
+        return 0;
+
+    return sec_length + ms_length;
 }

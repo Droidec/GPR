@@ -1,4 +1,4 @@
-CODING RULES
+5CODING RULES
 ============
 
 Generality:
@@ -96,9 +96,10 @@ e.g.
 enum
 ===============================================================================
 - Capital letters mandatory
+- Capital letter for the first character of each word of the name
 - Use the enum name as a prefix
 
-enum my_enum
+enum My_Enum
 {
     MY_ENUM_OK,
     MY_ENUM_KO
@@ -158,6 +159,7 @@ variables
 - If a variable has no basic type, don't put any prefix
 
 i_ for integers
+u_ for unsigned
 b_ for booleans
 d_ for doubles
 f_ for floats
