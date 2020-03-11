@@ -7,7 +7,7 @@ management and log writing. It gathers diversified features in a single,
 easy to use, library.
 
 Project content:
-==================
+================
 
 doc/             - Auto-documentation generation
 extras/          - Extra features to help development
@@ -16,31 +16,44 @@ lib/             - Library files
 models/          - Model files
 obj/             - Object files
 src/             - Source code
-tests/           - Samples to launch unitary tests
+tests/           - Unitary tests
+
+Required/Recommended package(s):
+================================
+
+- vim (Light text editor for git utilities)
+- gcc (GNU project C compiler)
+- clang-format (C files indentation)
+- make (GNU make utility for Makefile)
+- graphviz (Set of graph drawing tools)
+- valgrind (Memory leaks)
 
 Usage:
 ======
 
-GPR library:
-Use the "make" utility to compile the shared library.
-Use the "make install" utility with sudo privilege to install shared library on a Linux system.
-Use the "make graph" utility to graph shared library dependencies. (Optional)
-Use the "mahe uninstall" utility with sudo privilege to uninstall shared library from your Linux system.
-Use the "make clean" utility to clean local dynamic library and object files.
+Use the "make (all)" utility to compile the dynamic library.
+Use the "make install" utility with sudo privilege to install dynamic library on a Linux system.
+Use the "make uninstall" utility with sudo privilege to uninstall dynamic library from your Linux system.
+Use the "make graph" utility to graph dynamic library dependencies.
+Use the "make test" utility to compile unit tests functions.
+Use the "make indent" utility to auto indent headers, sources and unit tests files.
+Use the "make clean" utility to clean local dynamic library, object files, unit tests and extra stuff.
 
-tests/:
-Use the "make" utility to compile tests samples.
-Launch executables to see results.
+Development:
+============
 
-External libraries usage:
-=========================
+=> Add/enhance a module
+- Read coding rules in the doc/ section
+- Refer to the models/ section if needed
+- Update the inclusion levels in the doc/ section if needed
+- Generate a new dependencies graph with the "make graph" utility if needed
+- Add/enhance test/ section with new features, test retrocompatibility and memory leaks
+- Auto indent project
 
-- C standard library
+Author(s):
+==========
 
-Author:
-=======
-
-GIANNETTI Marc
+Droidec (Marc G.) - Lead developer on Linux system
 
 Thanks to:
 ==========

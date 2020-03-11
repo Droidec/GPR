@@ -1,57 +1,121 @@
 # Compiler
-CC=gcc
-# Compiler flags
-CFLAGS=-Wall -Wextra -Werror -O3
+CC              = gcc
+# Dynamic library flags
+CFLAGS          = -Wall -Wextra -Werror -O3
 # Linker flags
-LDFLAGS=-shared
+LDFLAGS         = -shared
 # Header repository
-INC_REP=include/
+INC_REP         = include
 # Source repository
-SRC_REP=src/
+SRC_REP         = src
 # Object repository
-OBJ_REP=obj/
-# Library repository
-LIB_REP=lib/
+OBJ_REP         = obj
+# Dynamic Library repository
+LIB_REP         = lib
+# Test repository
+TEST_REP        = tests
 # Graphic repository
-GRAPH_REP=extras/graph/
-# Library targeted name
-LIB_NAME=libGPR.so
-# Library installation directory
-LIB_DIR=/usr/lib/
+GRAPH_REP       = extras/graph
+# Dynamic library name
+LIB_NAME        = GPR
+# Dynamic library target name
+LIB_TARGET_NAME = lib$(LIB_NAME)
+# Dynamic library flag
+LIB_FLAG_NAME   = -l$(LIB_NAME)
+# Graphic script name
+GRAPH_NAME      = cinclude2dot
+# Dynamic Library installation directory
+LIB_DIR         = /usr/lib
 # Header installation directory
-INC_DIR=/usr/include/GPR/
-# Concatenated list of source files
-SRCS=$(shell ls $(SRC_REP))
-# Concatenared list of object files
-OBJS=$(OBJ_REP)$(SRCS:.c=.o)
+INC_DIR         = /usr/include/GPR
+# All header files from header repository
+HEADERS         = $(wildcard $(INC_REP)/*.h)
+# All source files from source repository
+SOURCES         = $(wildcard $(SRC_REP)/*.c)
+# All object files from object repository
+OBJECTS         = $(patsubst $(SRC_REP)/%.c, $(OBJ_REP)/%.o, $(SOURCES))
+# All test files from test repository
+TESTS           = $(wildcard $(TEST_REP)/*.c)
+# All test executables from test repository
+EXECUTABLES     = $(basename $(TESTS))
+# Indentation style
+INDENT_STYLE    = "{AlignEscapedNewlines: Left, \
+	                AlignTrailingComments: true, \
+	                AllowAllParametersOfDeclarationOnNextLine: true, \
+	                AllowShortIfStatementsOnASingleLine: false, \
+	                AllowShortLoopsOnASingleLine: false, \
+	                AlwaysBreakBeforeMultilineStrings: false, \
+	                BreakBeforeBinaryOperators: false, \
+	                BreakBeforeTernaryOperators: false, \
+	                BinPackParameters: true, \
+	                ColumnLimit: 140, \
+	                DerivePointerBinding: false, \
+	                ExperimentalAutoDetectBinPacking: false, \
+	                IndentCaseLabels: true, \
+	                MaxEmptyLinesToKeep: 4, \
+	                PenaltyBreakBeforeFirstCallParameter: 19, \
+	                PenaltyBreakComment: 60, \
+	                PenaltyBreakString: 100, \
+	                PenaltyBreakFirstLessLess: 120, \
+	                PenaltyExcessCharacter: 1000000, \
+	                PenaltyReturnTypeOnItsOwnLine: 60, \
+	                PointerBindsToType: false, \
+	                SpacesBeforeTrailingComments: 1, \
+	                Cpp11BracedListStyle: true, \
+	                Standard: Cpp03, \
+	                IndentWidth: 4, \
+	                TabWidth: 4, \
+	                UseTab: Never, \
+	                BreakBeforeBraces: Allman, \
+	                IndentFunctionDeclarationAfterType: false, \
+	                SpacesInParentheses: false, \
+	                SpacesInAngles: false, \
+	                SpaceInEmptyParentheses: false, \
+	                SpacesInCStyleCastParentheses: false, \
+	                SpaceAfterControlStatementKeyword: true, \
+	                SpaceBeforeAssignmentOperators: true, \
+	                ContinuationIndentWidth: 4}"
 
-$(LIB_NAME): $(OBJS)
-	$(CC) $(LDFLAGS) -o $(LIB_REP)$@ $^
+.PHONY: all
+all: $(LIB_TARGET_NAME).so
 
-$(OBJ_REP)%.o : $(SRC_REP)%.c
+$(LIB_TARGET_NAME).so: $(OBJECTS)
+	$(CC) $(LDFLAGS) -o $(LIB_REP)/$@ $^
+
+$(OBJ_REP)/%.o : $(SRC_REP)/%.c
 	$(CC) $(CFLAGS) -o $@ -c $< -I $(INC_REP)
 
 .PHONY: install
 install:
 	mkdir -p $(INC_DIR)
-	cp $(INC_REP)*.h $(INC_DIR)
-	cp $(LIB_REP)$(LIB_NAME) $(LIB_DIR)
-	chmod 0755 $(LIB_DIR)$(LIB_NAME)
+	cp $(INC_REP)/*.h $(INC_DIR)/
+	cp $(LIB_REP)/$(LIB_TARGET_NAME).so $(LIB_DIR)/
+	chmod 0755 $(LIB_DIR)/$(LIB_TARGET_NAME).so
 	ldconfig
-
-.PHONY: graph
-graph:
-	cp $(INC_REP)*.h $(SRC_REP)*.c $(GRAPH_REP)
-	cd $(GRAPH_REP) ; ./cinclude2dot.pl --merge module > graph.dot
-	dot -Tps $(GRAPH_REP)graph.dot -o $(GRAPH_REP)graph.pdf
-	rm $(GRAPH_REP)*.h $(GRAPH_REP)*.c $(GRAPH_REP)*.dot
-	xdg-open $(GRAPH_REP)graph.pdf
 
 .PHONY: uninstall
 uninstall:
-	rm -rf $(INC_DIR)
-	rm $(LIB_DIR)$(LIB_NAME)
+	rm -rf $(INC_DIR)/
+	rm $(LIB_DIR)/$(LIB_TARGET_NAME).so
+
+.PHONY: graph
+graph:
+	cp $(INC_REP)/*.h $(SRC_REP)/*.c $(GRAPH_REP)/
+	cd $(GRAPH_REP)/ ; ./$(GRAPH_NAME).pl --merge module > graph.dot
+	dot -Tps $(GRAPH_REP)/graph.dot -o $(GRAPH_REP)/graph.pdf
+	rm $(GRAPH_REP)/*.h $(GRAPH_REP)/*.c $(GRAPH_REP)/*.dot
+	xdg-open $(GRAPH_REP)/graph.pdf
+
+.PHONY: test
+test: $(EXECUTABLES)
+
+$(TEST_REP)/%: $(TEST_REP)/%.c
+	$(CC) $(CFLAGS) -o $@ $< $(LIB_FLAG_NAME)
+
+.PHONY: indent
+indent:
+	@clang-format -verbose -style=$(INDENT_STYLE) $(HEADERS) $(SOURCES) $(TESTS) > /dev/null
 
 .PHONY: clean
 clean:
-	rm $(OBJ_REP)*.o $(LIB_REP)*.so
+	rm -f $(OBJ_REP)/*.o $(LIB_REP)/*.so $(EXECUTABLES)
