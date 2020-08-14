@@ -3,5 +3,12 @@ INCLUSION LEVELS
 
 LEVEL 1 : Independant modules
 =============================
-- gpr_time   : Time management functions
+- gpr_builtin : Builtin macros/functions
+- gpr_err     : Error management functions
+- gpr_time    : Time management functions
+
+LEVEL 2 : Intermediate modules (include independant modules)
+==============================
+- gpr     : Library management macros
+- gpr_log : Log management functions
 

@@ -48,8 +48,8 @@
  * WARN: Important catch-eye warning
  *
  * Parameters
- *     parameter1: Explanation about parameter1
- *     parameter2: Explanation about parameter2
+ *     parameter1 : Explanation about parameter1
+ *     parameter2 : Explanation about parameter2
  *     (If no parameters, use "None")
  *
  * Return value
