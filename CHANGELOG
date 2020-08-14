@@ -1,0 +1,18 @@
+CHANGELOG
+=========
+
+Version 0.0.2
+-------------
+
+* Alpha version
+    - Introduce gpr to the GPR library for library macros
+    - Introduce gpr_builtin to the GPR library for builtin macros/functions
+    - Introduce gpr_err to the GPR library for error management
+    - Introduce gpr_log to the GPR library for log management
+
+Version 0.0.1
+-------------
+
+* Alpha version
+    - Introduce doc, models, and extras stuff
+    - Introduce gpr_time module to the GPR library for time management

@@ -7,6 +7,9 @@
  *
  * Time management functions
  *
+ * Time module offers the following possibilities:
+ * - Get current local date to seconds/milliseconds precision
+ *
  *****************************************************************************
  *
  * DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
@@ -35,11 +38,11 @@
  * Copy in a buffer the current local date with format "%d/%m/%Y-%H:%M:%S"
  * Read it as "day/month/year-hour:minutes:seconds"
  *
- * NOTE: The given buffer should be at least "GPR_DATE_SEC_LEN + 1" bytes
- * long and is zero initialized by this function
+ * WARN: The given buffer should be at least "GPR_DATE_SEC_LEN + 1" bytes
+ * long
  *
  * Parameters
- *     psz_buffer: Buffer where to copy the current local date
+ *     psz_buffer : Buffer where to copy the current local date
  *
  * Return value
  *     Returns the total number of characters copied in the buffer
@@ -56,11 +59,11 @@ size_t gpr_time_get_date_sec(char * const psz_buffer);
  * Copy in a buffer the current local date with format "%d/%m/%Y-%H:%M:%S.ms"
  * Read it as "day/month/year-hour:minutes:seconds.milliseconds"
  *
- * NOTE: The given buffer should be at least "GPR_DATE_MILLISEC_LEN + 1"
- * bytes long and is zero initialized by this function
+ * WARN: The given buffer should be at least "GPR_DATE_MILLISEC_LEN + 1"
+ * bytes long
  *
  * Parameters
- *     psz_buffer: Buffer where to copy the current local date
+ *     psz_buffer : Buffer where to copy the current local date
  *
  * Return value
  *     Returns the total number of characters copied in the buffer

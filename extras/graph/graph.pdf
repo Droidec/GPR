@@ -178,12 +178,177 @@ def
 %%EndSetup
 setupLatin1
 %%Page: 1 1
-%%PageBoundingBox: 36 36 44 44
+%%PageBoundingBox: 36 36 612 753
 %%PageOrientation: Portrait
 0 0 1 beginpage
 gsave
-36 36 8 8 boxprim clip newpath
-1 1 set_scale 0 rotate 40 40 translate
+36 36 576 717 boxprim clip newpath
+0.984971 0.984971 set_scale 0 rotate 40.5493 40.5493 translate
+% gpr
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+73.9371 648 27 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+64.4371 644.3 moveto 19 (gpr) alignedtext
+grestore
+% gpr_err
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+97.9371 360 36.2938 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+77.9371 356.3 moveto 40 (gpr_err) alignedtext
+grestore
+% gpr->gpr_err
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 75.4384 629.9843 moveto
+79.4959 581.2939 90.7041 446.7961 95.599 388.0573 curveto
+stroke
+0 0 0 edgecolor
+newpath 99.0937 388.265 moveto
+96.4364 378.0089 lineto
+92.1179 387.6836 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 99.0937 388.265 moveto
+96.4364 378.0089 lineto
+92.1179 387.6836 lineto
+closepath stroke
+grestore
+% gpr_builtin
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+269.9371 72 50.0912 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+239.4371 68.3 moveto 61 (gpr_builtin) alignedtext
+grestore
+% gpr_err->gpr_builtin
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 108.4376 342.4178 moveto
+137.5847 293.6133 219.6174 156.2562 254.224 98.3104 curveto
+stroke
+0 0 0 edgecolor
+newpath 257.233 100.098 moveto
+259.3555 89.718 lineto
+251.2232 96.5088 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 257.233 100.098 moveto
+259.3555 89.718 lineto
+251.2232 96.5088 lineto
+closepath stroke
+grestore
+% gpr_log
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+296.9371 648 38.1938 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+275.4371 644.3 moveto 43 (gpr_log) alignedtext
+grestore
+% gpr_log->gpr_err
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 285.0847 630.8468 moveto
+251.488 582.2244 155.4902 443.293 115.6254 385.5991 curveto
+stroke
+0 0 0 edgecolor
+newpath 118.2916 383.3008 moveto
+109.7274 377.0633 lineto
+112.5326 387.2801 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 118.2916 383.3008 moveto
+109.7274 377.0633 lineto
+112.5326 387.2801 lineto
+closepath stroke
+grestore
+% gpr_log->gpr_builtin
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 296.0845 629.8101 moveto
+292.1839 546.5983 276.0268 201.9135 271.2641 100.3083 curveto
+stroke
+0 0 0 edgecolor
+newpath 274.7544 100.0194 moveto
+270.79 90.1943 lineto
+267.7621 100.3472 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 274.7544 100.0194 moveto
+270.79 90.1943 lineto
+267.7621 100.3472 lineto
+closepath stroke
+grestore
+% gpr_time
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+460.9371 360 42.7926 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+435.9371 356.3 moveto 50 (gpr_time) alignedtext
+grestore
+% gpr_log->gpr_time
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 306.9492 630.4178 moveto
+334.6835 581.7137 412.6362 444.8211 445.7505 386.6691 curveto
+stroke
+0 0 0 edgecolor
+newpath 448.9407 388.1398 moveto
+450.8477 377.718 lineto
+442.8578 384.6759 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 448.9407 388.1398 moveto
+450.8477 377.718 lineto
+442.8578 384.6759 lineto
+closepath stroke
+grestore
+% gpr_time->gpr_builtin
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 449.2767 342.4178 moveto
+416.9098 293.6133 325.8154 156.2562 287.386 98.3104 curveto
+stroke
+0 0 0 edgecolor
+newpath 290.1314 96.1174 moveto
+281.6876 89.718 lineto
+284.2977 99.9863 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 290.1314 96.1174 moveto
+281.6876 89.718 lineto
+284.2977 99.9863 lineto
+closepath stroke
+grestore
 endpage
 showpage
 grestore
@@ -191,7 +356,7 @@ grestore
 %%EndPage: 1
 %%Trailer
 %%Pages: 1
-%%BoundingBox: 36 36 44 44
+%%BoundingBox: 36 36 612 753
 end
 restore
 %%EOF

@@ -49,6 +49,7 @@ Development:
 - Generate a new dependencies graph with the "make graph" utility if needed
 - Add/enhance test/ section with new features, test retrocompatibility and memory leaks
 - Auto indent project
+- Write changes in CHANGELOG
 
 Author(s):
 ==========
