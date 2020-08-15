@@ -58,7 +58,7 @@
  *
  *****************************************************************************/
 int gpr_builtin_vscnprintf(char *buf, size_t size, const char *fmt, va_list args);
-#define VSCNPRINTF(buf, size, fmt, ...) gpr_builtin_vscnprintf(buf, size, fmt, ##__VA_ARGS__)
+#define VSCNPRINTF(buf, size, fmt, args) gpr_builtin_vscnprintf(buf, size, fmt, args)
 
 /*****************************************************************************
  *
@@ -80,7 +80,7 @@ int gpr_builtin_vscnprintf(char *buf, size_t size, const char *fmt, va_list args
  *     the function returns a negative number
  *
  *****************************************************************************/
-int gpr_builtin_scnprintf(char *buf, size_t size, const char *fmt, ...);
+int gpr_builtin_scnprintf(char *buf, size_t size, const char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
 #define SCNPRINTF(buf, size, fmt, ...) gpr_builtin_scnprintf(buf, size, fmt, ##__VA_ARGS__)
 
 #endif /* H_GPR_BUILTIN */

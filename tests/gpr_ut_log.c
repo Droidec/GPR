@@ -8,7 +8,6 @@
  *
  *****************************************************************************/
 
-#include <GPR/gpr.h>
 #include <GPR/gpr_log.h>
 
 #include <stdio.h>
@@ -16,7 +15,7 @@
 
 int main(int argc, char *argv[])
 {
-    GPR_INIT_LIBRARY
+    GPR_INIT_ERR_MODULE
 
     enum GPR_Err err;
     ssize_t written_length;
@@ -27,7 +26,7 @@ int main(int argc, char *argv[])
         if (err != GPR_ERR_OK)
         {
             fprintf(stderr, "gpr_log_configure(): %s (%s)\n", gpr_err_to_str(err), gpr_err_get_cmpl_err());
-            GPR_FREE_LIBRARY
+            GPR_FREE_ERR_MODULE
             return 1;
         }
     }
@@ -43,8 +42,6 @@ int main(int argc, char *argv[])
     assert(written_length > 0);
     written_length = GPR_LOG_MSG(GPR_LOG_CRITICAL, "This is a CRITICAL log message");
     assert(written_length > 0);
-    written_length = GPR_LOG_MSG(GPR_LOG_CRITICAL, "");
-    assert(written_length > 0);
 
     puts("Changing default log level to DEBUG\n");
 
@@ -52,7 +49,7 @@ int main(int argc, char *argv[])
     if (err != GPR_ERR_OK)
     {
         fprintf(stderr, "gpr_log_configure(): %s (%s)\n", gpr_err_to_str(err), gpr_err_get_cmpl_err());
-        GPR_FREE_LIBRARY
+        GPR_FREE_ERR_MODULE
         return 1;
     }
 
@@ -68,7 +65,7 @@ int main(int argc, char *argv[])
     written_length = GPR_LOG_MSG(GPR_LOG_CRITICAL, "This is a CRITICAL log message");
     assert(written_length > 0);
 
-    GPR_FREE_LIBRARY
+    GPR_FREE_ERR_MODULE
 
     return 0;
 }

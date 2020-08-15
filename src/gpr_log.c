@@ -51,7 +51,7 @@ enum GPR_Err gpr_log_configure(const char *filename, enum GPR_Log level)
             return gpr_err_raise(GPR_ERR_KO, "Log redirection failed");
 
         if (level == GPR_LOG_DEFAULT)
-            return gpr_err_raise(GPR_ERR_OK, "");
+            return gpr_err_raise(GPR_ERR_OK, NULL);
     }
 
     /* Change default log level */
@@ -59,12 +59,12 @@ enum GPR_Err gpr_log_configure(const char *filename, enum GPR_Log level)
     {
         /* Check consistency */
         if (level < 0 || level >= GPR_LOG_NUMBERS)
-            return gpr_err_raise(GPR_ERR_KO, "Default log level change failed");
+            return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid log level");
 
         Default_Log_Level = level;
     }
 
-    return gpr_err_raise(GPR_ERR_OK, "");
+    return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
 const char *gpr_log_level_to_str(enum GPR_Log level)
@@ -86,6 +86,10 @@ ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line,
     int ms_length;
     char msg[GPR_LOG_MESSAGE_MAX_LEN + 1];
     char date[GPR_DATE_MILLISEC_LEN + 1];
+
+    /* Check consistency */
+    if (file == NULL || line < 0 || func == NULL || fmt == NULL)
+        return -1;
 
     /* Check default log level */
     if (level < Default_Log_Level)

@@ -131,7 +131,7 @@ const char *gpr_log_level_to_str(enum GPR_Log level);
  *
  *****************************************************************************/
 #define GPR_LOG_MESSAGE_MAX_LEN 512
-ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line, const char * const func, const char * const fmt, ...);
+ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line, const char * const func, const char * const fmt, ...) __attribute__ ((format (printf, 5, 6)));
 #define GPR_LOG_MSG(lvl, fmt, ...) gpr_log_msg(lvl, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
 
 #endif /* H_GPR_LOG */
