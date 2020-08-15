@@ -53,7 +53,8 @@
  * Return value
  *     The return value is the number of characters which have been written
  *     into the buffer not including the trailing '\0'. If the size of the
- *     buffer is equal to 0, the function returns 0
+ *     buffer is equal to 0, the function returns 0. If an error occured,
+ *     the function returns a negative number
  *
  *****************************************************************************/
 int gpr_builtin_vscnprintf(char *buf, size_t size, const char *fmt, va_list args);
@@ -75,7 +76,8 @@ int gpr_builtin_vscnprintf(char *buf, size_t size, const char *fmt, va_list args
  * Return value
  *     The return value is the number of characters which have been written
  *     into the buffer not including the trailing '\0'. If the size of the
- *     buffer is equal to 0, the function returns 0
+ *     buffer is equal to 0, the function returns 0. If an error occured,
+ *     the function returns a negative number
  *
  *****************************************************************************/
 int gpr_builtin_scnprintf(char *buf, size_t size, const char *fmt, ...);

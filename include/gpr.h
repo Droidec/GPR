@@ -33,13 +33,16 @@
 
 #include "gpr_err.h"
 
-// Initialize default modules
-#define GPR_DEFAULT_INIT GPR_ERR_INIT;
+// Initialize error module
+#define GPR_INIT_ERR gpr_err_allocate_cmpl_err();
+
+// Free error module
+#define GPR_FREE_ERR gpr_err_free_cmpl_err();
+
+// Initialize all modules
+#define GPR_INIT_LIBRARY GPR_INIT_ERR
 
 // Free all modules
-#define GPR_FREE_LIBRARY gpr_err_free_cmpl_err();
-
-// Initialize error module
-#define GPR_ERR_INIT gpr_err_allocate_cmpl_err()
+#define GPR_FREE_LIBRARY GPR_FREE_ERR
 
 #endif /* H_GPR */

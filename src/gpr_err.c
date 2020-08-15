@@ -75,10 +75,10 @@ char *gpr_err_get_cmpl_err(void)
     return Cmpl_Err_Msg;
 }
 
-enum GPR_Err gpr_err_raise(enum GPR_Err err, char *psz_cmpl_err_msg)
+enum GPR_Err gpr_err_raise(enum GPR_Err err, char *cmpl_err_msg)
 {
-    if (Cmpl_Err_Msg != NULL && psz_cmpl_err_msg != NULL && psz_cmpl_err_msg[0] != '\0')
-        SCNPRINTF(Cmpl_Err_Msg, CMPL_ERR_MSG_LEN + 1, "%s", psz_cmpl_err_msg);
+    if (Cmpl_Err_Msg != NULL && cmpl_err_msg != NULL && cmpl_err_msg[0] != '\0')
+        SCNPRINTF(Cmpl_Err_Msg, CMPL_ERR_MSG_LEN + 1, "%s", cmpl_err_msg);
 
     return err;
 }

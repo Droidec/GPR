@@ -104,13 +104,13 @@ char *gpr_err_get_cmpl_err(void);
  * otherwise it will be truncated by this function
  *
  * Parameters
- *     err              : GPR error to raise
- *     psz_cmpl_err_msg : Complementary error message to write
+ *     err          : GPR error to raise
+ *     cmpl_err_msg : Complementary error message to write
  *
  * Return value
  *     The GPR error specified in parameters
  *
  *****************************************************************************/
-enum GPR_Err gpr_err_raise(enum GPR_Err err, char *psz_cmpl_err_msg);
+enum GPR_Err gpr_err_raise(enum GPR_Err err, char *cmpl_err_msg);
 
 #endif /* H_GPR_ERR */

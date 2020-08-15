@@ -153,26 +153,6 @@ static struct my_struct *gpr_time_function(const char *param1, size_t param2)
 }
 
 ===============================================================================
-variables
-===============================================================================
-- A good practice is to use the Hungarian notation
-- If a variable has no basic type, don't put any prefix
-
-i_ for integers
-u_ for unsigned
-b_ for booleans
-d_ for doubles
-f_ for floats
-p_ for non basic pointers
-pi_ for integer pointer
-psz_ for pointer to a null-terminated string (C-string)
-
-e.g.
-int pi_buffer[5];
-char psz_buffer[2];
-void (* pf_my_func) (int *);
-
-===============================================================================
 arrays
 ===============================================================================
 - If a static array is null-terminated, show it with the "+ 1" suffix
