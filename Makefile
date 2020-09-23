@@ -77,7 +77,7 @@ INDENT_STYLE    = "{AlignEscapedNewlines: Left, \
 	                ContinuationIndentWidth: 4}"
 
 .PHONY: all
-all: $(LIB_TARGET_NAME).so
+all: $(OBJ_REP) $(TEST_REP) $(LIB_REP) $(LIB_TARGET_NAME).so
 
 $(LIB_TARGET_NAME).so: $(OBJECTS)
 	$(CC) $(LDFLAGS) -o $(LIB_REP)/$@ $^
@@ -102,8 +102,9 @@ uninstall:
 graph:
 	cp $(INC_REP)/*.h $(SRC_REP)/*.c $(GRAPH_REP)/
 	cd $(GRAPH_REP)/ ; ./$(GRAPH_NAME).pl --merge module > graph.dot
-	dot -Tps $(GRAPH_REP)/graph.dot -o $(GRAPH_REP)/graph.pdf
-	rm $(GRAPH_REP)/*.h $(GRAPH_REP)/*.c $(GRAPH_REP)/*.dot
+	dot -Tps $(GRAPH_REP)/graph.dot -o $(GRAPH_REP)/graph.ps
+	ps2pdf $(GRAPH_REP)/graph.ps $(GRAPH_REP)/graph.pdf
+	rm $(GRAPH_REP)/*.h $(GRAPH_REP)/*.c $(GRAPH_REP)/*.dot $(GRAPH_REP)/graph.ps 
 	xdg-open $(GRAPH_REP)/graph.pdf
 
 .PHONY: test
@@ -118,4 +119,13 @@ indent:
 
 .PHONY: clean
 clean:
-	rm -f $(OBJ_REP)/*.o $(LIB_REP)/*.so $(EXECUTABLES)
+	rm -f $(OBJ_REP)/*.o $(LIB_REP)/*.so $(EXECUTABLES) $(GRAPH_REP)/graph.pdf
+
+$(OBJ_REP):
+	mkdir -p $(OBJ_REP)
+
+$(TEST_REP):
+	mkdir -p $(TEST_REP)
+
+$(LIB_REP):
+	mkdir -p $(LIB_REP)
