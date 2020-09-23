@@ -14,6 +14,8 @@ OBJ_REP         = obj
 LIB_REP         = lib
 # Test repository
 TEST_REP        = tests
+# Test binaries repository
+BIN_TEST_REP    = tests/bin
 # Graphic repository
 GRAPH_REP       = extras/graph
 # Dynamic library name
@@ -37,7 +39,7 @@ OBJECTS         = $(patsubst $(SRC_REP)/%.c, $(OBJ_REP)/%.o, $(SOURCES))
 # All test files from test repository
 TESTS           = $(wildcard $(TEST_REP)/*.c)
 # All test executables from test repository
-EXECUTABLES     = $(basename $(TESTS))
+EXECUTABLES     = $(patsubst $(TEST_REP)/%.c, $(BIN_TEST_REP)/%, $(TESTS))
 # Indentation style
 INDENT_STYLE    = "{AlignEscapedNewlines: Left, \
 	                AlignTrailingComments: true, \
@@ -77,7 +79,7 @@ INDENT_STYLE    = "{AlignEscapedNewlines: Left, \
 	                ContinuationIndentWidth: 4}"
 
 .PHONY: all
-all: $(OBJ_REP) $(TEST_REP) $(LIB_REP) $(LIB_TARGET_NAME).so
+all: $(OBJ_REP) $(LIB_REP) $(LIB_TARGET_NAME).so
 
 $(LIB_TARGET_NAME).so: $(OBJECTS)
 	$(CC) $(LDFLAGS) -o $(LIB_REP)/$@ $^
@@ -108,18 +110,20 @@ graph:
 	xdg-open $(GRAPH_REP)/graph.pdf
 
 .PHONY: test
-test: $(EXECUTABLES)
+test: $(TEST_REP) $(BIN_TEST_REP) $(EXECUTABLES) 
 
-$(TEST_REP)/%: $(TEST_REP)/%.c
+$(BIN_TEST_REP)/%: $(TEST_REP)/%.c
 	$(CC) $(CFLAGS) -o $@ $< $(LIB_FLAG_NAME)
 
 .PHONY: indent
 indent:
-	@clang-format -verbose -style=$(INDENT_STYLE) $(HEADERS) $(SOURCES) $(TESTS) > /dev/null
+	@clang-format -verbose -style=$(INDENT_STYLE) $(HEADERS) $(SOURCES) $(T
+		ESTS) > /dev/null
 
 .PHONY: clean
 clean:
-	rm -f $(OBJ_REP)/*.o $(LIB_REP)/*.so $(EXECUTABLES) $(GRAPH_REP)/graph.pdf
+	rm -f $(OBJ_REP)/*.o $(LIB_REP)/*.so $(GRAPH_REP)/graph.pdf
+	rm -rf $(BIN_TEST_REP)
 
 $(OBJ_REP):
 	mkdir -p $(OBJ_REP)
@@ -129,3 +133,6 @@ $(TEST_REP):
 
 $(LIB_REP):
 	mkdir -p $(LIB_REP)
+
+$(BIN_TEST_REP):
+	mkdir -p $(BIN_TEST_REP)
