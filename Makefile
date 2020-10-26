@@ -104,21 +104,19 @@ uninstall:
 graph:
 	cp $(INC_REP)/*.h $(SRC_REP)/*.c $(GRAPH_REP)/
 	cd $(GRAPH_REP)/ ; ./$(GRAPH_NAME).pl --merge module > graph.dot
-	dot -Tps $(GRAPH_REP)/graph.dot -o $(GRAPH_REP)/graph.ps
-	ps2pdf $(GRAPH_REP)/graph.ps $(GRAPH_REP)/graph.pdf
-	rm $(GRAPH_REP)/*.h $(GRAPH_REP)/*.c $(GRAPH_REP)/*.dot $(GRAPH_REP)/graph.ps 
+	dot -Tpdf $(GRAPH_REP)/graph.dot -o $(GRAPH_REP)/graph.pdf
+	rm $(GRAPH_REP)/*.h $(GRAPH_REP)/*.c $(GRAPH_REP)/*.dot
 	xdg-open $(GRAPH_REP)/graph.pdf
 
 .PHONY: test
-test: $(TEST_REP) $(BIN_TEST_REP) $(EXECUTABLES) 
+test: $(TEST_REP) $(BIN_TEST_REP) $(EXECUTABLES)
 
 $(BIN_TEST_REP)/%: $(TEST_REP)/%.c
 	$(CC) $(CFLAGS) -o $@ $< $(LIB_FLAG_NAME)
 
 .PHONY: indent
 indent:
-	@clang-format -verbose -style=$(INDENT_STYLE) $(HEADERS) $(SOURCES) $(T
-		ESTS) > /dev/null
+	@clang-format -verbose -style=$(INDENT_STYLE) $(HEADERS) $(SOURCES) $(TESTS) > /dev/null
 
 .PHONY: clean
 clean:
