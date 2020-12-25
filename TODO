@@ -10,7 +10,6 @@ TODO list
 
 - Add a better error management like specifying a buffer where other modules can write a specific message
 - Force indentation before commit
-- Add a way to check indentation
 - Detail a good way to use git branches
 - Find a good auto C-documentation software
 - Create a global HOW-TO-USE documentation
