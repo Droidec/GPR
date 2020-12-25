@@ -118,8 +118,9 @@ structures
 ===============================================================================
 - Avoid typedef (Hidden type confusion)
 - Comments are optional but should be aligned if used
+- Prefix with "gpr_"
 
-struct my_struct
+struct gpr_my_struct
 {
     char *param1;        // Explanation
     unsigned int param2; // Explanation

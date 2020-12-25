@@ -1,6 +1,28 @@
 CHANGELOG
 =========
 
+Version 0.0.6
+-------------
+* Alpha version
+    - Introduce gpr_dlklist to the GPR library for double linked list management
+
+Version 0.0.5
+-------------
+* Alpha version
+    - Update Makefile + README
+
+Version 0.0.4
+-------------
+* Alpha version
+    - Introduce gpr_network to the GPR library for network management
+    - Drop hungarian notation
+    - Various MacOS fixes
+
+Version 0.0.3
+-------------
+* Alpha version
+    - Various Cygwin fixes
+
 Version 0.0.2
 -------------
 

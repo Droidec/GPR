@@ -133,7 +133,7 @@ enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char * const addr, c
 
         default:
             /* Should not happen */
-            return gpr_err_raise(GPR_ERR_KO, "Network module error");
+            return gpr_err_raise(GPR_ERR_KO, "Impossible case reached");
     }
 
     return gpr_err_raise(GPR_ERR_OK, NULL);
@@ -153,11 +153,8 @@ enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char * const addr, c
  *     Service : Peer service to connect to
  *
  * Return value
- *     On success, return GPR_ERR_OK and network addresses are stored inside
- *     the GPR socket
- *     On failure, an error is raised (See gpr_err_to_str)
- *     This function also set a complementary error message if initialized
- *     (See gpr_err_get_cmpl_err)
+ *     - GPR_ERR_OK: Network adresses found
+ *     - GPR_ERR_NETWORK_ERROR: No network addresses found
  *
  *****************************************************************************/
 static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char * const addr, const char * const service)
@@ -183,10 +180,10 @@ static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char * c
  *     Service : Peer service to connect to
  *
  * Return value
- *     On success, return GPR_ERR_OK
- *     On failure, an error is raised (See gpr_err_to_str)
- *     This function also set a complementary error message if initialized
- *     (See gpr_err_get_cmpl_err)
+ *     - GPR_ERR_OK: The connection to one of the network addresses has been
+ *         successful
+ *     - GPR_ERR_NETWORK_ERROR: All network addresses connection attempt
+ *         failed
  *
  *****************************************************************************/
 static enum GPR_Err connect_to_peer(struct gpr_socket *sock)

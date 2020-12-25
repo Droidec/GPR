@@ -9,6 +9,7 @@ LEVEL 1 : Independant modules
 
 LEVEL 2 : High level modules (include independant modules)
 ==============================
+- gpr_dlklist : Double linked list management functions
 - gpr_log     : Log management functions
 - gpr_network : Network management functions
 

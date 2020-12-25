@@ -40,6 +40,10 @@
  * Enum, typedef and structures
  */
 
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Optional: Separator (Group of functions)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
 /*****************************************************************************
  *
  * Explanation about what the function do (never call parameters by their names)
