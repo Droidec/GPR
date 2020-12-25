@@ -75,7 +75,7 @@ int main()
 
     /* Create list */
     list = gpr_dlklist_create();
-    assert (list != NULL);
+    assert(list != NULL);
 
     /* Create students */
     struct student *st0 = create_student("Valentin", 0);

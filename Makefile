@@ -50,12 +50,17 @@ INDENT_STYLE    = "{AlignEscapedNewlines: Left, \
 	                AllowShortLoopsOnASingleLine: false, \
 	                AlwaysBreakBeforeMultilineStrings: false, \
 	                BreakBeforeBinaryOperators: false, \
+	                BreakBeforeBraces: Allman, \
 	                BreakBeforeTernaryOperators: false, \
 	                BinPackParameters: true, \
 	                ColumnLimit: 140, \
+	                ContinuationIndentWidth: 4, \
+	                Cpp11BracedListStyle: true, \
 	                DerivePointerBinding: false, \
 	                ExperimentalAutoDetectBinPacking: false, \
 	                IndentCaseLabels: true, \
+	                IndentFunctionDeclarationAfterType: false, \
+	                IndentWidth: 4, \
 	                MaxEmptyLinesToKeep: 4, \
 	                PenaltyBreakBeforeFirstCallParameter: 19, \
 	                PenaltyBreakComment: 60, \
@@ -63,22 +68,19 @@ INDENT_STYLE    = "{AlignEscapedNewlines: Left, \
 	                PenaltyBreakFirstLessLess: 120, \
 	                PenaltyExcessCharacter: 1000000, \
 	                PenaltyReturnTypeOnItsOwnLine: 60, \
+	                PointerAlignment: Right, \
 	                PointerBindsToType: false, \
+	                SortIncludes: false, \
 	                SpacesBeforeTrailingComments: 1, \
-	                Cpp11BracedListStyle: true, \
 	                Standard: Cpp03, \
-	                IndentWidth: 4, \
-	                TabWidth: 4, \
-	                UseTab: Never, \
-	                BreakBeforeBraces: Allman, \
-	                IndentFunctionDeclarationAfterType: false, \
 	                SpacesInParentheses: false, \
 	                SpacesInAngles: false, \
 	                SpaceInEmptyParentheses: false, \
 	                SpacesInCStyleCastParentheses: false, \
 	                SpaceAfterControlStatementKeyword: true, \
 	                SpaceBeforeAssignmentOperators: true, \
-	                ContinuationIndentWidth: 4}"
+	                TabWidth: 4, \
+	                UseTab: Never}"
 
 .PHONY: all
 all: $(OBJ_REP) $(LIB_REP) $(LIB_TARGET_NAME)$(LIB_TARGET_NAME_EXT)
@@ -116,7 +118,7 @@ $(BIN_TEST_REP)/%: $(TEST_REP)/%.c
 
 .PHONY: indent
 indent:
-	@clang-format -verbose -style=$(INDENT_STYLE) $(HEADERS) $(SOURCES) $(TESTS) > /dev/null
+	@clang-format -i -verbose -style=$(INDENT_STYLE) $(HEADERS) $(SOURCES) $(TESTS) > /dev/null
 
 .PHONY: clean
 clean:
