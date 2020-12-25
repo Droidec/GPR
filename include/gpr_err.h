@@ -39,7 +39,8 @@ enum GPR_Err
     /* 000 */ GPR_ERR_OK,
     /* 001 */ GPR_ERR_KO,
     /* 002 */ GPR_ERR_INVALID_PARAMETER,
-    /* 003 */ GPR_ERR_NETWORK_ERROR,
+    /* 003 */ GPR_ERR_MEMORY_FAILURE,
+    /* 004 */ GPR_ERR_NETWORK_ERROR,
     /* xxx */ GPR_ERR_NUMBERS
 };
 

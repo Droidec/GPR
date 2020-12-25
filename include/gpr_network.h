@@ -87,10 +87,8 @@ struct gpr_socket *gpr_net_create_socket(int domain, int type, int protocol, int
  *     sock : GPR socket to close and unallocate
  *
  * Return value
- *     On success, return GPR_ERR_OK
- *     On failure, an error is raised (See gpr_err_to_str)
- *     This function also set a complementary error message if initialized
- *     (See gpr_err_get_cmpl_err)
+ *     - GPR_ERR_OK: The socket has been closed
+ *     - GPR_ERR_INVALID_PARAMETER: The socket is NULL
  *
  *****************************************************************************/
 enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock);
@@ -105,10 +103,9 @@ enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock);
  *     Service : Peer service to connect to
  *
  * Return value
- *     On success, return GPR_ERR_OK
- *     On failure, an error is raised (See gpr_err_to_str)
- *     This function also set a complementary error message if initialized
- *     (See gpr_err_get_cmpl_err)
+ *     - GPR_ERR_OK: The connection has been established
+ *     - GPR_ERR_INVALID_PARAMETER: One of the parameter is NULL
+ *     - GPR_ERR_NETWORK_ERROR: A network error occured
  *
  *****************************************************************************/
 enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char * const addr, const char * const service);

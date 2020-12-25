@@ -39,8 +39,9 @@ static const char *Err_Array[] =
 {
     /* 000 */ "Success",
     /* 001 */ "Failure",
-    /* 002 */ "Invalid parameter(s)",
-    /* 003 */ "Network error"
+    /* 002 */ "Invalid parameter",
+    /* 003 */ "Memory failure",
+    /* 004 */ "Network error"
 };
 
 char *Cmpl_Err_Msg = NULL; // Complementary Error Message
