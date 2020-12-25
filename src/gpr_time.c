@@ -36,7 +36,7 @@
  * Public functions
  *****************************************************************************/
 
-size_t gpr_time_get_date_sec(char * const buffer)
+size_t gpr_time_get_date_sec(char *const buffer)
 {
     time_t rawtime;
     struct tm dateinfo;
@@ -49,7 +49,7 @@ size_t gpr_time_get_date_sec(char * const buffer)
     return strftime(buffer, GPR_DATE_SEC_LEN + 1, "%d/%m/%Y-%H:%M:%S", &dateinfo);
 }
 
-size_t gpr_time_get_date_millisec(char * const buffer)
+size_t gpr_time_get_date_millisec(char *const buffer)
 {
     size_t sec_length;
     int ms_length;
