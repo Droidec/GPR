@@ -22,6 +22,8 @@ GRAPH_REP       = extras/graph
 LIB_NAME        = GPR
 # Dynamic library target name
 LIB_TARGET_NAME = lib$(LIB_NAME)
+# Dynamic library target name extension
+LIB_TARGET_NAME_EXT = .so
 # Dynamic library flag
 LIB_FLAG_NAME   = -l$(LIB_NAME)
 # Graphic script name
@@ -79,9 +81,9 @@ INDENT_STYLE    = "{AlignEscapedNewlines: Left, \
 	                ContinuationIndentWidth: 4}"
 
 .PHONY: all
-all: $(OBJ_REP) $(LIB_REP) $(LIB_TARGET_NAME).so
+all: $(OBJ_REP) $(LIB_REP) $(LIB_TARGET_NAME)$(LIB_TARGET_NAME_EXT)
 
-$(LIB_TARGET_NAME).so: $(OBJECTS)
+$(LIB_TARGET_NAME)$(LIB_TARGET_NAME_EXT): $(OBJECTS)
 	$(CC) $(LDFLAGS) -o $(LIB_REP)/$@ $^
 
 $(OBJ_REP)/%.o : $(SRC_REP)/%.c
@@ -91,13 +93,13 @@ $(OBJ_REP)/%.o : $(SRC_REP)/%.c
 install:
 	mkdir -p $(INC_DIR)
 	cp $(INC_REP)/*.h $(INC_DIR)/
-	cp $(LIB_REP)/$(LIB_TARGET_NAME).so $(LIB_DIR)/
-	chmod 0755 $(LIB_DIR)/$(LIB_TARGET_NAME).so
+	cp $(LIB_REP)/$(LIB_TARGET_NAME)$(LIB_TARGET_NAME_EXT) $(LIB_DIR)/
+	chmod 0755 $(LIB_DIR)/$(LIB_TARGET_NAME)$(LIB_TARGET_NAME_EXT)
 
 .PHONY: uninstall
 uninstall:
 	rm -rf $(INC_DIR)/
-	rm $(LIB_DIR)/$(LIB_TARGET_NAME).so
+	rm $(LIB_DIR)/$(LIB_TARGET_NAME)$(LIB_TARGET_NAME_EXT)
 
 .PHONY: graph
 graph:
@@ -118,7 +120,7 @@ indent:
 
 .PHONY: clean
 clean:
-	rm -f $(OBJ_REP)/*.o $(LIB_REP)/*.so $(GRAPH_REP)/graph.pdf
+	rm -f $(OBJ_REP)/*.o $(LIB_REP)/* $(GRAPH_REP)/graph.pdf
 	rm -rf $(BIN_TEST_REP)
 
 $(OBJ_REP):
