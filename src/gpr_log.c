@@ -78,7 +78,7 @@ const char *gpr_log_level_to_str(enum GPR_Log level)
     return p_log_array[level];
 }
 
-ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line, const char * const func, const char * const fmt, ...)
+ssize_t gpr_log_msg(enum GPR_Log level, const char *const file, const int line, const char *const func, const char *const fmt, ...)
 {
     va_list list;
     int hdr_length;
@@ -101,7 +101,8 @@ ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line,
     if (UNLIKELY(ms_length == 0))
         return -1;
 
-    hdr_length = SCNPRINTF(msg, GPR_LOG_MESSAGE_MAX_LEN + 1, "[%s] [%s] [%s:%d] [%s] ", date, gpr_log_level_to_str(level), file, line, func);
+    hdr_length =
+        SCNPRINTF(msg, GPR_LOG_MESSAGE_MAX_LEN + 1, "[%s] [%s] [%s:%d] [%s] ", date, gpr_log_level_to_str(level), file, line, func);
 
     if (UNLIKELY(hdr_length <= 0))
         return -1;

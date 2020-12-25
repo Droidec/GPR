@@ -35,13 +35,12 @@
  * Private prototypes
  *****************************************************************************/
 
-static const char *Err_Array[] =
-{
+static const char *Err_Array[] = {
     /* 000 */ "Success",
     /* 001 */ "Failure",
     /* 002 */ "Invalid parameter",
     /* 003 */ "Memory failure",
-    /* 004 */ "Network error"
+    /* 004 */ "Network error",
 };
 
 char *Cmpl_Err_Msg = NULL; // Complementary Error Message
@@ -59,10 +58,7 @@ const char *gpr_err_to_str(enum GPR_Err error)
     return Err_Array[error];
 }
 
-void gpr_err_allocate_cmpl_err(void)
-{
-    Cmpl_Err_Msg = (char *)malloc(CMPL_ERR_MSG_LEN + 1);
-}
+void gpr_err_allocate_cmpl_err(void) { Cmpl_Err_Msg = (char *)malloc(CMPL_ERR_MSG_LEN + 1); }
 
 void gpr_err_free_cmpl_err(void)
 {
@@ -78,7 +74,7 @@ char *gpr_err_get_cmpl_err(void)
     return Cmpl_Err_Msg;
 }
 
-enum GPR_Err gpr_err_raise(enum GPR_Err err, const char * const fmt, ...)
+enum GPR_Err gpr_err_raise(enum GPR_Err err, const char *const fmt, ...)
 {
     va_list list;
 

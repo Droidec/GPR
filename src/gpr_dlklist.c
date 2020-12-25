@@ -381,7 +381,7 @@ struct gpr_dlknode *gpr_dlklist_search(struct gpr_dlklist *list, bool (*data_sea
     }
     counter = 0;
 
-  end:
+end:
     if (pos)
         *pos = counter;
     return scout;

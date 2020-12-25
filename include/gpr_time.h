@@ -52,7 +52,7 @@
  *
  *****************************************************************************/
 #define GPR_DATE_SEC_LEN 19 // Number of bytes needed for "%d/%m/%Y-%H:%M:%S" without null-character
-size_t gpr_time_get_date_sec(char * const buffer);
+size_t gpr_time_get_date_sec(char *const buffer);
 
 /*****************************************************************************
  *
@@ -73,6 +73,6 @@ size_t gpr_time_get_date_sec(char * const buffer);
  *
  *****************************************************************************/
 #define GPR_DATE_MILLISEC_LEN 23 // Number of bytes needed for "%d/%m/%Y-%H:%M:%S.ms" without null-character
-size_t gpr_time_get_date_millisec(char * const buffer);
+size_t gpr_time_get_date_millisec(char *const buffer);
 
 #endif /* H_GPR_TIME */
