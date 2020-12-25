@@ -99,11 +99,10 @@ int main()
     err = gpr_dlklist_push_front(list, st5);
     assert(err == GPR_ERR_OK);
 
-    err = gpr_dlklist_push_back(list, st0);
-    assert(err != GPR_ERR_OK);
-
+    /* Display list */
     gpr_dlklist_map(list, print_student);
 
+    /* Search in list */
     node = gpr_dlklist_search(list, search_julius, &pos);
     assert(node != NULL);
     assert(pos == 2);
