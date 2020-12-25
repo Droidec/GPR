@@ -27,9 +27,9 @@ LIB_FLAG_NAME   = -l$(LIB_NAME)
 # Graphic script name
 GRAPH_NAME      = cinclude2dot
 # Dynamic Library installation directory
-LIB_DIR         = /usr/lib
+LIB_DIR         = /usr/local/lib
 # Header installation directory
-INC_DIR         = /usr/include/GPR
+INC_DIR         = /usr/local/include/GPR
 # All header files from header repository
 HEADERS         = $(wildcard $(INC_REP)/*.h)
 # All source files from source repository
@@ -93,7 +93,6 @@ install:
 	cp $(INC_REP)/*.h $(INC_DIR)/
 	cp $(LIB_REP)/$(LIB_TARGET_NAME).so $(LIB_DIR)/
 	chmod 0755 $(LIB_DIR)/$(LIB_TARGET_NAME).so
-	ldconfig
 
 .PHONY: uninstall
 uninstall:
@@ -106,7 +105,6 @@ graph:
 	cd $(GRAPH_REP)/ ; ./$(GRAPH_NAME).pl --merge module > graph.dot
 	dot -Tpdf $(GRAPH_REP)/graph.dot -o $(GRAPH_REP)/graph.pdf
 	rm $(GRAPH_REP)/*.h $(GRAPH_REP)/*.c $(GRAPH_REP)/*.dot
-	xdg-open $(GRAPH_REP)/graph.pdf
 
 .PHONY: test
 test: $(TEST_REP) $(BIN_TEST_REP) $(EXECUTABLES)
