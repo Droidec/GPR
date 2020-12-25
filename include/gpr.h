@@ -31,15 +31,16 @@
 #ifndef H_GPR
 #define H_GPR
 
+#include "gpr_builtin.h"
 #include "gpr_err.h"
+#include "gpr_time.h"
+#include "gpr_log.h"
+#include "gpr_network.h"
 
-// Initialize default modules
-#define GPR_DEFAULT_INIT GPR_ERR_INIT;
+// Initialize all modules
+#define GPR_INIT_LIBRARY GPR_INIT_ERR_MODULE
 
 // Free all modules
-#define GPR_FREE_LIBRARY gpr_err_free_cmpl_err();
-
-// Initialize error module
-#define GPR_ERR_INIT gpr_err_allocate_cmpl_err()
+#define GPR_FREE_LIBRARY GPR_FREE_ERR_MODULE
 
 #endif /* H_GPR */

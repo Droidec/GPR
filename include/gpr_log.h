@@ -44,6 +44,8 @@
 
 #include "gpr_err.h"
 
+#include <stdio.h>
+
 // Log levels
 enum GPR_Log
 {
@@ -68,9 +70,9 @@ enum GPR_Log
  * behavior suits you
  *
  * Parameters
- *     psz_filename : Absolute or relative path to a filename (Can be NULL)
- *     level        : New default log level (Can be NULL).
- *                    Pass GPR_LOG_DEFAULT if you don't want to change it
+ *     filename : Absolute or relative path to a filename (Can be NULL)
+ *     level    : New default log level (Can be NULL).
+ *                Pass GPR_LOG_DEFAULT if you don't want to change it
  *
  * Return value
  *     On success, return GPR_ERR_OK
@@ -79,7 +81,7 @@ enum GPR_Log
  *     (See gpr_err_get_cmpl_err)
  *
  *****************************************************************************/
-enum GPR_Err gpr_log_configure(const char *psz_filename, enum GPR_Log level);
+enum GPR_Err gpr_log_configure(const char *filename, enum GPR_Log level);
 
 /*****************************************************************************
  *
@@ -110,19 +112,26 @@ const char *gpr_log_level_to_str(enum GPR_Log level);
  * "GPR_LOG_MSG" instead
  *
  * Parameters
- *     level    : Log level
- *     psz_file : Current filename
- *     i_line   : Current line
- *     psz_func : Current function
- *     psz_fmt  : Message format to write
- *     ...      : Optional arguments
+ *     level : Log level
+ *     file  : Current filename
+ *     line  : Current line
+ *     func  : Current function
+ *     fmt   : Message format to write
+ *     ...   : Optional arguments
  *
  * Return value
- *     None
+ *     The return value is the number of characters which have been written
+ *     to the standard output, counting header format but not including the
+ *     trailing '\0' or the carriage return.
+ *     If a specific level has been configured, only messages with this
+ *     specific level or below will be processed, otherwise the function
+ *     does nothing and returns 0.
+ *     If an error occured, the function returns a negative number and
+ *     nothing is written to the standard output.
  *
  *****************************************************************************/
 #define GPR_LOG_MESSAGE_MAX_LEN 512
-void gpr_log_msg(enum GPR_Log level, const char * const psz_file, const int i_line, const char * const psz_func, const char * const psz_fmt, ...);
+ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line, const char * const func, const char * const fmt, ...) __attribute__ ((format (printf, 5, 6)));
 #define GPR_LOG_MSG(lvl, fmt, ...) gpr_log_msg(lvl, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
 
 #endif /* H_GPR_LOG */

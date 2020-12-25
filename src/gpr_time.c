@@ -36,34 +36,34 @@
  * Public functions
  *****************************************************************************/
 
-size_t gpr_time_get_date_sec(char * const psz_buffer)
+size_t gpr_time_get_date_sec(char * const buffer)
 {
-    time_t i_rawtime;
+    time_t rawtime;
     struct tm dateinfo;
 
-    memset(psz_buffer, 0, GPR_DATE_SEC_LEN + 1);
+    memset(buffer, 0, GPR_DATE_SEC_LEN + 1);
 
-    time(&i_rawtime);
-    localtime_r(&i_rawtime, &dateinfo); // WARN: Not portable
+    time(&rawtime);
+    localtime_r(&rawtime, &dateinfo); // WARN: Not portable
 
-    return strftime(psz_buffer, GPR_DATE_SEC_LEN + 1, "%d/%m/%Y-%H:%M:%S", &dateinfo);
+    return strftime(buffer, GPR_DATE_SEC_LEN + 1, "%d/%m/%Y-%H:%M:%S", &dateinfo);
 }
 
-size_t gpr_time_get_date_millisec(char * const psz_buffer)
+size_t gpr_time_get_date_millisec(char * const buffer)
 {
     size_t sec_length;
     int ms_length;
     struct timeval timeinfo;
 
-    memset(psz_buffer, 0, GPR_DATE_MILLISEC_LEN + 1);
+    memset(buffer, 0, GPR_DATE_MILLISEC_LEN + 1);
 
-    sec_length = gpr_time_get_date_sec(psz_buffer);
+    sec_length = gpr_time_get_date_sec(buffer);
 
     if (UNLIKELY(sec_length == 0))
         return 0;
 
     gettimeofday(&timeinfo, NULL); // WARN: Not portable
-    ms_length = SCNPRINTF(psz_buffer + GPR_DATE_SEC_LEN, (GPR_DATE_MILLISEC_LEN - GPR_DATE_SEC_LEN) + 1, ".%.3ld", timeinfo.tv_usec / 1000L);
+    ms_length = SCNPRINTF(buffer + GPR_DATE_SEC_LEN, (GPR_DATE_MILLISEC_LEN - GPR_DATE_SEC_LEN) + 1, ".%.3ld", timeinfo.tv_usec / 1000L);
 
     if (UNLIKELY(ms_length <= 0))
         return 0;

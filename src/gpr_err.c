@@ -38,7 +38,9 @@
 static const char *Err_Array[] =
 {
     /* 000 */ "Success",
-    /* 001 */ "Failure"
+    /* 001 */ "Failure",
+    /* 002 */ "Invalid parameter(s)",
+    /* 003 */ "Network error"
 };
 
 char *Cmpl_Err_Msg = NULL; // Complementary Error Message
@@ -75,10 +77,23 @@ char *gpr_err_get_cmpl_err(void)
     return Cmpl_Err_Msg;
 }
 
-enum GPR_Err gpr_err_raise(enum GPR_Err err, char *psz_cmpl_err_msg)
+enum GPR_Err gpr_err_raise(enum GPR_Err err, const char * const fmt, ...)
 {
-    if (Cmpl_Err_Msg != NULL && psz_cmpl_err_msg != NULL && psz_cmpl_err_msg[0] != '\0')
-        SCNPRINTF(Cmpl_Err_Msg, CMPL_ERR_MSG_LEN + 1, "%s", psz_cmpl_err_msg);
+    va_list list;
+
+    if (Cmpl_Err_Msg != NULL)
+    {
+        if (fmt != NULL)
+        {
+            va_start(list, fmt);
+            VSCNPRINTF(Cmpl_Err_Msg, CMPL_ERR_MSG_LEN + 1, fmt, list);
+            va_end(list);
+        }
+        else
+        {
+            Cmpl_Err_Msg[0] = '\0';
+        }
+    }
 
     return err;
 }

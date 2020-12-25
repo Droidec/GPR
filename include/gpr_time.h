@@ -42,17 +42,17 @@
  * long
  *
  * Parameters
- *     psz_buffer : Buffer where to copy the current local date
+ *     buffer : Buffer where to copy the current local date
  *
  * Return value
  *     Returns the total number of characters copied in the buffer
  *     (not including the terminating null-character).
  *     If an error occured, returns zero, and the content of the array
- *     pointed by psz_buffer is indeterminate.
+ *     pointed by buffer is indeterminate.
  *
  *****************************************************************************/
 #define GPR_DATE_SEC_LEN 19 // Number of bytes needed for "%d/%m/%Y-%H:%M:%S" without null-character
-size_t gpr_time_get_date_sec(char * const psz_buffer);
+size_t gpr_time_get_date_sec(char * const buffer);
 
 /*****************************************************************************
  *
@@ -63,16 +63,16 @@ size_t gpr_time_get_date_sec(char * const psz_buffer);
  * bytes long
  *
  * Parameters
- *     psz_buffer : Buffer where to copy the current local date
+ *     buffer : Buffer where to copy the current local date
  *
  * Return value
  *     Returns the total number of characters copied in the buffer
  *     (not including the terminating null-character).
  *     If an error occured, returns zero, and the content of the array
- *     pointed by psz_buffer is indeterminate.
+ *     pointed by buffer is indeterminate.
  *
  *****************************************************************************/
 #define GPR_DATE_MILLISEC_LEN 23 // Number of bytes needed for "%d/%m/%Y-%H:%M:%S.ms" without null-character
-size_t gpr_time_get_date_millisec(char * const psz_buffer);
+size_t gpr_time_get_date_millisec(char * const buffer);
 
 #endif /* H_GPR_TIME */

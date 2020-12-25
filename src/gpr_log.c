@@ -29,7 +29,6 @@
 #include "gpr_builtin.h"
 #include "gpr_time.h"
 
-#include <stdio.h>
 #include <stdarg.h>
 
 /*****************************************************************************
@@ -43,15 +42,16 @@ static enum GPR_Log Default_Log_Level = GPR_LOG_INFO;
  * Public functions
  *****************************************************************************/
 
-enum GPR_Err gpr_log_configure(const char *psz_filename, enum GPR_Log level)
+enum GPR_Err gpr_log_configure(const char *filename, enum GPR_Log level)
 {
     /* Redirect output */
-    if (psz_filename != NULL)
+    if (filename != NULL)
     {
-        if (freopen(psz_filename, "w", stdout) == NULL)
+        if (freopen(filename, "w", stdout) == NULL)
             return gpr_err_raise(GPR_ERR_KO, "Log redirection failed");
 
-        return gpr_err_raise(GPR_ERR_OK, "");
+        if (level == GPR_LOG_DEFAULT)
+            return gpr_err_raise(GPR_ERR_OK, NULL);
     }
 
     /* Change default log level */
@@ -59,12 +59,12 @@ enum GPR_Err gpr_log_configure(const char *psz_filename, enum GPR_Log level)
     {
         /* Check consistency */
         if (level < 0 || level >= GPR_LOG_NUMBERS)
-            return gpr_err_raise(GPR_ERR_KO, "Default log level change failed");
+            return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid log level");
 
         Default_Log_Level = level;
     }
 
-    return gpr_err_raise(GPR_ERR_OK, "");
+    return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
 const char *gpr_log_level_to_str(enum GPR_Log level)
@@ -78,31 +78,47 @@ const char *gpr_log_level_to_str(enum GPR_Log level)
     return p_log_array[level];
 }
 
-void gpr_log_msg(enum GPR_Log level, const char * const psz_file, const int i_line, const char * const psz_func, const char * const psz_fmt, ...)
+ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line, const char * const func, const char * const fmt, ...)
 {
     va_list list;
-    int i_nBytes;
-    char psz_msg[GPR_LOG_MESSAGE_MAX_LEN + 1];
-    char psz_date[GPR_DATE_MILLISEC_LEN + 1];
+    int hdr_length;
+    int msg_length;
+    int ms_length;
+    char msg[GPR_LOG_MESSAGE_MAX_LEN + 1];
+    char date[GPR_DATE_MILLISEC_LEN + 1];
+
+    /* Check consistency */
+    if (file == NULL || line < 0 || func == NULL || fmt == NULL)
+        return -1;
 
     /* Check default log level */
     if (level < Default_Log_Level)
-        return;
+        return 0;
 
     /* Build header message */
-    gpr_time_get_date_millisec(psz_date);
-    i_nBytes = SCNPRINTF(psz_msg, GPR_LOG_MESSAGE_MAX_LEN + 1, "[%s] [%s] [%s:%d] [%s] ", psz_date, gpr_log_level_to_str(level), psz_file, i_line, psz_func);
+    ms_length = gpr_time_get_date_millisec(date);
+
+    if (UNLIKELY(ms_length == 0))
+        return -1;
+
+    hdr_length = SCNPRINTF(msg, GPR_LOG_MESSAGE_MAX_LEN + 1, "[%s] [%s] [%s:%d] [%s] ", date, gpr_log_level_to_str(level), file, line, func);
+
+    if (UNLIKELY(hdr_length <= 0))
+        return -1;
 
     /* Build message */
-    va_start(list, psz_fmt);
-    i_nBytes += VSCNPRINTF(psz_msg + i_nBytes, GPR_LOG_MESSAGE_MAX_LEN + 1 - i_nBytes, psz_fmt, list);
+    va_start(list, fmt);
+    msg_length = VSCNPRINTF(msg + hdr_length, GPR_LOG_MESSAGE_MAX_LEN + 1 - hdr_length, fmt, list);
     va_end(list);
 
+    if (UNLIKELY(msg_length < 0)) // Not inferior or equal to allow empty messages
+        return -1;
+
     /* Write message on standard output */
-    fprintf(stdout, "%s\n", psz_msg);
+    fprintf(stdout, "%s\n", msg);
 
     /* Refresh standard output */
     fflush(stdout);
 
-    return;
+    return hdr_length + msg_length;
 }
