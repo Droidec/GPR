@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+Version 0.0.9
+-------------
+* Alpha version
+    - Introduce home-made grapher in extras section
+
 Version 0.0.8
 -------------
 * Alpha version
@@ -37,7 +42,6 @@ Version 0.0.3
 
 Version 0.0.2
 -------------
-
 * Alpha version
     - Introduce gpr to the GPR library for library macros
     - Introduce gpr_builtin to the GPR library for builtin macros/functions
@@ -46,7 +50,6 @@ Version 0.0.2
 
 Version 0.0.1
 -------------
-
 * Alpha version
     - Introduce doc, models, and extras stuff
     - Introduce gpr_time module to the GPR library for time management
