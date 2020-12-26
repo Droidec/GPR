@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+Version 0.0.8
+-------------
+* Alpha version
+    - Change Licence to BSD-3 clause licence
+    - Redesign of general module comments and preambles
+    - Removal of watchdog in double linked list module
+
 Version 0.0.7
 -------------
 * Alpha version
