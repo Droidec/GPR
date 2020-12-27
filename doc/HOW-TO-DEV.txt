@@ -1,5 +1,5 @@
-CODING RULES
-============
+HOW-TO-DEV
+==========
 
 Generality:
 - No tabulations allowed ! Use 4-spaces left instead
