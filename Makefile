@@ -27,7 +27,7 @@ LIB_TARGET_NAME_EXT = .so
 # Dynamic library flag
 LIB_FLAG_NAME   = -l$(LIB_NAME)
 # Graphic script name
-GRAPH_NAME      = cinclude2dot
+GRAPH_NAME      = grapher.py
 # Dynamic Library installation directory
 LIB_DIR         = /usr/local/lib
 # Header installation directory
@@ -105,10 +105,8 @@ uninstall:
 
 .PHONY: graph
 graph:
-	cp $(INC_REP)/*.h $(SRC_REP)/*.c $(GRAPH_REP)/
-	cd $(GRAPH_REP)/ ; ./$(GRAPH_NAME).pl --merge module > graph.dot
-	dot -Tpdf $(GRAPH_REP)/graph.dot -o $(GRAPH_REP)/graph.pdf
-	rm $(GRAPH_REP)/*.h $(GRAPH_REP)/*.c $(GRAPH_REP)/*.dot
+	python3 $(GRAPH_REP)/$(GRAPH_NAME) $(INC_REP) $(SRC_REP) -n $(LIB_NAME) -m module --exist-only -o
+	mv *.gv *.pdf $(GRAPH_REP)/
 
 .PHONY: test
 test: $(TEST_REP) $(BIN_TEST_REP) $(EXECUTABLES)
@@ -122,7 +120,7 @@ indent:
 
 .PHONY: clean
 clean:
-	rm -f $(OBJ_REP)/*.o $(LIB_REP)/* $(GRAPH_REP)/graph.pdf
+	rm -f $(OBJ_REP)/*.o $(LIB_REP)/* $(GRAPH_REP)/*.gv $(GRAPH_REP)/*.pdf
 	rm -rf $(BIN_TEST_REP)
 
 $(OBJ_REP):
