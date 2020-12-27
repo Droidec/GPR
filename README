@@ -50,9 +50,8 @@ Required/recommended package(s):
 - valgrind (Memory debugging tool)
 
 Add/modify a module:
-- Read coding rules in the doc/ section
+- Read HOW-TO-DEV in the doc/ section
 - Refer to the models/ section if needed
-- Update the inclusion levels in the doc/ section if needed
 - Add/enhance test/ section with new features, test retrocompatibility and memory leaks
 - Auto indent with "make indent"
 - Write changes in CHANGELOG
