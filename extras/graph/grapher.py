@@ -53,7 +53,7 @@ class GraphSet(object):
 
     Describe a set and its dependencies
     """
-    def __init__(self, dir_list, name='set', mode='file', output='.', known_only=False):
+    def __init__(self, dir_list, name='set', mode='file', output='.', standalone=None, known_only=False):
         self.name = name
         self.mode = mode
 
@@ -61,6 +61,7 @@ class GraphSet(object):
             raise ValueError(f'\'{output}\' is not a directory')
 
         self.output = output + '/' if not output.endswith('/') else output
+        self.standalone = standalone
         self.known_only = known_only
         self.files = []
 
@@ -112,6 +113,8 @@ class GraphSet(object):
 
         if self.mode == 'file':
             for file in self.files:
+                if self.standalone is not None and self.standalone != file.name:
+                    continue
                 if self.known_only is False:
                     dot.write(file.__str__() + '\n')
                 else:
@@ -119,6 +122,8 @@ class GraphSet(object):
 
         if self.mode == 'module':
             for file in self.files:
+                if self.standalone is not None and self.standalone != file.name:
+                    continue
                 if self.known_only is False:
                     dot.write(file.__repr__() + '\n')
                 else:
@@ -144,9 +149,10 @@ if __name__ == "__main__":
 
     # Parse arguments
     parser = argparse.ArgumentParser(description="Render graph dependencies")
-    parser.add_argument('-n', '--name', default='set', help="Name of generated file(s) (default is \'set\')")
+    parser.add_argument('-n', '--name', default='set', help="Name of generated file(s) (Default is \'set\')")
     parser.add_argument('-m', '--mode', default='file', choices=['file', 'module'], help="Granularity of the graph (Default is \'file\')")
-    parser.add_argument('-o', '--output', default='.', help='Directory output (default is execution directory)')
+    parser.add_argument('-o', '--output', default='.', help="Directory output (Default is execution directory)")
+    parser.add_argument('-s', '--standalone', default=None, help="Graph only given module")
     parser.add_argument('-v', '--verbose', default=False, action="store_true", help="Display graph process in standard output")
     parser.add_argument('--known-only', default=False, action="store_true", help="Render only known files")
     parser.add_argument('--cleanup', default=False, action="store_true", help="Cleanup intermediate files")
@@ -158,7 +164,7 @@ if __name__ == "__main__":
         print(args)
 
     # Graph set
-    graph_set = GraphSet(args.dir, args.name, args.mode, args.output, args.known_only)
+    graph_set = GraphSet(args.dir, args.name, args.mode, args.output, args.standalone, args.known_only)
     if args.verbose is True and args.mode == 'file':
         print(str(graph_set))
     if args.verbose is True and args.mode == 'module':

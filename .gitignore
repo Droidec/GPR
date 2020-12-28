@@ -1,6 +1,6 @@
 *.o
 *.so
+*.gv
+*.pdf
 .vscode/
-extras/graph/*.gv
-extras/graph/*.pdf
 tests/bin
