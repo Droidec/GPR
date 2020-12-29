@@ -76,7 +76,7 @@ const char *gpr_err_to_str(enum GPR_Err error);
 void gpr_err_allocate_cmpl_err(void);
 
 /**
- * \brief Allocate the complementary error message buffer 
+ * \brief Allocate the complementary error message buffer
  */
 #define GPR_INIT_ERR_MODULE gpr_err_allocate_cmpl_err();
 
@@ -88,7 +88,7 @@ void gpr_err_allocate_cmpl_err(void);
 void gpr_err_free_cmpl_err(void);
 
 /**
- * \brief Free the complementary error message buffer 
+ * \brief Free the complementary error message buffer
  */
 #define GPR_FREE_ERR_MODULE gpr_err_free_cmpl_err();
 

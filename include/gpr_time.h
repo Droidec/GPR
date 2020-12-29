@@ -41,7 +41,7 @@
 
 /******************************************************************************
  *
- * \brief Copy in a buffer the current local date with format 
+ * \brief Copy in a buffer the current local date with format
  * "%d/%m/%Y-%H:%M:%S".\n
  * Read it as "day/month/year-hour:minutes:seconds"
  *

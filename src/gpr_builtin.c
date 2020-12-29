@@ -1,11 +1,11 @@
 /******************************************************************************
  *
- * \brief gpr_builtin.c
- * Builtin macros/functions
+ * \file gpr_builtin.c
+ * \brief Builtin macros/functions
  *
  ******************************************************************************
  *
- * Copyright (c) 2019-2021, GPR Team
+ * \copyright Copyright (c) 2019-2021, GPR Team
  *
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
