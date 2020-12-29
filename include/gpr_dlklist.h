@@ -250,13 +250,15 @@ void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)());
 
 /******************************************************************************
 *
-* Search for a node according the callback function return state in a double
-* linked list
+* Search for a node according to the callback function return state in a
+* double linked list
 *
 * Parameters
 *     list        : Double linked list where to remove a node
-*     data_search : Callback function that will be called to map an action
-*                   on the data of each node
+*     data_search : Callback function that will be called to search for a
+*                   node
+*     ctx         : Context that will be given as a parameter of the callback
+*                   function
 *     pos         : Position of the node found. Can be NULL
 *
 * Return value
@@ -265,7 +267,7 @@ void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)());
 *     Return NULL if the end of the double linked list is reached
 *
 ******************************************************************************/
-struct gpr_dlknode *gpr_dlklist_search(struct gpr_dlklist *list, bool (*data_search)(), size_t *pos);
+struct gpr_dlknode *gpr_dlklist_search(const struct gpr_dlklist *list, bool (*data_search)(), const void *ctx, size_t *pos);
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 + Accessor
@@ -283,7 +285,7 @@ struct gpr_dlknode *gpr_dlklist_search(struct gpr_dlklist *list, bool (*data_sea
 *     False otherwise
 *
 ******************************************************************************/
-bool gpr_dlklist_is_empty(struct gpr_dlklist *list);
+bool gpr_dlklist_is_empty(const struct gpr_dlklist *list);
 
 /******************************************************************************
 *
@@ -297,7 +299,7 @@ bool gpr_dlklist_is_empty(struct gpr_dlklist *list);
 *     0 otherwise
 *
 ******************************************************************************/
-size_t gpr_dlklist_get_size(struct gpr_dlklist *list);
+size_t gpr_dlklist_get_size(const struct gpr_dlklist *list);
 
 /******************************************************************************
 *
@@ -311,7 +313,7 @@ size_t gpr_dlklist_get_size(struct gpr_dlklist *list);
 *     NULL otherwise
 *
 ******************************************************************************/
-struct gpr_dlknode *gpr_dlklist_get_head(struct gpr_dlklist *list);
+struct gpr_dlknode *gpr_dlklist_get_head(const struct gpr_dlklist *list);
 
 /******************************************************************************
 *
@@ -325,7 +327,7 @@ struct gpr_dlknode *gpr_dlklist_get_head(struct gpr_dlklist *list);
 *     NULL otherwise
 *
 ******************************************************************************/
-struct gpr_dlknode *gpr_dlklist_get_tail(struct gpr_dlklist *list);
+struct gpr_dlknode *gpr_dlklist_get_tail(const struct gpr_dlklist *list);
 
 /******************************************************************************
 *

@@ -361,7 +361,7 @@ void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)())
     return;
 }
 
-struct gpr_dlknode *gpr_dlklist_search(struct gpr_dlklist *list, bool (*data_search)(), size_t *pos)
+struct gpr_dlknode *gpr_dlklist_search(const struct gpr_dlklist *list, bool (*data_search)(), const void *ctx, size_t *pos)
 {
     struct gpr_dlknode *scout = NULL;
     size_t counter = 0;
@@ -374,7 +374,7 @@ struct gpr_dlknode *gpr_dlklist_search(struct gpr_dlklist *list, bool (*data_sea
     scout = gpr_dlklist_get_head(list);
     while (gpr_dlklist_node_has_data(scout))
     {
-        if (data_search(gpr_dlklist_node_data(scout)))
+        if (data_search(gpr_dlklist_node_data(scout), ctx))
             goto end;
 
         counter++;
@@ -392,7 +392,7 @@ end:
 + Accessor
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-bool gpr_dlklist_is_empty(struct gpr_dlklist *list)
+bool gpr_dlklist_is_empty(const struct gpr_dlklist *list)
 {
     /* Check consistency */
     if (list == NULL || list->head == NULL)
@@ -401,7 +401,7 @@ bool gpr_dlklist_is_empty(struct gpr_dlklist *list)
     return false;
 }
 
-size_t gpr_dlklist_get_size(struct gpr_dlklist *list)
+size_t gpr_dlklist_get_size(const struct gpr_dlklist *list)
 {
     /* Check consistency */
     if (list == NULL)
@@ -410,7 +410,7 @@ size_t gpr_dlklist_get_size(struct gpr_dlklist *list)
     return list->size;
 }
 
-struct gpr_dlknode *gpr_dlklist_get_head(struct gpr_dlklist *list)
+struct gpr_dlknode *gpr_dlklist_get_head(const struct gpr_dlklist *list)
 {
     /* Check consistency */
     if (list == NULL)
@@ -419,7 +419,7 @@ struct gpr_dlknode *gpr_dlklist_get_head(struct gpr_dlklist *list)
     return list->head;
 }
 
-struct gpr_dlknode *gpr_dlklist_get_tail(struct gpr_dlklist *list)
+struct gpr_dlknode *gpr_dlklist_get_tail(const struct gpr_dlklist *list)
 {
     /* Check consistency */
     if (list == NULL)
