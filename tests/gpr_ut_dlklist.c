@@ -56,9 +56,9 @@ void print_student(struct student *st)
     return;
 }
 
-bool search_julius(struct student *st)
+bool search_student_by_name(const struct student *st, const char *name)
 {
-    if (strncmp(st->name, "Julius", STUDENT_NAME_MAX_LENGTH) == 0)
+    if (strncmp(st->name, name, STUDENT_NAME_MAX_LENGTH) == 0)
         return true;
 
     return false;
@@ -103,7 +103,7 @@ int main()
     gpr_dlklist_map(list, print_student);
 
     /* Search in list */
-    node = gpr_dlklist_search(list, search_julius, &pos);
+    node = gpr_dlklist_search(list, search_student_by_name, "Julius", &pos);
     assert(node != NULL);
     assert(pos == 2);
     printf("Julius has been found at position %zu\n", pos);
