@@ -6,6 +6,7 @@ Version 0.0.11
 * Alpha version
     - Add the 'standalone' command-line option to grapher
     - Improve 'search' functionnality in dlklist module
+    - Introduce doxygen documentation
 
 Version 0.0.10
 --------------
