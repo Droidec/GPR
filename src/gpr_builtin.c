@@ -1,15 +1,12 @@
-/*****************************************************************************
+/******************************************************************************
  *
- * gpr_builtin.c
+ * \file gpr_builtin.c
+ * \brief Builtin macros/functions
  *
- *****************************************************************************
- * Copyright © 2020 Marc GIANNETTI
+ ******************************************************************************
  *
- * Builtin macros/functions
+ * \copyright Copyright (c) 2019-2021, GPR Team
  *
- *****************************************************************************
- *
- * Copyright (c) 2019-2021, GPR Team
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -39,7 +36,7 @@
 #include "gpr_builtin.h"
 
 /*****************************************************************************
- * Public functions
+ * Private prototypes
  *****************************************************************************/
 
 int gpr_builtin_vscnprintf(char *buf, size_t size, const char *fmt, va_list args)

@@ -36,6 +36,7 @@ Use the "make (all)" utility to compile the dynamic library.
 Use the "make install" utility to install dynamic library on your Unix system.
 Use the "make uninstall" utility to uninstall dynamic library from your Unix system.
 Use the "make graph" utility to graph library/modules dependencies. (Python3/Graphviz package required)
+Use the "make doc" utility to generate documentation (Doxygen package required)
 Use the "make test" utility to compile unit tests functions.
 Use the "make indent" utility to auto indent headers, sources and unit tests files. (clang-format package required)
 Use the "make clean" utility to clean local dynamic library, object files, unit tests and extras stuff.
@@ -45,6 +46,7 @@ Development:
 
 Required/recommended package(s):
 - clang-format (>= 11.0.0) (Auto indent C/C++/Objective-C code tool)
+- doxygen (>=1.9.0) (Auto documentation generation tool)
 - graphviz (>= 2.44.1) (Set of graph drawing tools)
 - python3 (>= 3.6) (High-level programming language)
 - valgrind (Memory debugging tool)
@@ -52,15 +54,17 @@ Required/recommended package(s):
 Add/modify a module:
 - Read HOW-TO-DEV in the doc/ section
 - Refer to the models/ section if needed
+- Add/enhance include/ and src/
 - Add/enhance test/ section with new features, test retrocompatibility and memory leaks
 - Auto indent with "make indent"
-- Write changes in CHANGELOG
+- Update documentation with "make doc"
+- Write changes in CHANGELOG for future version
 
 Improve a module:
 - Check "// TODO" or "// WARN" markers regularly
 
-Author(s):
-==========
+GPR Team
+========
 
 Droidec (Marc G.) - Lead developer on Unix system
 GQMP (Gwénaël P.) - Lead developer on Windows system
