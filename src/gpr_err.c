@@ -1,15 +1,12 @@
 /******************************************************************************
  *
- * gpr_err.c
+ * \file gpr_err.c
+ * \brief Error module
  *
- *******************************************************************************
- * Copyright © 2020 Marc GIANNETTI
+ ******************************************************************************
  *
- * Error module
+ * \copyright Copyright (c) 2019-2021, GPR Team
  *
- *******************************************************************************
- *
- * Copyright (c) 2019-2021, GPR Team
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,7 +31,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- ******************************************************************************/
+ *****************************************************************************/
 
 #include "gpr_err.h"
 #include "gpr_builtin.h"
@@ -44,8 +41,11 @@
 
 /******************************************************************************
  * Private prototypes
- ******************************************************************************/
+ *****************************************************************************/
 
+/**
+ * \brief Possible errors strings
+ */
 static const char *Err_Array[] = {
     /* 000 */ "Success",
     /* 001 */ "Failure",
@@ -54,11 +54,14 @@ static const char *Err_Array[] = {
     /* 004 */ "Network error",
 };
 
-char *Cmpl_Err_Msg = NULL; // Complementary Error Message
+/**
+ * \brief Complementary error message
+ */
+char *Cmpl_Err_Msg = NULL;
 
 /******************************************************************************
  * Public functions
- ******************************************************************************/
+ *****************************************************************************/
 
 const char *gpr_err_to_str(enum GPR_Err error)
 {

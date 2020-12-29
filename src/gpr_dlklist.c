@@ -1,15 +1,12 @@
-/*****************************************************************************
+/******************************************************************************
  *
- * gpr_dlklist.c
+ * \file gpr_dlklist.h
+ * \brief Double linked list module
  *
- *****************************************************************************
- * Copyright © 2020 Marc GIANNETTI
+ ******************************************************************************
  *
- * Double Linked List module
+ * \copyright Copyright (c) 2019-2021, GPR Team
  *
- *****************************************************************************
- *
- * Copyright (c) 2019-2021, GPR Team
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,20 +38,20 @@
 
 #include <stdlib.h>
 
-/*****************************************************************************
+/******************************************************************************
  * Private prototypes
  *****************************************************************************/
 
 static struct gpr_dlknode *create_node(void *data);
 static void free_node(struct gpr_dlknode *node, void (*data_free)());
 
-/*****************************************************************************
+/******************************************************************************
  * Public functions
  *****************************************************************************/
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ Allocation
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+ + Allocation
+ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 struct gpr_dlklist *gpr_dlklist_create(void)
 {
@@ -74,8 +71,8 @@ struct gpr_dlklist *gpr_dlklist_create(void)
 }
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ Deallocation
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+ + Deallocation
+ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 void gpr_dlklist_reset(struct gpr_dlklist *list, void (*data_free)())
 {
@@ -119,8 +116,8 @@ void gpr_dlklist_free(struct gpr_dlklist *list, void (*data_free)())
 }
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ Manipulation
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+ + Manipulation
+ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 enum GPR_Err gpr_dlklist_push_front(struct gpr_dlklist *list, void *data)
 {
@@ -361,6 +358,10 @@ void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)())
     return;
 }
 
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ + Accessor
+ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
 struct gpr_dlknode *gpr_dlklist_search(const struct gpr_dlklist *list, bool (*data_search)(), const void *ctx, size_t *pos)
 {
     struct gpr_dlknode *scout = NULL;
@@ -387,10 +388,6 @@ end:
         *pos = counter;
     return scout;
 }
-
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ Accessor
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 bool gpr_dlklist_is_empty(const struct gpr_dlklist *list)
 {
@@ -464,19 +461,18 @@ struct gpr_dlknode *gpr_dlklist_node_next(struct gpr_dlknode *node)
     return node->next;
 }
 
-/*****************************************************************************
+/******************************************************************************
  * Private functions
  *****************************************************************************/
 
-/*****************************************************************************
+/******************************************************************************
  *
- * Create a new node
+ * \brief Create a new node
  *
- * Parameters
- *     data : Data to point to for the new node
+ * \param data Data to point to for the new node
  *
- * Return value
- *     On success, return a pointer to the new node
+ * \return
+ *     On success, return a pointer to the new node\n
  *     On failure, return NULL
  *
  *****************************************************************************/
@@ -501,17 +497,13 @@ static struct gpr_dlknode *create_node(void *data)
     return node;
 }
 
-/*****************************************************************************
+/******************************************************************************
  *
- * Free a node
+ * \brief Free a node
  *
- * Parameters
- *     node      : Node to free
- *     data_free : Callback function that will be called to free data of the
- *                 node. Can be NULL
- *
- * Return value
- *     None
+ * \param node      Node to free
+ * \param data_free Callback function that will be called to free data of the
+ *                  node (Can be NULL)
  *
  *****************************************************************************/
 static void free_node(struct gpr_dlknode *node, void (*data_free)())

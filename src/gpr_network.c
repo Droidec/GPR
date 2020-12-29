@@ -1,15 +1,12 @@
-/*****************************************************************************
+/******************************************************************************
  *
- * gpr_network.c
+ * \file gpr_network.c
+ * \brief Network module
  *
- *****************************************************************************
- * Copyright © 2020 Marc GIANNETTI
+ ******************************************************************************
  *
- * Network module
+ * \copyright Copyright (c) 2019-2021, GPR Team
  *
- *****************************************************************************
- *
- * Copyright (c) 2019-2021, GPR Team
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -43,14 +40,14 @@
 #include <string.h>
 #include <unistd.h>
 
-/*****************************************************************************
+/******************************************************************************
  * Private prototypes
  *****************************************************************************/
 
 static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *const addr, const char *const service);
 static enum GPR_Err connect_to_peer(struct gpr_socket *sock);
 
-/*****************************************************************************
+/******************************************************************************
  * Public functions
  *****************************************************************************/
 
@@ -150,22 +147,21 @@ enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *const addr, co
     return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
-/*****************************************************************************
+/******************************************************************************
  * Private functions
  *****************************************************************************/
 
-/*****************************************************************************
+/******************************************************************************
  *
- * Search network addresses according to peer endpoint
+ * \brief Search network addresses according to peer endpoint
  *
- * Parameters
- *     sock    : GPR socket to use
- *     addr    : Peer address/hostname to connect to
- *     Service : Peer service to connect to
+ * \param sock    GPR socket to use
+ * \param addr    Peer address/hostname to connect to
+ * \param Service Peer service to connect to
  *
- * Return value
- *     - GPR_ERR_OK: Network adresses found
- *     - GPR_ERR_NETWORK_ERROR: No network addresses found
+ * \return
+ *     GPR_ERR_OK: Network adresses found\n
+ *     GPR_ERR_NETWORK_ERROR: No network addresses found
  *
  *****************************************************************************/
 static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *const addr, const char *const service)
@@ -182,19 +178,18 @@ static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *co
 
 /*****************************************************************************
  *
- * Attempt to connect to peer by testing all network addressed stored inside
- * the given GPR socket
+ * \brief Attempt to connect to peer by testing all network addressed stored
+ * inside the given GPR socket
  *
- * Parameters
- *     sock    : GPR socket to use
- *     addr    : Peer address/hostname to connect to
- *     Service : Peer service to connect to
+ * \param sock    GPR socket to use
+ * \param addr    Peer address/hostname to connect to
+ * \param Service Peer service to connect to
  *
- * Return value
- *     - GPR_ERR_OK: The connection to one of the network addresses has been
- *         successful
- *     - GPR_ERR_NETWORK_ERROR: All network addresses connection attempt
- *         failed
+ * \return
+ *     GPR_ERR_OK: The connection to one of the network addresses has been
+ *     successful\n
+ *     GPR_ERR_NETWORK_ERROR: All network addresses connection attempt
+ *     failed
  *
  *****************************************************************************/
 static enum GPR_Err connect_to_peer(struct gpr_socket *sock)

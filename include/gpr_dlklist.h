@@ -235,6 +235,10 @@ enum GPR_Err gpr_dlklist_remove(struct gpr_dlklist *list, void (*data_free)(), s
  *****************************************************************************/
 void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)());
 
+/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ + Accessor
+ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
 /******************************************************************************
  *
  * \brief Search for a node according the callback function return state in a
@@ -254,10 +258,6 @@ void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)());
  *
  *****************************************************************************/
 struct gpr_dlknode *gpr_dlklist_search(const struct gpr_dlklist *list, bool (*data_search)(), const void *ctx, size_t *pos);
-
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- + Accessor
- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /******************************************************************************
  *
