@@ -5,6 +5,6 @@ TODO list
 - Add a better error management like specifying a buffer where other modules can write a specific message
 - Force indentation before commit ?
 - Detail a good way to use git branches
-- Find a good auto C-documentation software + document library usage
+- Document library usage
 - Create a global HOW-TO-DEV documentation
 - Use of 'SpaceAroundPointerQualifiers=SAPQ_Both' in clang-format when 12.0.0 will be available

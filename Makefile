@@ -107,6 +107,10 @@ uninstall:
 graph:
 	python3 $(GRAPH_REP)/$(GRAPH_NAME) $(INC_REP) $(SRC_REP) -n $(LIB_NAME) -m module -o $(GRAPH_REP) --known-only --view
 
+.PHONY: doc
+doc:
+	doxygen Doxyfile
+
 .PHONY: test
 test: $(TEST_REP) $(BIN_TEST_REP) $(EXECUTABLES)
 
