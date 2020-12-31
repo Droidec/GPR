@@ -2,9 +2,7 @@ TODO list
 =========
 
 - Compile GPR library as static and dynamic
-- Add a better error management like specifying a buffer where other modules can write a specific message
 - Force indentation before commit ?
 - Detail a good way to use git branches
-- Document library usage
-- Create a global HOW-TO-DEV documentation
+- Install in a directory according to OS with "make install"
 - Use of 'SpaceAroundPointerQualifiers=SAPQ_Both' in clang-format when 12.0.0 will be available

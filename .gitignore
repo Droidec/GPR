@@ -2,5 +2,6 @@
 *.so
 *.gv
 *.pdf
+doc
 .vscode/
 tests/bin

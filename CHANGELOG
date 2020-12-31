@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+Version 0.0.12
+--------------
+* Alpha version
+    - Remove doc from package
+    - Add Makefile targets to clean more specifically
+
 Version 0.0.11
 --------------
 * Alpha version
