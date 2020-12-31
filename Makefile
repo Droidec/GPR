@@ -48,45 +48,6 @@ OBJECTS             = $(patsubst $(SRC_REP)/%.c, $(OBJ_REP)/%.o, $(SOURCES))
 TESTS               = $(wildcard $(TEST_REP)/*.c)
 # All test executables from test repository
 EXECUTABLES         = $(patsubst $(TEST_REP)/%.c, $(BIN_TEST_REP)/%, $(TESTS))
-# Indentation style
-INDENT_STYLE        = "{AlignEscapedNewlines: Left, \
-						AlignTrailingComments: true, \
-						AllowAllParametersOfDeclarationOnNextLine: true, \
-						AllowShortIfStatementsOnASingleLine: false, \
-						AllowShortLoopsOnASingleLine: false, \
-						AlwaysBreakBeforeMultilineStrings: false, \
-						BreakBeforeBinaryOperators: false, \
-						BreakBeforeBraces: Allman, \
-						BreakBeforeTernaryOperators: false, \
-						BinPackParameters: true, \
-						ColumnLimit: 140, \
-						ContinuationIndentWidth: 4, \
-						Cpp11BracedListStyle: true, \
-						DerivePointerBinding: false, \
-						ExperimentalAutoDetectBinPacking: false, \
-						IndentCaseLabels: true, \
-						IndentFunctionDeclarationAfterType: false, \
-						IndentWidth: 4, \
-						MaxEmptyLinesToKeep: 4, \
-						PenaltyBreakBeforeFirstCallParameter: 19, \
-						PenaltyBreakComment: 60, \
-						PenaltyBreakString: 100, \
-						PenaltyBreakFirstLessLess: 120, \
-						PenaltyExcessCharacter: 1000000, \
-						PenaltyReturnTypeOnItsOwnLine: 60, \
-						PointerAlignment: Right, \
-						PointerBindsToType: false, \
-						SortIncludes: false, \
-						SpacesBeforeTrailingComments: 1, \
-						Standard: Cpp03, \
-						SpacesInParentheses: false, \
-						SpacesInAngles: false, \
-						SpaceInEmptyParentheses: false, \
-						SpacesInCStyleCastParentheses: false, \
-						SpaceAfterControlStatementKeyword: true, \
-						SpaceBeforeAssignmentOperators: true, \
-						TabWidth: 4, \
-						UseTab: Never}"
 
 ###################################################
 # OS detection
@@ -165,7 +126,7 @@ $(BIN_TEST_REP)/%: $(TEST_REP)/%.c
 
 .PHONY: indent
 indent:
-	@clang-format -i -verbose -style=$(INDENT_STYLE) $(HEADERS) $(SOURCES) $(TESTS) > /dev/null
+	@clang-format -i -verbose -style=file $(HEADERS) $(SOURCES) $(TESTS) > /dev/null
 
 .PHONY: clean
 clean:
