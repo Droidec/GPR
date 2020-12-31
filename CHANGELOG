@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+Version 0.0.13
+--------------
+* Alpha version
+    - Remove revision number from Doxyfile
+    - Add "replace" function to dlklist module
+
 Version 0.0.12
 --------------
 * Alpha version
