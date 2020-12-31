@@ -40,16 +40,16 @@
 #include <string.h>
 #include <unistd.h>
 
-/******************************************************************************
- * Private prototypes
- *****************************************************************************/
+/*=============================================================================
+ ‖ Private prototypes
+ ============================================================================*/
 
 static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *const addr, const char *const service);
 static enum GPR_Err connect_to_peer(struct gpr_socket *sock);
 
-/******************************************************************************
- * Public functions
- *****************************************************************************/
+/*=============================================================================
+ ‖ Public functions
+ ============================================================================*/
 
 struct gpr_socket *gpr_net_create_socket(int domain, int type, int protocol, int flags)
 {
@@ -150,9 +150,9 @@ enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *const addr, co
     return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
-/******************************************************************************
- * Private functions
- *****************************************************************************/
+/*=============================================================================
+ ‖ Private functions
+ ============================================================================*/
 
 /******************************************************************************
  *
@@ -160,7 +160,7 @@ enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *const addr, co
  *
  * \param sock    GPR socket to use
  * \param addr    Peer address/hostname to connect to
- * \param Service Peer service to connect to
+ * \param service Peer service to connect to
  *
  * \return
  *     GPR_ERR_OK: Network adresses found\n
@@ -184,9 +184,7 @@ static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *co
  * \brief Attempt to connect to peer by testing all network addressed stored
  * inside the given GPR socket
  *
- * \param sock    GPR socket to use
- * \param addr    Peer address/hostname to connect to
- * \param Service Peer service to connect to
+ * \param sock GPR socket to use
  *
  * \return
  *     GPR_ERR_OK: The connection to one of the network addresses has been
