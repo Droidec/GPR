@@ -65,9 +65,11 @@ char *Cmpl_Err_Msg = NULL;
 
 const char *gpr_err_to_str(enum GPR_Err error)
 {
+#ifdef DEBUG
     /* Check consistency */
     if (error < 0 || error >= GPR_ERR_NUMBERS)
         return "UNKNOWN";
+#endif
 
     return Err_Array[error];
 }
