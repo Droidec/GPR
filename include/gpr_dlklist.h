@@ -235,6 +235,28 @@ enum GPR_Err gpr_dlklist_remove(struct gpr_dlklist *list, void (*data_free)(), s
  *****************************************************************************/
 void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)());
 
+/******************************************************************************
+ *
+ * \brief Replace the data pointed by a node at the requested position in a
+ * double linked list
+ *
+ * \param list      Double linked list where to replace the data pointed by a
+ *                  node
+ * \param data_free Callback function that will be called to free the previous
+ *                  data of the node (Can be NULL)
+ * \param data      New Data to point to for the node
+ * \param pos       Position of the node (starting at 0)
+ *
+ * \return
+ *     GPR_ERR_OK: The data pointed by the node at the request position has
+ *     been replaced in the list\n
+ *     GPR_ERR_INVALID_PARAMETER: The list is NULL or the data is NULL or
+ *     the position is invalid\n
+ *     GPR_ERR_KO: The list is empty
+ *
+ *****************************************************************************/
+enum GPR_Err gpr_dlklist_replace(struct gpr_dlklist *list, void (*data_free)(), void *data, size_t pos);
+
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + Accessor
  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/

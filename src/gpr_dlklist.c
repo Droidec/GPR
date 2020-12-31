@@ -314,6 +314,9 @@ enum GPR_Err gpr_dlklist_remove(struct gpr_dlklist *list, void (*data_free)(), s
     if (pos >= gpr_dlklist_get_size(list))
         return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid position");
 
+    if (gpr_dlklist_is_empty(list))
+        return gpr_err_raise(GPR_ERR_KO, "Empty list");
+
     if (pos == 0)
         return gpr_dlklist_pop_front(list, data_free);
 
@@ -356,6 +359,43 @@ void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)())
     }
 
     return;
+}
+
+enum GPR_Err gpr_dlklist_replace(struct gpr_dlklist *list, void (*data_free)(), void *data, size_t pos)
+{
+    struct gpr_dlknode *scout = NULL;
+    size_t counter = 0;
+
+    /* Check consistency */
+
+    if (list == NULL)
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid list");
+
+    if (data == NULL)
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid data");
+
+    if (pos >= gpr_dlklist_get_size(list))
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid position");
+
+    if (gpr_dlklist_is_empty(list))
+        return gpr_err_raise(GPR_ERR_KO, "Empty list");
+
+    /* Replace in list */
+
+    // Search position
+    scout = gpr_dlklist_get_head(list);
+    while (counter != pos)
+    {
+        counter++;
+        scout = gpr_dlklist_node_next(scout);
+    }
+
+    // Replace data
+    if (scout->data != NULL && data_free != NULL)
+        data_free(scout->data);
+    scout->data = data;
+
+    return GPR_ERR_OK;
 }
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -1,8 +1,8 @@
-/*****************************************************************************
+/******************************************************************************
  *
  * gpr_ut_dlklist.c
  *
- *****************************************************************************
+ ******************************************************************************
  *
  * Unit tests on "gpr_dlklist" module
  *
@@ -86,6 +86,7 @@ int main()
     struct student *st5 = create_student("Dominique", 2);
 
     /* Add students to list */
+    printf("---List of students---\n");
     err = gpr_dlklist_push_back(list, st0);
     assert(err == GPR_ERR_OK);
     err = gpr_dlklist_push_back(list, st1);
@@ -103,10 +104,27 @@ int main()
     gpr_dlklist_map(list, print_student);
 
     /* Search in list */
+    printf("\n---Searching students---\n");
     node = gpr_dlklist_search(list, search_student_by_name, "Julius", &pos);
     assert(node != NULL);
     assert(pos == 2);
     printf("Julius has been found at position %zu\n", pos);
+
+    /* Delete in list */
+    printf("\n---Removing students---\n");
+    err = gpr_dlklist_pop_front(list, free_student);
+    assert(err == GPR_ERR_OK);
+    err = gpr_dlklist_pop_back(list, free_student);
+    assert(err == GPR_ERR_OK);
+    err = gpr_dlklist_remove(list, free_student, 2);
+    gpr_dlklist_map(list, print_student);
+
+    /* Replace in list */
+    printf("\n---Replacing students---\n");
+    struct student *st6 = create_student("Caroline", 1);
+    err = gpr_dlklist_replace(list, free_student, st6, 1);
+    assert(err == GPR_ERR_OK);
+    gpr_dlklist_map(list, print_student);
 
     /* Free list */
     gpr_dlklist_free(list, free_student);
