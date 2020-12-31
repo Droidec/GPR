@@ -57,7 +57,6 @@ struct gpr_socket *gpr_net_create_socket(int domain, int type, int protocol, int
 
     /* Allocate GPR socket */
     sock = (struct gpr_socket *)malloc(sizeof(struct gpr_socket));
-
     if (UNLIKELY(sock == NULL))
         return NULL;
 
@@ -77,9 +76,11 @@ struct gpr_socket *gpr_net_create_socket(int domain, int type, int protocol, int
 
 enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock)
 {
+#ifdef DEBUG
     /* Check consistency */
     if (sock == NULL)
         return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid GPR socket");
+#endif
 
     /* Close GPR socket */
     if (sock->socket != -1)
@@ -100,6 +101,7 @@ enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *const addr, co
 {
     enum GPR_Err err;
 
+#ifdef DEBUG
     /* Check consistency */
 
     // Check GPR socket
@@ -113,6 +115,7 @@ enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *const addr, co
     // Check service
     if (service == NULL)
         return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid peer service");
+#endif
 
     // TODO: Check if user didn't changed "addr" and "service" after first call, and raise error if so
 

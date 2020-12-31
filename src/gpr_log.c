@@ -79,9 +79,11 @@ enum GPR_Err gpr_log_configure(const char *filename, enum GPR_Log level)
 
 const char *gpr_log_level_to_str(enum GPR_Log level)
 {
+#ifdef DEBUG
     /* Check consistency */
     if (level < 0 || level >= GPR_LOG_NUMBERS)
         return "UNKNOWN";
+#endif
 
     const char *p_log_array[] = {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"};
 
@@ -97,9 +99,11 @@ ssize_t gpr_log_msg(enum GPR_Log level, const char *const file, const int line, 
     char msg[GPR_LOG_MESSAGE_MAX_LEN + 1];
     char date[GPR_DATE_MILLISEC_LEN + 1];
 
+#ifdef DEBUG
     /* Check consistency */
     if (file == NULL || line < 0 || func == NULL || fmt == NULL)
         return -1;
+#endif
 
     /* Check default log level */
     if (level < Default_Log_Level)
