@@ -6,6 +6,7 @@ Version 0.0.13
 * Alpha version
     - Remove revision number from Doxyfile
     - Add "replace" function to dlklist module
+    - Add a DEBUG compile mode
 
 Version 0.0.12
 --------------
