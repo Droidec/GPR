@@ -133,7 +133,8 @@ void gpr_dlklist_free(struct gpr_dlklist *list, void (*data_free)());
  *
  * \return
  *     GPR_ERR_OK: The node has been added to the beginning of the list\n
- *     GPR_ERR_INVALID_PARAMETER: The list is NULL or the data is NULL\n
+ *     GPR_ERR_INVALID_PARAMETER: The list is NULL or the data is NULL
+ *     (DEBUG mode only)\n
  *     GPR_ERR_MEMORY_FAILURE: The new node allocation failed
  *
  *****************************************************************************/
@@ -148,7 +149,8 @@ enum GPR_Err gpr_dlklist_push_front(struct gpr_dlklist *list, void *data);
  *
  * \return
  *     GPR_ERR_OK: The node has been added to the end of the list\n
- *     GPR_ERR_INVALID_PARAMETER: The list is NULL or the data is NULL\n
+ *     GPR_ERR_INVALID_PARAMETER: The list is NULL or the data is NULL
+ *     (DEBUG mode only)\n
  *     GPR_ERR_MEMORY_FAILURE: The new node allocation failed
  *
  *****************************************************************************/
@@ -166,7 +168,7 @@ enum GPR_Err gpr_dlklist_push_back(struct gpr_dlklist *list, void *data);
  *     GPR_ERR_OK: The node has been added to the requested position in
  *     the list\n
  *     GPR_ERR_INVALID_PARAMETER: The list is NULL or the data is NULL or
- *     the position is invalid\n
+ *     the position is invalid (DEBUG mode only)\n
  *     GPR_ERR_MEMORY_FAILURE: The new node allocation failed
  *
  *****************************************************************************/
@@ -182,7 +184,7 @@ enum GPR_Err gpr_dlklist_insert(struct gpr_dlklist *list, void *data, size_t pos
  *
  * \return
  *     GPR_ERR_OK: The first node has been removed from the list\n
- *     GPR_ERR_INVALID_PARAMETER: The list is NULL\n
+ *     GPR_ERR_INVALID_PARAMETER: The list is NULL (DEBUG mode only)\n
  *     GPR_ERR_KO: The list is empty
  *
  *****************************************************************************/
@@ -198,7 +200,7 @@ enum GPR_Err gpr_dlklist_pop_front(struct gpr_dlklist *list, void (*data_free)()
  *
  * \return
  *     GPR_ERR_OK: The last node has been removed from the list\n
- *     GPR_ERR_INVALID_PARAMETER: The list is NULL\n
+ *     GPR_ERR_INVALID_PARAMETER: The list is NULL (DEBUG mode only)\n
  *     GPR_ERR_KO: The list is empty
  *
  *****************************************************************************/
@@ -217,7 +219,7 @@ enum GPR_Err gpr_dlklist_pop_back(struct gpr_dlklist *list, void (*data_free)())
  *     GPR_ERR_OK: The node at the request position has been removed from
  *     the list\n
  *     GPR_ERR_INVALID_PARAMETER: The list is NULL or the position is
- *     invalid\n
+ *     invalid (DEBUG mode only)\n
  *     GPR_ERR_KO: The list is empty
  *
  *****************************************************************************/
@@ -235,16 +237,38 @@ enum GPR_Err gpr_dlklist_remove(struct gpr_dlklist *list, void (*data_free)(), s
  *****************************************************************************/
 void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)());
 
+/******************************************************************************
+ *
+ * \brief Replace the data pointed by a node at the requested position in a
+ * double linked list
+ *
+ * \param list      Double linked list where to replace the data pointed by a
+ *                  node
+ * \param data_free Callback function that will be called to free the previous
+ *                  data of the node (Can be NULL)
+ * \param data      New Data to point to for the node
+ * \param pos       Position of the node (starting at 0)
+ *
+ * \return
+ *     GPR_ERR_OK: The data pointed by the node at the request position has
+ *     been replaced in the list\n
+ *     GPR_ERR_INVALID_PARAMETER: The list is NULL or the data is NULL or
+ *     the position is invalid (DEBUG mode only)\n
+ *     GPR_ERR_KO: The list is empty
+ *
+ *****************************************************************************/
+enum GPR_Err gpr_dlklist_replace(struct gpr_dlklist *list, void (*data_free)(), void *data, size_t pos);
+
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  + Accessor
  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /******************************************************************************
  *
- * \brief Search for a node according the callback function return state in a
- * double linked list
+ * \brief Search for a node according to the callback function return state in
+ * a double linked list
  *
- * \param list        Double linked list where to remove a node
+ * \param list        Double linked list where to search for a node
  * \param data_search Callback function that will be called to search for a
  *                    node
  * \param ctx         Context that will be given as a parameter to the
@@ -253,7 +277,7 @@ void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)());
  *
  * \return
  *     If the callback function returns true, the current node is returned
- *     with an update of the position variable\n
+ *     with an update of the position variable if possible\n
  *     Return NULL if the end of the double linked list is reached
  *
  *****************************************************************************/
@@ -319,10 +343,10 @@ struct gpr_dlknode *gpr_dlklist_get_tail(const struct gpr_dlklist *list);
  *
  * \return
  *     True if the node contains data\n
- *     False otherwise or node is not allocated
+ *     False if node is not allocated or does not contain data
  *
  *****************************************************************************/
-bool gpr_dlklist_node_has_data(struct gpr_dlknode *node);
+bool gpr_dlklist_node_has_data(const struct gpr_dlknode *node);
 
 /******************************************************************************
  *
@@ -335,7 +359,7 @@ bool gpr_dlklist_node_has_data(struct gpr_dlknode *node);
  *     NULL otherwise
  *
  *****************************************************************************/
-void *gpr_dlklist_node_data(struct gpr_dlknode *node);
+void *gpr_dlklist_node_data(const struct gpr_dlknode *node);
 
 /******************************************************************************
  *
@@ -348,7 +372,7 @@ void *gpr_dlklist_node_data(struct gpr_dlknode *node);
  *     NULL otherwise
  *
  *****************************************************************************/
-struct gpr_dlknode *gpr_dlklist_node_prev(struct gpr_dlknode *node);
+struct gpr_dlknode *gpr_dlklist_node_prev(const struct gpr_dlknode *node);
 
 /******************************************************************************
  *
@@ -361,6 +385,6 @@ struct gpr_dlknode *gpr_dlklist_node_prev(struct gpr_dlknode *node);
  *     NULL otherwise
  *
  *****************************************************************************/
-struct gpr_dlknode *gpr_dlklist_node_next(struct gpr_dlknode *node);
+struct gpr_dlknode *gpr_dlklist_node_next(const struct gpr_dlknode *node);
 
 #endif /* H_GPR_DLKLIST */

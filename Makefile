@@ -85,7 +85,13 @@ INDENT_STYLE    = "{AlignEscapedNewlines: Left, \
 	                UseTab: Never}"
 
 .PHONY: all
-all: $(OBJ_REP) $(LIB_REP) $(LIB_TARGET_NAME)$(LIB_TARGET_NAME_EXT)
+all: build
+
+.PHONY: debug
+debug: CFLAGS += -DDEBUG -g
+debug: build
+
+build: $(OBJ_REP) $(LIB_REP) $(LIB_TARGET_NAME)$(LIB_TARGET_NAME_EXT)
 
 $(LIB_TARGET_NAME)$(LIB_TARGET_NAME_EXT): $(OBJECTS)
 	$(CC) $(LDFLAGS) -o $(LIB_REP)/$@ $^
@@ -94,8 +100,7 @@ $(OBJ_REP)/%.o : $(SRC_REP)/%.c
 	$(CC) $(CFLAGS) -o $@ -c $< -I $(INC_REP)
 
 .PHONY: install
-install:
-	mkdir -p $(INC_DIR)
+install: $(INC_DIR) $(LIB_DIR)
 	cp $(INC_REP)/*.h $(INC_DIR)/
 	cp $(LIB_REP)/$(LIB_TARGET_NAME)$(LIB_TARGET_NAME_EXT) $(LIB_DIR)/
 	chmod 0755 $(LIB_DIR)/$(LIB_TARGET_NAME)$(LIB_TARGET_NAME_EXT)
@@ -151,3 +156,9 @@ $(LIB_REP):
 
 $(BIN_TEST_REP):
 	mkdir -p $(BIN_TEST_REP)
+
+$(INC_DIR):
+	mkdir -p $(INC_DIR)
+
+$(LIB_DIR):
+	mkdir -p $(LIB_DIR)

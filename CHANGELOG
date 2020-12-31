@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+Version 0.0.13
+--------------
+* Alpha version
+    - Remove revision number from Doxyfile
+    - Add "replace" function to dlklist module
+    - Optimize dlklist searching
+    - Add a DEBUG compile mode
+
 Version 0.0.12
 --------------
 * Alpha version

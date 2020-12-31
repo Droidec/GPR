@@ -32,14 +32,15 @@ Required package(s):
 Makefile Usage:
 ===============
 
-Use the "make (all)" utility to compile the dynamic library.
+Use the "make (all) (build)" utility to compile the dynamic library
+Use the "make debug" utility to compile the dynamic library in DEBUG mode
 Use the "make install" utility to install dynamic library on your Unix system (in /usr/local/)
-Use the "make uninstall" utility to uninstall dynamic library from your Unix system.
-Use the "make graph" utility to graph library/modules dependencies. (Python3/Graphviz package required)
+Use the "make uninstall" utility to uninstall dynamic library from your Unix system
+Use the "make graph" utility to graph library/modules dependencies (Python3/Graphviz package required)
 Use the "make doc" utility to generate documentation (Doxygen package required)
-Use the "make test" utility to compile unit tests functions.
-Use the "make indent" utility to auto indent headers, sources and unit tests files. (clang-format package required)
-Use the "make clean" utility to clean local dynamic library, object files and unit tests.
+Use the "make test" utility to compile unit tests functions
+Use the "make indent" utility to auto indent headers, sources and unit tests files (clang-format package required)
+Use the "make clean" utility to clean local dynamic library, object files and unit tests
 Use the "make cleangraph" utility to clean graph files
 Use the "make cleandoc" utility to clean documentation
 Use the "make clear" to clean everything

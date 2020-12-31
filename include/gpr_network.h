@@ -97,7 +97,7 @@ struct gpr_socket *gpr_net_create_socket(int domain, int type, int protocol, int
  *
  * \return
  *     GPR_ERR_OK: The socket has been closed\n
- *     GPR_ERR_INVALID_PARAMETER: The socket is NULL
+ *     GPR_ERR_INVALID_PARAMETER: The socket is NULL (DEBUG mode only)
  *
  *****************************************************************************/
 enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock);
@@ -112,7 +112,8 @@ enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock);
  *
  * \return
  *     GPR_ERR_OK: The connection has been established\n
- *     GPR_ERR_INVALID_PARAMETER: One of the parameter is NULL\n
+ *     GPR_ERR_INVALID_PARAMETER: One of the parameter is NULL
+ *     (DEBUG mode only)\n
  *     GPR_ERR_NETWORK_ERROR: A network error occured
  *
  *****************************************************************************/
