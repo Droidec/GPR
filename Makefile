@@ -29,7 +29,7 @@ LIB_NAME            = GPR
 # Dynamic library target name
 LIB_TARGET_NAME     = lib$(LIB_NAME)
 # Dynamic library target name extension
-LIB_TARGET_NAME_EXT = .so
+LIB_TARGET_NAME_EXT = ""
 # Dynamic library flag
 LIB_FLAG_NAME       = -l$(LIB_NAME)
 # Graphic script name
@@ -62,21 +62,25 @@ endif
 
 ifeq ($(detected_OS),Windows)
 	CCFLAGS += -D WIN32
+	LIB_TARGET_NAME_EXT = .dll.a
 endif
 ifeq ($(detected_OS),Darwin)
 	CCFLAGS += -D OSX
 	LIB_DIR = /usr/local/lib
 	INC_DIR = /usr/local/include/GPR
+	LIB_TARGET_NAME_EXT = .so
 endif
 ifeq ($(detected_OS),Linux)
 	CCFLAGS += -D LINUX
 	LIB_DIR = /usr/lib
 	INC_DIR = /usr/include/GPR
+	LIB_TARGET_NAME_EXT = .so
 endif
 ifeq ($(detected_OS),Cygwin)
 	CCFLAGS += -D CYGWIN
 	LIB_DIR = /usr/lib
 	INC_DIR = /usr/include/GPR
+	LIB_TARGET_NAME_EXT = .dll.a
 endif
 
 ###################################################
