@@ -44,6 +44,7 @@
 
 static struct gpr_dlknode *create_node(void *data);
 static void free_node(struct gpr_dlknode *node, void (*data_free)());
+struct gpr_dlknode *search_node_by_position(const struct gpr_dlklist *list, size_t pos);
 
 /******************************************************************************
  * Public functions
@@ -207,7 +208,6 @@ enum GPR_Err gpr_dlklist_insert(struct gpr_dlklist *list, void *data, size_t pos
 {
     struct gpr_dlknode *scout = NULL;
     struct gpr_dlknode *node = NULL;
-    size_t counter = 0;
 
 #ifdef DEBUG
     /* Check consistency */
@@ -235,12 +235,7 @@ enum GPR_Err gpr_dlklist_insert(struct gpr_dlklist *list, void *data, size_t pos
     /* Expand list */
 
     // Search position
-    scout = gpr_dlklist_get_head(list);
-    while (counter != pos)
-    {
-        counter++;
-        scout = gpr_dlklist_node_next(scout);
-    }
+    scout = search_node_by_position(list, pos);
 
     // Insert node
     node->next = scout;
@@ -319,7 +314,6 @@ enum GPR_Err gpr_dlklist_pop_back(struct gpr_dlklist *list, void (*data_free)())
 enum GPR_Err gpr_dlklist_remove(struct gpr_dlklist *list, void (*data_free)(), size_t pos)
 {
     struct gpr_dlknode *scout = NULL;
-    size_t counter = 0;
 
 #ifdef DEBUG
     /* Check consistency */
@@ -342,12 +336,7 @@ enum GPR_Err gpr_dlklist_remove(struct gpr_dlklist *list, void (*data_free)(), s
     /* Shrink list */
 
     // Search position
-    scout = gpr_dlklist_get_head(list);
-    while (counter != pos)
-    {
-        counter++;
-        scout = gpr_dlklist_node_next(scout);
-    }
+    scout = search_node_by_position(list, pos);
 
     // Remove node
     scout->prev->next = scout->next;
@@ -382,7 +371,6 @@ void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)())
 enum GPR_Err gpr_dlklist_replace(struct gpr_dlklist *list, void (*data_free)(), void *data, size_t pos)
 {
     struct gpr_dlknode *scout = NULL;
-    size_t counter = 0;
 
     /* Check consistency */
 
@@ -403,12 +391,7 @@ enum GPR_Err gpr_dlklist_replace(struct gpr_dlklist *list, void (*data_free)(), 
     /* Replace in list */
 
     // Search position
-    scout = gpr_dlklist_get_head(list);
-    while (counter != pos)
-    {
-        counter++;
-        scout = gpr_dlklist_node_next(scout);
-    }
+    scout = search_node_by_position(list, pos);
 
     // Replace data
     if (scout->data != NULL && data_free != NULL)
@@ -487,7 +470,7 @@ struct gpr_dlknode *gpr_dlklist_get_tail(const struct gpr_dlklist *list)
     return list->tail;
 }
 
-bool gpr_dlklist_node_has_data(struct gpr_dlknode *node)
+bool gpr_dlklist_node_has_data(const struct gpr_dlknode *node)
 {
     /* Check consistency */
     if (node == NULL || node->data == NULL)
@@ -496,7 +479,7 @@ bool gpr_dlklist_node_has_data(struct gpr_dlknode *node)
     return true;
 }
 
-void *gpr_dlklist_node_data(struct gpr_dlknode *node)
+void *gpr_dlklist_node_data(const struct gpr_dlknode *node)
 {
     /* Check consistency */
     if (node == NULL)
@@ -505,7 +488,7 @@ void *gpr_dlklist_node_data(struct gpr_dlknode *node)
     return node->data;
 }
 
-struct gpr_dlknode *gpr_dlklist_node_prev(struct gpr_dlknode *node)
+struct gpr_dlknode *gpr_dlklist_node_prev(const struct gpr_dlknode *node)
 {
     /* Check consistency */
     if (node == NULL)
@@ -514,7 +497,7 @@ struct gpr_dlknode *gpr_dlklist_node_prev(struct gpr_dlknode *node)
     return node->prev;
 }
 
-struct gpr_dlknode *gpr_dlklist_node_next(struct gpr_dlknode *node)
+struct gpr_dlknode *gpr_dlklist_node_next(const struct gpr_dlknode *node)
 {
     /* Check consistency */
     if (node == NULL)
@@ -585,4 +568,52 @@ static void free_node(struct gpr_dlknode *node, void (*data_free)())
     free(node);
 
     return;
+}
+
+/******************************************************************************
+ *
+ * \brief Search by dichotomy the node at the requestsed position in a double
+ * linked list
+ *
+ * \param list Double linked list where to search for a node
+ * \param pos  Position of the node (Starting from 0)
+ *
+ * \return
+ *     On success, return a pointer to the node at the requested position\n
+ *     On failure, return NULL
+ *
+ *****************************************************************************/
+struct gpr_dlknode *search_node_by_position(const struct gpr_dlklist *list, size_t pos)
+{
+    struct gpr_dlknode *scout = NULL;
+    size_t counter = 0;
+
+#ifdef DEBUG
+    /* Check consistency */
+    if (list == NULL || pos >= gpr_dlklist_get_size(list))
+        return NULL;
+#endif
+
+    /* Search by dichotomy */
+    if (pos < (gpr_dlklist_get_size(list) / 2))
+    {
+        scout = gpr_dlklist_get_head(list);
+        while (counter != pos)
+        {
+            counter++;
+            scout = gpr_dlklist_node_next(scout);
+        }
+    }
+    else
+    {
+        scout = gpr_dlklist_get_tail(list);
+        counter = gpr_dlklist_get_size(list) - 1;
+        while (counter != pos)
+        {
+            counter--;
+            scout = gpr_dlklist_node_prev(scout);
+        }
+    }
+
+    return scout;
 }
