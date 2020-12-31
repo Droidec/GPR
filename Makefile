@@ -6,6 +6,8 @@ CFLAGS          = -Wall -Wextra -Werror -O3 -fPIC
 LDFLAGS         = -shared
 # Header repository
 INC_REP         = include
+# Document repository
+DOC_REP         = doc
 # Source repository
 SRC_REP         = src
 # Object repository
@@ -109,6 +111,7 @@ graph:
 
 .PHONY: doc
 doc:
+	mkdir -p $(DOC_REP)
 	doxygen Doxyfile
 
 .PHONY: test
@@ -123,8 +126,19 @@ indent:
 
 .PHONY: clean
 clean:
-	rm -f $(OBJ_REP)/*.o $(LIB_REP)/* $(GRAPH_REP)/*.gv $(GRAPH_REP)/*.pdf
+	rm -f $(OBJ_REP)/*.o $(LIB_REP)/*
 	rm -rf $(BIN_TEST_REP)
+
+.PHONY: cleangraph
+cleangraph:
+	rm -f $(GRAPH_REP)/*.gv $(GRAPH_REP)/*.pdf
+
+.PHONY: cleandoc
+cleandoc:
+	rm -rf $(DOC_REP)
+
+.PHONY: clear
+clear: clean cleandoc cleangraph
 
 $(OBJ_REP):
 	mkdir -p $(OBJ_REP)
