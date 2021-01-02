@@ -5,3 +5,4 @@ TODO list
 - Force indentation before commit ?
 - Detail a good way to use git branches
 - Use of 'SpaceAroundPointerQualifiers=SAPQ_Both' in clang-format when 12.0.0 will be available
+- check dependencies in cmake (doxygen, python3, etc...)

@@ -8,7 +8,7 @@
  *
  *****************************************************************************/
 
-#include <GPR/gpr_network.h>
+#include "gpr_network.h"
 
 #include <stdio.h>
 #include <assert.h>
