@@ -8,8 +8,8 @@
  *
  *****************************************************************************/
 
-#include <GPR/gpr_builtin.h>
-#include <GPR/gpr_dlklist.h>
+#include "gpr_builtin.h"
+#include "gpr_dlklist.h"
 
 #include <stdio.h>
 #include <stdlib.h>
