@@ -9,41 +9,48 @@ easy to use, library.
 Project content:
 ================
 
-doc/ . . . . . . Library documentation
 extras/  . . . . Extra features for development
 include/ . . . . Header files
-lib/ . . . . . . Library files
 models/  . . . . Models for development
-obj/ . . . . . . Object files
 src/ . . . . . . Source files
 tests/ . . . . . Unitary tests
 
 Build & Installation:
 =====================
 
-Simply run the following commands:
+Required package(s):
+- cmake (Cross-platform build process tool)
+
+Build & install API:
+- mkdir build
+- cd build
+- cmake ..
 - make
 - make install
 
-Required package(s):
-- gcc (C compiler)
-- make (Makefile)
+Build & install API (Debug):
+- mkdir build
+- cd build
+- cmake -DCMAKE_BUILD_TYPE=DEBUG ..
+- make
+- make install
+
+Build API tests:
+
 
 Makefile Usage:
 ===============
 
-Use the "make (all) (build)" utility to compile the dynamic library
-Use the "make debug" utility to compile the dynamic library in DEBUG mode
-Use the "make install" utility to install dynamic library on your Unix system (in /usr/local/)
-Use the "make uninstall" utility to uninstall dynamic library from your Unix system
-Use the "make graph" utility to graph library/modules dependencies (Python3/Graphviz package required)
-Use the "make doc" utility to generate documentation (Doxygen/Graphviz package required)
-Use the "make test" utility to compile unit tests functions
-Use the "make indent" utility to auto indent headers, sources and unit tests files (clang-format package required)
-Use the "make clean" utility to clean local dynamic library, object files and unit tests
-Use the "make cleangraph" utility to clean graph files
+Use the "make (all) (GPR)" utility to build API
+Use the "make doc" utility to generate API documentation in doc/ (doxygen/graphviz package required)
+Use the "make graph" utility to graph API (python3/graphviz package required)
+Use the "make indent" utility to auto indent API files (clang-format package required)
+Use the "make clean" utility to clean cmake API build
 Use the "make cleandoc" utility to clean documentation
-Use the "make clear" to clean everything
+Use the "make cleangraph" utility to clean API graph
+Use the "make clear" utility to clean/cleandoc/cleangraph
+Use the "make help" to get Makefile possible targets list
+Use the "make uninstall" utility to uninstall API (Unix only)
 
 Development:
 ============

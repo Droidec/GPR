@@ -5,6 +5,8 @@ Version 0.0.14
 --------------
 * Alpha version
     - Improve generated documentation
+    - Hide clang-format style
+    - Introduce CMAKE
 
 Version 0.0.13
 --------------

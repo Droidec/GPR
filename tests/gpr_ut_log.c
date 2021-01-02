@@ -8,7 +8,7 @@
  *
  *****************************************************************************/
 
-#include <GPR/gpr_log.h>
+#include "gpr_log.h"
 
 #include <stdio.h>
 #include <assert.h>
