@@ -35,14 +35,21 @@ Build & install API (Debug):
 - make
 - make install
 
-Build API tests:
+API Usage:
+==========
 
+You can include a GPR module in your source code as follows:
+#include <GPR/module.h>
+
+Make sure to link GPR library at compile time with:
+- "-lGPR" for the shared version
+- "-lGPR_static" for the static version
 
 Makefile Usage:
 ===============
 
-Use the "make (all) (GPR)" utility to build API
-Use the "make doc" utility to generate API documentation in doc/ (doxygen/graphviz package required)
+Use the "make (all) (GPR) (GPR_static)" utility to build API
+Use the "make doc" utility to generate API documentation (doxygen/graphviz package required)
 Use the "make graph" utility to graph API (python3/graphviz package required)
 Use the "make indent" utility to auto indent API files (clang-format package required)
 Use the "make clean" utility to clean cmake API build

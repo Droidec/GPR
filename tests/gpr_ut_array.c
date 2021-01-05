@@ -1,14 +1,14 @@
 /******************************************************************************
  *
- * gpr_ut_dlklist.c
+ * gpr_ut_array.c
  *
  ******************************************************************************
  *
- * Unit tests on "gpr_dlklist" module
+ * Unit tests on "gpr_array" module
  *
  *****************************************************************************/
 
-#include "gpr_dlklist.h"
+#include "gpr_array.h"
 #include "gpr_builtin.h"
 
 #include <stdio.h>
@@ -68,14 +68,14 @@ int main()
 {
     GPR_INIT_ERR_MODULE
 
-    struct gpr_dlklist *list = NULL;
-    struct gpr_dlknode *node = NULL;
+    struct gpr_array *arr = NULL;
+    void *elem = NULL;
     enum GPR_Err err;
-    size_t pos = 0;
+    size_t index = 0;
 
-    /* Create list */
-    list = gpr_dlklist_create();
-    assert(list != NULL);
+    /* Create array */
+    arr = gpr_array_create();
+    assert(arr != NULL);
 
     /* Create students */
     struct student *st0 = create_student("Valentin", 0);
@@ -85,50 +85,50 @@ int main()
     struct student *st4 = create_student("Sophie", 17);
     struct student *st5 = create_student("Dominique", 2);
 
-    /* Add students to list */
-    printf("---List of students---\n");
-    err = gpr_dlklist_push_back(list, st0);
+    /* Add students to array */
+    printf("---Array of students---\n");
+    err = gpr_array_push_back(arr, st0);
     assert(err == GPR_ERR_OK);
-    err = gpr_dlklist_push_back(list, st1);
+    err = gpr_array_push_back(arr, st1);
     assert(err == GPR_ERR_OK);
-    err = gpr_dlklist_push_front(list, st2);
+    err = gpr_array_push_front(arr, st2);
     assert(err == GPR_ERR_OK);
-    err = gpr_dlklist_push_front(list, st3);
+    err = gpr_array_push_front(arr, st3);
     assert(err == GPR_ERR_OK);
-    err = gpr_dlklist_insert(list, st4, 2);
+    err = gpr_array_insert(arr, st4, 2);
     assert(err == GPR_ERR_OK);
-    err = gpr_dlklist_push_front(list, st5);
+    err = gpr_array_push_front(arr, st5);
     assert(err == GPR_ERR_OK);
 
-    /* Display list */
-    gpr_dlklist_map(list, print_student);
+    /* Display array */
+    gpr_array_map(arr, print_student);
 
-    /* Search in list */
+    /* Search in array */
     printf("\n---Searching students---\n");
-    node = gpr_dlklist_search(list, search_student_by_name, "Julius", &pos);
-    assert(node != NULL);
-    assert(pos == 2);
-    printf("Julius has been found at position %zu\n", pos);
+    elem = gpr_array_search(arr, search_student_by_name, "Julius", &index);
+    assert(elem != NULL);
+    assert(index == 2);
+    printf("Julius has been found at position %zu\n", index);
 
-    /* Delete in list */
+    /* Delete in array */
     printf("\n---Removing students---\n");
-    err = gpr_dlklist_pop_front(list, free_student);
+    err = gpr_array_pop_front(arr, free_student);
     assert(err == GPR_ERR_OK);
-    err = gpr_dlklist_pop_back(list, free_student);
+    err = gpr_array_pop_back(arr, free_student);
     assert(err == GPR_ERR_OK);
-    err = gpr_dlklist_remove(list, free_student, 2);
+    err = gpr_array_remove(arr, free_student, 2);
     assert(err == GPR_ERR_OK);
-    gpr_dlklist_map(list, print_student);
+    gpr_array_map(arr, print_student);
 
-    /* Replace in list */
+    /* Replace in array */
     printf("\n---Replacing students---\n");
     struct student *st6 = create_student("Caroline", 1);
-    err = gpr_dlklist_replace(list, free_student, st6, 1);
+    err = gpr_array_replace(arr, free_student, st6, 1);
     assert(err == GPR_ERR_OK);
-    gpr_dlklist_map(list, print_student);
+    gpr_array_map(arr, print_student);
 
-    /* Free list */
-    gpr_dlklist_free(list, free_student);
+    /* Free array */
+    gpr_array_free(arr, free_student);
 
     GPR_FREE_ERR_MODULE
 

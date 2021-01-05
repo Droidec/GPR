@@ -9,15 +9,13 @@
  *
  * \verbatim
  *
- *         +---------------------+
- *         | head  size(2)  tail |
- *         +---|-------------|---+
- *             ˇ             ˇ
- *         +-------+     +-------+
- * NULL <- |       | <-> |       | -> NULL
- *         +---|---+     +---|---+
- *             ˇ             ˇ
- *            data          data
+ *        ┌───────────────────┐
+ *        │ head size(2) tail │
+ *        └──┼────────────┼───┘
+ *        ┌──┼───┐     ┌──┼───┐
+ * NULL <─┼ node ┼─────┼ node ┼─> NULL
+ *        └──┼───┘     └──┼───┘
+ *          data         data
  *
  * \endverbatim
  *
@@ -74,7 +72,7 @@ struct gpr_dlknode
  */
 struct gpr_dlklist
 {
-    size_t size;              ///< Size of the list
+    size_t size;              ///< Size of the list (Number of nodes)
     struct gpr_dlknode *head; ///< Head of the list (First node)
     struct gpr_dlknode *tail; ///< Tail of the list (Last node)
 };
@@ -102,6 +100,8 @@ struct gpr_dlklist *gpr_dlklist_create(void);
  *
  * \brief Reset a double linked list (Free all its nodes)
  *
+ * \note The callback function must deal with a void * (node data)
+ *
  * \param list      Double linked list where to free nodes
  * \param data_free Callback function that will be called to free data of
  *                  each node (Can be NULL)
@@ -112,6 +112,8 @@ void gpr_dlklist_reset(struct gpr_dlklist *list, void (*data_free)());
 /******************************************************************************
  *
  * \brief Free a double linked list and all its nodes
+ *
+ * \note The callback function must deal with a void * (node data)
  *
  * \param list      Double linked list to free
  * \param data_free Callback function that will be called to free data of
@@ -128,7 +130,7 @@ void gpr_dlklist_free(struct gpr_dlklist *list, void (*data_free)());
  *
  * \brief Add a new node at the beginning of a double linked list
  *
- * \param list Double linked list where to add a new node
+ * \param list Double linked list where to add a new node at the beginning
  * \param data Data to point to for the new node
  *
  * \return
@@ -144,7 +146,7 @@ enum GPR_Err gpr_dlklist_push_front(struct gpr_dlklist *list, void *data);
  *
  * \brief Add a new node at the end of a double linked list
  *
- * \param list Double linked list where to add a new node
+ * \param list Double linked list where to add a new node at the end
  * \param data Data to point to for the new node
  *
  * \return
@@ -178,7 +180,9 @@ enum GPR_Err gpr_dlklist_insert(struct gpr_dlklist *list, void *data, size_t pos
  *
  * \brief Remove the first node of a double linked list
  *
- * \param list      Double linked list where to remove a node
+ * \note The callback function must deal with a void * (node data)
+ *
+ * \param list      Double linked list where to remove the first node
  * \param data_free Callback function that will be called to free data of the
  *                  node (Can be NULL)
  *
@@ -194,7 +198,9 @@ enum GPR_Err gpr_dlklist_pop_front(struct gpr_dlklist *list, void (*data_free)()
  *
  * \brief Remove the last node of a double linked list
  *
- * \param list      Double linked list where to remove a node
+ * \note The callback function must deal with a void * (node data)
+ *
+ * \param list      Double linked list where to remove the last node
  * \param data_free Callback function that will be called to free data of the
  *                  node (Can be NULL)
  *
@@ -209,6 +215,8 @@ enum GPR_Err gpr_dlklist_pop_back(struct gpr_dlklist *list, void (*data_free)())
 /******************************************************************************
  *
  * \brief Remove a node at the requested position in a double linked list
+ *
+ * \note The callback function must deal with a void * (node data)
  *
  * \param list      Double linked list where to remove a node
  * \param data_free Callback function that will be called to free data of the
@@ -227,20 +235,10 @@ enum GPR_Err gpr_dlklist_remove(struct gpr_dlklist *list, void (*data_free)(), s
 
 /******************************************************************************
  *
- * \brief Map an action on the data of each node contained in a double linked
- * list
- *
- * \param list     Double linked list where to remove a node
- * \param data_map Callback function that will be called to map an action
- *                 on the data of each node
- *
- *****************************************************************************/
-void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)());
-
-/******************************************************************************
- *
  * \brief Replace the data pointed by a node at the requested position in a
  * double linked list
+ *
+ * \note The callback function must deal with a void * (node data)
  *
  * \param list      Double linked list where to replace the data pointed by a
  *                  node
@@ -259,6 +257,20 @@ void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)());
  *****************************************************************************/
 enum GPR_Err gpr_dlklist_replace(struct gpr_dlklist *list, void (*data_free)(), void *data, size_t pos);
 
+/******************************************************************************
+ *
+ * \brief Map an action on the data of each node contained in a double linked
+ * list
+ *
+ * \note The callback function must deal with a void * (node data)
+ *
+ * \param list     Double linked list where to map an action
+ * \param data_map Callback function that will be called to map an action
+ *                 on the data of each node
+ *
+ *****************************************************************************/
+void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)());
+
 /*-----------------------------------------------------------------------------
  | Accessor
  ----------------------------------------------------------------------------*/
@@ -267,6 +279,8 @@ enum GPR_Err gpr_dlklist_replace(struct gpr_dlklist *list, void (*data_free)(), 
  *
  * \brief Search for a node according to the callback function return state in
  * a double linked list
+ *
+ * \note The callback function must deal with two void * (node data, context)
  *
  * \param list        Double linked list where to search for a node
  * \param data_search Callback function that will be called to search for a
