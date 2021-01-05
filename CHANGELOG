@@ -6,6 +6,7 @@ Version 0.0.16
 * Alpha version
     - Try to find external packages for additional Makefile targets
     - Compile GPR library in both static/shared
+    - Introduce gpr_array module for dynamic array management
 
 Version 0.0.15
 --------------
