@@ -347,27 +347,6 @@ enum GPR_Err gpr_dlklist_remove(struct gpr_dlklist *list, void (*data_free)(), s
     return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
-void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)())
-{
-    struct gpr_dlknode *scout = NULL;
-
-#ifdef DEBUG
-    /* Check consistency */
-    if (list == NULL || data_map == NULL)
-        return;
-#endif
-
-    /* Map action */
-    scout = gpr_dlklist_get_head(list);
-    while (gpr_dlklist_node_has_data(scout))
-    {
-        data_map(gpr_dlklist_node_data(scout));
-        scout = gpr_dlklist_node_next(scout);
-    }
-
-    return;
-}
-
 enum GPR_Err gpr_dlklist_replace(struct gpr_dlklist *list, void (*data_free)(), void *data, size_t pos)
 {
     struct gpr_dlknode *scout = NULL;
@@ -399,6 +378,27 @@ enum GPR_Err gpr_dlklist_replace(struct gpr_dlklist *list, void (*data_free)(), 
     scout->data = data;
 
     return GPR_ERR_OK;
+}
+
+void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)())
+{
+    struct gpr_dlknode *scout = NULL;
+
+#ifdef DEBUG
+    /* Check consistency */
+    if (list == NULL || data_map == NULL)
+        return;
+#endif
+
+    /* Map action */
+    scout = gpr_dlklist_get_head(list);
+    while (gpr_dlklist_node_has_data(scout))
+    {
+        data_map(gpr_dlklist_node_data(scout));
+        scout = gpr_dlklist_node_next(scout);
+    }
+
+    return;
 }
 
 /*-----------------------------------------------------------------------------
