@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+Version 0.0.16
+--------------
+* Alpha version
+    - Try to find external packages for additional Makefile targets
+    - Compile GPR library in both static/shared
+
 Version 0.0.15
 --------------
 * Alpha version
