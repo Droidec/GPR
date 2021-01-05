@@ -38,6 +38,7 @@
 #ifndef H_GPR
 #define H_GPR
 
+#include "gpr_array.h"
 #include "gpr_builtin.h"
 #include "gpr_dlklist.h"
 #include "gpr_err.h"
