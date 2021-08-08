@@ -16,7 +16,7 @@ easy to use, library.
 ## Build & Installation
 
 Required package(s):
-- [cmake](https://cmake.org/) (Cross-platform build process tool)
+- [cmake](https://cmake.org/) : Cross-platform build process tool
 
 Build & install API:
 - mkdir build
@@ -43,17 +43,18 @@ Make sure to link GPR library at compile time with:
 - `-lGPR` for the shared version
 - `-lGPR_static` for the static version
 
-## Makefile Commands
+## Generated Makefile Commands
 
 - Use the `make (all) (GPR) (GPR_static)` utility to build API
-- Use the `make doc` utility to generate API documentation ([doxygen](https://www.doxygen.nl/index.html)/[graphviz](https://graphviz.org/) package required)
-- Use the `make graph` utility to graph API ([python3](https://www.python.org/)/[graphviz](https://graphviz.org/) package required)
-- Use the `make indent` utility to auto indent API files ([clang-format](https://clang.llvm.org/) package required)
 - Use the `make clean` utility to clean cmake API build
 - Use the `make cleandoc` utility to clean documentation
 - Use the `make cleangraph` utility to clean API graph
 - Use the `make clear` utility to clean/cleandoc/cleangraph
+- Use the `make doc` utility to generate API documentation ([doxygen](https://www.doxygen.nl/index.html)/[graphviz](https://graphviz.org/) package required)
+- Use the `make graph` utility to graph API ([python3](https://www.python.org/)/[graphviz](https://graphviz.org/) package required)
 - Use the `make help` to get Makefile possible targets list
+- Use the `make indent` utility to auto indent API files ([clang-format](https://clang.llvm.org/) package required)
+- Use the `make install` utility to install API
 - Use the `make uninstall` utility to uninstall API *(Unix only)*
 
 ## Development
@@ -66,16 +67,16 @@ Required/recommended package(s):
 - [valgrind](https://valgrind.org/) : Memory debugging tool
 
 Add/modify a module:
-- Read HOW-TO-DEV text file
-- Refer to the models/ section if needed
-- Add/enhance include/ and src/
-- Add/enhance test/ section with new features, test retrocompatibility and memory leaks
-- Auto indent with "make indent"
-- Check updating documentation with "make doc"
-- Write changes in CHANGELOG for future version
+- Read *HOW-TO-DEV* text file
+- Refer to the `models` section if needed
+- Add/enhance `include` and `src`
+- Add/enhance `test` section with new features, test retrocompatibility and memory leaks
+- Auto indent with `make indent`
+- Check updating documentation with `make doc`
+- Write changes in *CHANGELOG* for future version
 
 Improve a module:
-- Check "// TODO" or "// WARN" markers regularly
+- Check `// TODO` or `// WARN` markers regularly
 
 ## Authors
 
