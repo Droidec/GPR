@@ -6,3 +6,4 @@ build
 doc
 .vscode/
 tests/bin
+.DS_Store
