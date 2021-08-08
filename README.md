@@ -67,13 +67,13 @@ Required/recommended package(s):
 - [valgrind](https://valgrind.org/) : Memory debugging tool
 
 Add/modify a module:
-- Read *HOW-TO-DEV* text file
+- Read HOW-TO-DEV text file
 - Refer to the `models` section if needed
 - Add/enhance `include` and `src`
 - Add/enhance `test` section with new features, test retrocompatibility and memory leaks
 - Auto indent with `make indent`
 - Check updating documentation with `make doc`
-- Write changes in *CHANGELOG* for future version
+- Write changes in CHANGELOG for future version
 
 Improve a module:
 - Check `// TODO` or `// WARN` markers regularly
