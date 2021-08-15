@@ -52,7 +52,8 @@ static const char *Err_Array[] = {
     /* 001 */ "Failure",
     /* 002 */ "Invalid parameter",
     /* 003 */ "Memory failure",
-    /* 004 */ "Network error",
+    /* 004 */ "Not implemented",
+    /* 005 */ "Network error",
 };
 
 /**
