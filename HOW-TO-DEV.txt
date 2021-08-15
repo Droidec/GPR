@@ -156,7 +156,7 @@ static struct my_struct *gpr_time_function(const char *param1, size_t param2)
 ===============================================================================
 modules
 ===============================================================================
-- Always write "new", "alloc", "init", "reset", "free" functions for structures if
+- Always write "new", "init", "reset", "free" functions for structures if
 possible
 
 ===============================================================================

@@ -52,7 +52,7 @@ static enum GPR_Err connect_to_peer(struct gpr_socket *sock);
  * Public functions
  *****************************************************************************/
 
-struct gpr_socket *gpr_net_create_socket(int domain, int type, int protocol, int flags)
+struct gpr_socket *gpr_net_new_socket(int domain, int type, int protocol, int flags)
 {
     struct gpr_socket *sock = NULL;
 
@@ -62,6 +62,20 @@ struct gpr_socket *gpr_net_create_socket(int domain, int type, int protocol, int
         return NULL;
 
     /* Initialize GPR socket */
+    gpr_net_init_socket(sock, domain, type, protocol, flags);
+
+    return sock;
+}
+
+void gpr_net_init_socket(struct gpr_socket *sock, int domain, int type, int protocol, int flags)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (sock == NULL)
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid GPR socket");
+#endif
+
+    /* Initialize socket */
     sock->socket = -1;
     sock->status = GPR_NET_NONE;
     memset(&(sock->info), 0, sizeof(struct addrinfo));
@@ -71,8 +85,6 @@ struct gpr_socket *gpr_net_create_socket(int domain, int type, int protocol, int
     sock->info.ai_flags = flags;
     sock->result = NULL;
     sock->curr = NULL;
-
-    return sock;
 }
 
 enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock)

@@ -24,7 +24,7 @@ struct student
     unsigned int mark;
 };
 
-struct student *create_student(char *name, unsigned int mark)
+struct student *new_student(char *name, unsigned int mark)
 {
     struct student *st = NULL;
 
@@ -47,13 +47,11 @@ void free_student(struct student *st)
         return;
 
     free(st);
-    return;
 }
 
 void print_student(struct student *st)
 {
     printf("%s - %u\n", st->name, st->mark);
-    return;
 }
 
 bool search_student_by_name(const struct student *st, const char *name)
@@ -73,17 +71,17 @@ int main()
     enum GPR_Err err;
     size_t index = 0;
 
-    /* Create array */
-    arr = gpr_array_create();
+    /* New array */
+    arr = gpr_array_new();
     assert(arr != NULL);
 
-    /* Create students */
-    struct student *st0 = create_student("Valentin", 0);
-    struct student *st1 = create_student("Alfred", 20);
-    struct student *st2 = create_student("Julius", 8);
-    struct student *st3 = create_student("Isabelle", 14);
-    struct student *st4 = create_student("Sophie", 17);
-    struct student *st5 = create_student("Dominique", 2);
+    /* New students */
+    struct student *st0 = new_student("Valentin", 0);
+    struct student *st1 = new_student("Alfred", 20);
+    struct student *st2 = new_student("Julius", 8);
+    struct student *st3 = new_student("Isabelle", 14);
+    struct student *st4 = new_student("Sophie", 17);
+    struct student *st5 = new_student("Dominique", 2);
 
     /* Add students to array */
     printf("---Array of students---\n");
@@ -122,7 +120,7 @@ int main()
 
     /* Replace in array */
     printf("\n---Replacing students---\n");
-    struct student *st6 = create_student("Caroline", 1);
+    struct student *st6 = new_student("Caroline", 1);
     err = gpr_array_replace(arr, free_student, st6, 1);
     assert(err == GPR_ERR_OK);
     gpr_array_map(arr, print_student);

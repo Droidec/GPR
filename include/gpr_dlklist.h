@@ -79,23 +79,24 @@ struct gpr_dlklist
 };
 
 /******************************************************************************
- * Allocation
- *****************************************************************************/
-
-/******************************************************************************
  *
- * \brief Create a new double linked list
+ * \brief Allocate and initialize a new double linked list
  *
  * \return
  *     On success, return a pointer to the double linked list\n
  *     On failure, return NULL
  *
  *****************************************************************************/
-struct gpr_dlklist *gpr_dlklist_create(void);
+struct gpr_dlklist *gpr_dlklist_new(void);
 
 /******************************************************************************
- * Deallocation
+ *
+ * \brief Initialize a double linked list
+ *
+ * \param list Double linked list to initialize
+ *
  *****************************************************************************/
+void gpr_dlklist_init(struct gpr_dlklist *list);
 
 /******************************************************************************
  *
@@ -122,10 +123,6 @@ void gpr_dlklist_reset(struct gpr_dlklist *list, void (*data_free)());
  *
  *****************************************************************************/
 void gpr_dlklist_free(struct gpr_dlklist *list, void (*data_free)());
-
-/******************************************************************************
- * Manipulation
- *****************************************************************************/
 
 /******************************************************************************
  *
@@ -271,10 +268,6 @@ enum GPR_Err gpr_dlklist_replace(struct gpr_dlklist *list, void (*data_free)(), 
  *
  *****************************************************************************/
 void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)());
-
-/******************************************************************************
- * Accessor
- *****************************************************************************/
 
 /******************************************************************************
  *

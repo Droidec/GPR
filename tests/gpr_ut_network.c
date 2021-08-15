@@ -20,7 +20,7 @@ int main()
     struct gpr_socket *sock;
     enum GPR_Err err;
 
-    sock = gpr_net_create_socket(AF_INET, SOCK_STREAM, 0, 0);
+    sock = gpr_net_new_socket(AF_INET, SOCK_STREAM, 0, 0);
     assert(sock != NULL);
 
     err = gpr_net_connect(sock, "www.google.com", "443");
