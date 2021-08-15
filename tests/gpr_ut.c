@@ -14,8 +14,8 @@
 
 int main()
 {
-    /* Initialize default modules */
-    GPR_INIT_LIBRARY
+    /* Allocate default modules */
+    GPR_ALLOC_LIBRARY
 
     puts("See memory leaks with valgrind\n");
 

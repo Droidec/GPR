@@ -51,7 +51,7 @@
  * \brief Initialize the GPR library in one go by calling initializations
  * macros from all other modules
  */
-#define GPR_INIT_LIBRARY GPR_INIT_ERR_MODULE
+#define GPR_ALLOC_LIBRARY GPR_ALLOC_ERR_MODULE
 
 /**
  * \brief Free the GPR library in one go by calling free macros from all

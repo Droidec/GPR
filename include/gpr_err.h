@@ -79,7 +79,7 @@ void gpr_err_allocate_cmpl_err(void);
 /**
  * \brief Allocate the complementary error message buffer
  */
-#define GPR_INIT_ERR_MODULE gpr_err_allocate_cmpl_err();
+#define GPR_ALLOC_ERR_MODULE gpr_err_allocate_cmpl_err();
 
 /******************************************************************************
  *

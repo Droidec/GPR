@@ -15,7 +15,7 @@
 
 int main(int argc, char *argv[])
 {
-    GPR_INIT_ERR_MODULE
+    GPR_ALLOC_ERR_MODULE
 
     enum GPR_Err err;
     ssize_t written_length;

@@ -66,7 +66,7 @@ bool search_student_by_name(const struct student *st, const char *name)
 
 int main()
 {
-    GPR_INIT_ERR_MODULE
+    GPR_ALLOC_ERR_MODULE
 
     struct gpr_array *arr = NULL;
     void *elem = NULL;

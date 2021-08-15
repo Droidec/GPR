@@ -15,7 +15,7 @@
 
 int main()
 {
-    GPR_INIT_ERR_MODULE
+    GPR_ALLOC_ERR_MODULE
 
     struct gpr_socket *sock;
     enum GPR_Err err;
