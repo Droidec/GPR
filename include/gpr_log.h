@@ -148,8 +148,33 @@ ssize_t gpr_log_msg(enum GPR_Log level, const char *const file, const int line, 
 #define GPR_LOG_MESSAGE_MAX_LEN 512
 
 /**
- * \brief Macro for the \a gpr_log_msg function
+ * \brief Macro to log a message
  */
 #define GPR_LOG_MSG(lvl, fmt, ...) gpr_log_msg(lvl, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
+
+/**
+ * \brief Macro to log a debug message
+ */
+#define GPR_LOG_DEBUG(fmt, ...) gpr_log_msg(GPR_LOG_DEBUG, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
+
+/**
+ * \brief Macro to log an info message
+ */
+#define GPR_LOG_INFO(fmt, ...) gpr_log_msg(GPR_LOG_INFO, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
+
+/**
+ * \brief Macro to log a warning message
+ */
+#define GPR_LOG_WARN(fmt, ...) gpr_log_msg(GPR_LOG_WARNING, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
+
+/**
+ * \brief Macro to log an error message
+ */
+#define GPR_LOG_ERR(fmt, ...) gpr_log_msg(GPR_LOG_ERROR, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
+
+/**
+ * \brief Macro to log a critical message
+ */
+#define GPR_LOG_CRIT(fmt, ...) gpr_log_msg(GPR_LOG_CRITICAL, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
 
 #endif /* H_GPR_LOG */
