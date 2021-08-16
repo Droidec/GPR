@@ -49,10 +49,7 @@ void free_student(struct student *st)
     free(st);
 }
 
-void print_student(struct student *st)
-{
-    printf("%s - %u\n", st->name, st->mark);
-}
+void print_student(struct student *st) { printf("%s - %u\n", st->name, st->mark); }
 
 bool search_student_by_name(const struct student *st, const char *name)
 {

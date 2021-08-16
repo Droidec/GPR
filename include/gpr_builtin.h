@@ -41,6 +41,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <stddef.h> // offsetof
 
 /**
  * \brief Optimize branch prediction \a x in favour of a "likely" side jump
@@ -53,6 +54,20 @@
  * instruction
  */
 #define UNLIKELY(x) __builtin_expect((x), 0)
+
+/**
+ * \brief Cast a member of a structure out to the containing structure
+ *
+ * \param ptr    Pointer to the member
+ * \param type   Type of the container structure this is embedded in
+ * \param member Name of the member within this structure
+ */
+#define CONTAINER_OF(ptr, type, member)                        \
+    (                                                          \
+        {                                                      \
+            const typeof(((type *)0)->member) *__mptr = (ptr); \
+            (type *)((char *)__mptr - offsetof(type, member)); \
+        })
 
 /******************************************************************************
  *
