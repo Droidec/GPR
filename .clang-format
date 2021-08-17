@@ -1,6 +1,7 @@
 AlignEscapedNewlines: Left
 AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakBeforeMultilineStrings: false
@@ -13,6 +14,7 @@ ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
 DerivePointerBinding: false
 ExperimentalAutoDetectBinPacking: false
+ForEachMacros: ['GPR_LIST_FOR_EACH', 'GPR_LIST_FOR_EACH_ENTRY', 'GPR_LIST_FOR_EACH_ENTRY_REVERSE']
 IndentCaseLabels: true
 IndentFunctionDeclarationAfterType: false
 IndentWidth: 4

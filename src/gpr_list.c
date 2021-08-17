@@ -88,7 +88,7 @@ enum GPR_Err gpr_list_push_back(struct gpr_list *new, struct gpr_list *head)
 #endif
 
     /* Add entry */
-    return list_add_entry(new, head, head->prev);
+    return list_add_entry(new, head->prev, head);
 }
 
 /******************************************************************************

@@ -76,7 +76,10 @@ const char *gpr_err_to_str(enum GPR_Err error)
     return Err_Array[error];
 }
 
-void gpr_err_allocate_cmpl_err(void) { Cmpl_Err_Msg = (char *)malloc(CMPL_ERR_MSG_LEN + 1); }
+void gpr_err_allocate_cmpl_err(void)
+{
+    Cmpl_Err_Msg = (char *)malloc(CMPL_ERR_MSG_LEN + 1);
+}
 
 void gpr_err_free_cmpl_err(void)
 {

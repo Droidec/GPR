@@ -117,7 +117,7 @@ enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock);
 
 /******************************************************************************
  *
- * \brief Initiate a connection on a GPR socket
+ * \brief Initiate a connection attempt with a GPR socket
  *
  * \param sock    GPR socket to use
  * \param addr    Peer address/hostname to connect to

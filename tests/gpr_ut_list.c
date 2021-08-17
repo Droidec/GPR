@@ -54,13 +54,41 @@ void print_student(struct student *st)
     printf("%s - %u\n", st->name, st->mark);
 }
 
+unsigned int insert_student_by_mark(struct student *st, struct gpr_list *list, unsigned int list_size)
+{
+    struct student *cur_student = NULL;
+
+    /* Specific case */
+    if (list_size == 0)
+    {
+        gpr_list_push_back(&st->head, list);
+        return list_size + 1;
+    }
+
+    /* Insert student */
+    GPR_LIST_FOR_EACH_ENTRY (cur_student, list, head)
+    {
+        // Insert student before student with a greater mark
+        if (cur_student->mark > st->mark)
+        {
+            gpr_list_push_back(&st->head, &cur_student->head);
+            return list_size + 1;
+        }
+    }
+
+    // We have the best mark
+    gpr_list_push_back(&st->head, list);
+
+    return list_size + 1;
+}
+
 int main()
 {
     GPR_ALLOC_ERR_MODULE
 
     struct student *cur_student = NULL;
-    struct gpr_list list;
-    gpr_list_init(&list);
+    struct gpr_list list = GPR_LIST_INIT(list);
+    unsigned int list_size = 0;
 
     /* New students */
     struct student *st0 = new_student("Valentin", 0);
@@ -70,17 +98,25 @@ int main()
     struct student *st4 = new_student("Sophie", 17);
     struct student *st5 = new_student("Dominique", 2);
 
-    /* Add students */
-    gpr_list_push_front(&st0->head, &list);
-    gpr_list_push_front(&st1->head, &list);
-    gpr_list_push_front(&st2->head, &list);
-    gpr_list_push_front(&st3->head, &list);
-    gpr_list_push_front(&st4->head, &list);
-    gpr_list_push_front(&st5->head, &list);
+    /* Insert students by mark (from worst to best) */
+    list_size = insert_student_by_mark(st0, &list, list_size);
+    list_size = insert_student_by_mark(st1, &list, list_size);
+    list_size = insert_student_by_mark(st2, &list, list_size);
+    list_size = insert_student_by_mark(st3, &list, list_size);
+    list_size = insert_student_by_mark(st4, &list, list_size);
+    list_size = insert_student_by_mark(st5, &list, list_size);
 
-    /* Print students */
-    GPR_LIST_FOR_EACH_ENTRY(cur_student, &list, head)
+    /* Print students by mark (from worst to best) */
+    GPR_LIST_FOR_EACH_ENTRY (cur_student, &list, head)
         print_student(cur_student);
+
+    puts("\n");
+
+    /* Print students by mark (from best to worst) */
+    GPR_LIST_FOR_EACH_ENTRY_REVERSE (cur_student, &list, head)
+    {
+        print_student(cur_student);
+    }
 
     /* Free students */
     free(st0);

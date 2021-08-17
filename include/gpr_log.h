@@ -10,7 +10,7 @@
  * - GPR_LOG_DEBUG (Highly detailed output for debug purpose)
  * - GPR_LOG_INFO (Informational messages)
  * - GPR_LOG_WARNING (Nothing serious but might indicate problems)
- * - GPR_LOG_ERR (An error occured but does not affect program)
+ * - GPR_LOG_ERROR (An error occured but does not affect program)
  * - GPR_LOG_CRITICAL (Something bad happened and need immediate attention)
  *
  * The default log level is INFO, it means that only log message at INFO level
@@ -65,7 +65,7 @@ enum GPR_Log
     GPR_LOG_ERROR,    ///< An error occured but does not affect program
     GPR_LOG_CRITICAL, ///< Something bad happened and need immediate attention
     GPR_LOG_NUMBERS,  ///< Number of log levels (DO NOT USE)
-    GPR_LOG_DEFAULT   ///< Can be used to not change default log level
+    GPR_LOG_DEFAULT   ///< Can be used to stay on default log level
 };
 
 /******************************************************************************

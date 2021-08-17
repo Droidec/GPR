@@ -195,7 +195,7 @@ static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *co
 
 /*****************************************************************************
  *
- * \brief Attempt to connect to peer by testing all network addressed stored
+ * \brief Attempt to connect to peer by testing all network addresses stored
  * inside the given GPR socket
  *
  * \param sock GPR socket to use
