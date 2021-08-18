@@ -58,7 +58,7 @@
  *     pointed by buffer is indeterminate
  *
  *****************************************************************************/
-size_t gpr_time_get_date_sec(char *const buffer);
+size_t gpr_time_get_date_sec(char * const buffer);
 
 /**
  * \brief Number of bytes needed for the \a gpr_time_get_date_sec function
@@ -84,7 +84,7 @@ size_t gpr_time_get_date_sec(char *const buffer);
  *     pointed by buffer is indeterminate
  *
  *****************************************************************************/
-size_t gpr_time_get_date_millisec(char *const buffer);
+size_t gpr_time_get_date_millisec(char * const buffer);
 
 /**
  * \brief Number of bytes needed for the \a gpr_time_get_date_millisec function

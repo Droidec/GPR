@@ -95,7 +95,7 @@ char *gpr_err_get_cmpl_err(void)
     return Cmpl_Err_Msg;
 }
 
-enum GPR_Err gpr_err_raise(enum GPR_Err err, const char *const fmt, ...)
+enum GPR_Err gpr_err_raise(enum GPR_Err err, const char * const fmt, ...)
 {
     va_list list;
 

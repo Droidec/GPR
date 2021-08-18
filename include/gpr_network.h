@@ -130,7 +130,7 @@ enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock);
  *     GPR_ERR_NETWORK_ERROR: A network error occured
  *
  *****************************************************************************/
-enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *const addr, const char *const service);
+enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char * const addr, const char * const service);
 
 // ssize_t gpr_net_recv();
 // ssize_t gpr_net_send();

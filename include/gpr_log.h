@@ -139,7 +139,7 @@ const char *gpr_log_level_to_str(enum GPR_Log level);
  *     nothing is written to the standard output
  *
  *****************************************************************************/
-ssize_t gpr_log_msg(enum GPR_Log level, const char *const file, const int line, const char *const func, const char *const fmt, ...)
+ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line, const char * const func, const char * const fmt, ...)
     __attribute__((format(printf, 5, 6)));
 
 /**

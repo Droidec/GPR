@@ -126,6 +126,6 @@ char *gpr_err_get_cmpl_err(void);
  *     The GPR error specified in parameter
  *
  *****************************************************************************/
-enum GPR_Err gpr_err_raise(enum GPR_Err err, const char *const fmt, ...) __attribute__((format(printf, 2, 3)));
+enum GPR_Err gpr_err_raise(enum GPR_Err err, const char * const fmt, ...) __attribute__((format(printf, 2, 3)));
 
 #endif /* H_GPR_ERR */

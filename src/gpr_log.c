@@ -91,7 +91,7 @@ const char *gpr_log_level_to_str(enum GPR_Log level)
     return p_log_array[level];
 }
 
-ssize_t gpr_log_msg(enum GPR_Log level, const char *const file, const int line, const char *const func, const char *const fmt, ...)
+ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line, const char * const func, const char * const fmt, ...)
 {
     va_list list;
     int hdr_length;
