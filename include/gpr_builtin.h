@@ -55,21 +55,6 @@
  */
 #define UNLIKELY(x) __builtin_expect((x), 0)
 
-/**
- * \brief Cast a member of a structure out to the containing structure
- *
- * \param ptr    Pointer to the member
- * \param type   Type of the container structure this is embedded in
- * \param member Name of the member within this structure
- */
-// clang-format off
-#define CONTAINER_OF(ptr, type, member)                    \
-    ({                                                     \
-        const typeof(((type *)0)->member) *__mptr = (ptr); \
-        (type *)((char *)__mptr - offsetof(type, member)); \
-    })
-// clang-format on
-
 /******************************************************************************
  *
  * \brief Format a string according to a list and place it in a buffer

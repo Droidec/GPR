@@ -14,7 +14,12 @@ ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
 DerivePointerBinding: false
 ExperimentalAutoDetectBinPacking: false
-ForEachMacros: ['GPR_LIST_FOR_EACH', 'GPR_LIST_FOR_EACH_ENTRY', 'GPR_LIST_FOR_EACH_ENTRY_REVERSE']
+ForEachMacros:
+- 'GPR_KLIST_FOR_EACH'
+- 'GPR_KLIST_FOR_EACH_ENTRY'
+- 'GPR_KLIST_FOR_EACH_ENTRY_REVERSE'
+- 'GPR_KLIST_FOR_EACH_ENTRY_SAFE'
+- 'GPR_KLIST_FOR_EACH_ENTRY_REVERSE_SAFE'
 IndentCaseLabels: true
 IndentFunctionDeclarationAfterType: false
 IndentWidth: 4

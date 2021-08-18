@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * \file gpr_dlklist.c
- * \brief Double linked list module
+ * \brief Doubly linked list module
  *
  ******************************************************************************
  *
@@ -561,10 +561,10 @@ static void free_node(struct gpr_dlknode *node, void (*data_free)())
 
 /******************************************************************************
  *
- * \brief Search by dichotomy the node at the requestsed position in a double
+ * \brief Search by dichotomy the node at the requestsed position in a doubly
  * linked list
  *
- * \param list Double linked list where to search for a node
+ * \param list Doubly linked list where to search for a node
  * \param pos  Position of the node (Starting from 0)
  *
  * \return
