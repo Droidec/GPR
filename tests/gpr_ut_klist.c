@@ -94,8 +94,10 @@ int main()
 
     struct student *cur_student = NULL;
     struct student *tmp_student = NULL;
+    struct student *worst_student = NULL;
     struct gpr_klist list = GPR_KLIST_INIT(list);
     unsigned int list_size = 0;
+    enum GPR_Err err;
 
     /* New students */
     struct student *st0 = new_student("Valentin", 0);
@@ -121,6 +123,17 @@ int main()
     /* Print students by mark (from best to worst) */
     printf("\n---Students (From best to worst)---\n");
     GPR_KLIST_FOR_EACH_ENTRY_REVERSE (cur_student, &list, head)
+        print_student(cur_student);
+
+    /* Delete worst student */
+    worst_student = GPR_KLIST_ENTRY(list.next, struct student, head);
+    free_student(worst_student);
+    err = gpr_klist_delete(list.next);
+    assert(err == GPR_ERR_OK);
+
+    /* Print students */
+    printf("\n---Students (Deleted worst one)---\n");
+    GPR_KLIST_FOR_EACH_ENTRY (cur_student, &list, head)
         print_student(cur_student);
 
     /* Free students */

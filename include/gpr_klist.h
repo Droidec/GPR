@@ -1,13 +1,14 @@
 /******************************************************************************
  *
  * \file gpr_klist.h
- * \brief Circular doubly linked list kernel-like module
+ * \brief Linux Kernel linked list module
  * \details
  * This module defines a generic circular doubly linked list inspired by
  * the Linux Kernel\n
  * To use such a list, one need to declare the list inside of the structure
- * to chain. Entries can then be chained together and be accessed with a
- * little trick hide behind some macros.
+ * to chain.\n
+ * Entries can then be chained together and accessed with a little trick hide
+ * behind some macros.
  *
  * \verbatim
  *
@@ -26,8 +27,6 @@
  *    └──────────────────────────────────────────────┘
  *
  * \endverbatim
- *
- * --- /!\ WORK IN PROGRESS /!\ ---
  *
  ******************************************************************************
  *
@@ -126,6 +125,9 @@ static inline void gpr_klist_init(struct gpr_klist *list)
  *
  * \brief Add a new entry according to previous and next entry
  *
+ * \note This is only only for internal list manipulation. Don't use it
+ * directly
+ *
  * \param new  New entry to be added
  * \param prev Previous entry of the new one
  * \param next Next entry of the new one
@@ -133,7 +135,7 @@ static inline void gpr_klist_init(struct gpr_klist *list)
  * \return
  *     GPR_ERR_OK: The entry has correctly been added\n
  *     GPR_ERR_INVALID_PARAMETER: The new entry is NULL, the previous entry is
- *     NULL or the next entry is NULL (DEBUG mode only)\n
+ *     NULL or the next entry is NULL (DEBUG mode only)
  *
  *****************************************************************************/
 static inline enum GPR_Err __list_add_entry(struct gpr_klist *new, struct gpr_klist *prev, struct gpr_klist *next)
@@ -160,6 +162,39 @@ static inline enum GPR_Err __list_add_entry(struct gpr_klist *new, struct gpr_kl
 
 /******************************************************************************
  *
+ * \brief Delete an entry by making the prev/next entries point to each other
+ *
+ * \note This is only only for internal list manipulation. Don't use it
+ * directly
+ *
+ * \param prev Previous entry to join
+ * \param next Next entry to join
+ *
+ * \return
+ *     GPR_ERR_OK: The entry has correctly been deleted\n
+ *     GPR_ERR_INVALID_PARAMETER: The previous entry is NULL or the next entry
+ *     is NULL (DEBUG mode only)
+ *
+ *****************************************************************************/
+static inline enum GPR_Err __list_del_entry(struct gpr_klist *prev, struct gpr_klist *next)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (prev == NULL)
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid previous entry");
+
+    if (next == NULL)
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid next entry");
+#endif
+
+    next->prev = prev;
+    prev->next = next;
+
+    return gpr_err_raise(GPR_ERR_OK, NULL);
+}
+
+/******************************************************************************
+ *
  * \brief Add a new entry after the specified head
  *
  * \note Useful to implement stacks (LIFO)
@@ -170,7 +205,7 @@ static inline enum GPR_Err __list_add_entry(struct gpr_klist *new, struct gpr_kl
  * \return
  *     GPR_ERR_OK: The entry has correctly been added\n
  *     GPR_ERR_INVALID_PARAMETER: The new entry is NULL or the list entry is
- *     NULL (DEBUG mode only)\n
+ *     NULL (DEBUG mode only)
  *
  *****************************************************************************/
 static inline enum GPR_Err gpr_klist_push_front(struct gpr_klist *new, struct gpr_klist *head)
@@ -200,7 +235,7 @@ static inline enum GPR_Err gpr_klist_push_front(struct gpr_klist *new, struct gp
  * \return
  *     GPR_ERR_OK: The entry has correctly been added\n
  *     GPR_ERR_INVALID_PARAMETER: The new entry is NULL or the list entry is
- *     NULL (DEBUG mode only)\n
+ *     NULL (DEBUG mode only)
  *
  *****************************************************************************/
 static inline enum GPR_Err gpr_klist_push_back(struct gpr_klist *new, struct gpr_klist *head)
@@ -216,6 +251,35 @@ static inline enum GPR_Err gpr_klist_push_back(struct gpr_klist *new, struct gpr
 
     /* Add entry */
     return __list_add_entry(new, head->prev, head);
+}
+
+/******************************************************************************
+ *
+ * \brief Delete an entry from a list
+ *
+ * \note The deleted entry will not be freed
+ *
+ * \param entry Entry to delete
+ *
+ * \return
+ *     GPR_ERR_OK: The entry has correctly been deleted\n
+ *     GPR_ERR_INVALID_PARAMETER: The entry is NULL (DEBUG mode only)
+ *
+ *****************************************************************************/
+static inline enum GPR_Err gpr_klist_delete(struct gpr_klist *entry)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (entry == NULL)
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid entry");
+#endif
+
+    /* Delete entry */
+    __list_del_entry(entry->prev, entry->next);
+    entry->prev = NULL;
+    entry->next = NULL;
+
+    return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
 /**
