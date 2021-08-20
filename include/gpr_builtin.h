@@ -55,6 +55,11 @@
  */
 #define UNLIKELY(x) __builtin_expect((x), 0)
 
+/**
+ * \brief Get the number of elements in an array
+ */
+#define ARRAY_SIZE(x) (sizeof(x) / sizeof(x)[0])
+
 /******************************************************************************
  *
  * \brief Format a string according to a list and place it in a buffer
