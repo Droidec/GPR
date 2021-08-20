@@ -3,12 +3,31 @@
  * \file gpr_klist.h
  * \brief Circular doubly linked list kernel-like module
  * \details
- * This module defines a generic circular doubly linked list found inside the
- * Linux Kernel
- * --- /!\ WORK IN PROGRESS /!\ ---
+ * This module defines a generic circular doubly linked list inspired by
+ * the Linux Kernel\n
+ * To use such a list, one need to declare the list inside of the structure
+ * to chain. Entries can then be chained together and be accessed with a
+ * little trick hide behind some macros.
  *
- * // TODO : Actual implementation in not thread safe
- * // TODO : Implementation is platform specific
+ * \verbatim
+ *
+ *    ┌──────────────────────────────────────────────┐
+ *    │              ┌────────┐  ┌────────┐          │
+ *    │              │ Entry  │  │ Entry  │          │
+ *    │              │        │  │        │          │
+ *    │              │        │  │        │          │
+ *    │              │        │  │        │          │
+ *    │   ┌──────┐   │┌──────┐│  │┌──────┐│          │
+ *    ├───> list <────> head <────> head <──── [...] ┤
+ *    │   └──────┘   │└──────┘│  │└──────┘│          │
+ *    │              │        │  │        │          │
+ *    │              │        │  │        │          │
+ *    │              └────────┘  └────────┘          │
+ *    └──────────────────────────────────────────────┘
+ *
+ * \endverbatim
+ *
+ * --- /!\ WORK IN PROGRESS /!\ ---
  *
  ******************************************************************************
  *
@@ -76,7 +95,7 @@ struct gpr_klist
 // clang-format on
 
 /**
- * \brief Initialize a GPR circular doubly linked list (at runtime)
+ * \brief Initialize a circular doubly linked list (at runtime)
  */
 #define GPR_KLIST_INIT(name) \
     {                        \
@@ -85,9 +104,9 @@ struct gpr_klist
 
 /******************************************************************************
  *
- * \brief Initialize a GPR circular doubly linked list (at compile time)
+ * \brief Initialize a circular doubly linked list (at compile time)
  *
- * \param list GPR circular doubly linked list to initialize
+ * \param list circular doubly linked list to initialize
  *
  *****************************************************************************/
 static inline void gpr_klist_init(struct gpr_klist *list)
@@ -249,6 +268,14 @@ static inline enum GPR_Err gpr_klist_push_back(struct gpr_klist *new, struct gpr
  * \param head Head of the list
  */
 #define GPR_KLIST_FOR_EACH(pos, head) for (pos = (head)->next; pos != (head); pos = pos->next)
+
+/**
+ * \brief Iterate backwards over a list
+ *
+ * \param pos  Entry pointer to use as a loop cursor
+ * \param head Head of the list
+ */
+#define GPR_KLIST_FOR_EACH_REVERSE(pos, head) for (pos = (head)->prev; pos != (head); pos = pos->prev)
 
 /**
  * \brief Test if the entry points to the head of the list

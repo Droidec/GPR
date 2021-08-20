@@ -5,7 +5,8 @@
  * \details
  * This module defines a generic doubly linked list composed of nodes\n
  * The list keeps a pointer on the first node and the last node\n
- * Each node has a pointer to the previous one and the next one
+ * Each node has a pointer to the previous one and the next one\n
+ * Data can be accessed through each node
  *
  * \verbatim
  *
@@ -13,8 +14,9 @@
  *        │ head size(2) tail │
  *        └──┼────────────┼───┘
  *        ┌──┼───┐     ┌──┼───┐
- * NULL <─┼ node ┼─────┼ node ┼─> NULL
+ * NULL <─> node <─────> node <─> NULL
  *        └──┼───┘     └──┼───┘
+ *           v            v
  *          data         data
  *
  * \endverbatim
@@ -63,7 +65,7 @@
  */
 struct gpr_dlknode
 {
-    void *data;               ///< Pointed data
+    void *data;               ///< Pointed data (entry)
     struct gpr_dlknode *prev; ///< Previous node
     struct gpr_dlknode *next; ///< Next node
 };
@@ -345,7 +347,7 @@ struct gpr_dlknode *gpr_dlklist_get_tail(const struct gpr_dlklist *list);
 
 /******************************************************************************
  *
- * \brief Check if a node contain data
+ * \brief Check if a node contains data
  *
  * \param node Node you want to check
  *
@@ -394,5 +396,69 @@ struct gpr_dlknode *gpr_dlklist_node_prev(const struct gpr_dlknode *node);
  *
  *****************************************************************************/
 struct gpr_dlknode *gpr_dlklist_node_next(const struct gpr_dlknode *node);
+
+/**
+ * \brief Iterate over a list
+ *
+ * \param node Node to use as a loop cursor
+ * \param list List to loop on
+ */
+#define GPR_DLKLIST_FOR_EACH(node, list) \
+    for (node = gpr_dlklist_get_head(list); gpr_dlklist_node_has_data(node); node = gpr_dlklist_node_next(node))
+
+/**
+ * \brief Iterate backwards over a list
+ *
+ * \param node Node to use as a loop cursor
+ * \param list List to loop on
+ */
+#define GPR_DLKLIST_FOR_EACH_REVERSE(node, list) \
+    for (node = gpr_dlklist_get_tail(list); gpr_dlklist_node_has_data(node); node = gpr_dlklist_node_prev(node))
+
+/**
+ * \brief Iterate over data of a list
+ *
+ * \param node Node to use as a loop cursor
+ * \param list List to loop on
+ * \param data Data pointer to set
+ */
+#define GPR_DLKLIST_FOR_EACH_ENTRY(node, list, data)                                                             \
+    for (node = gpr_dlklist_get_head(list), data = gpr_dlklist_node_data(node); gpr_dlklist_node_has_data(node); \
+         node = gpr_dlklist_node_next(node), data = gpr_dlklist_node_data(node))
+
+/**
+ * \brief Iterate over data of a list, safe against removal of list entry
+ *
+ * \param node Node to use as a loop cursor
+ * \param tmp  Temporary node to use as a temporary storage
+ * \param list List to loop on
+ * \param data Data pointer to set
+ */
+#define GPR_DLKLIST_FOR_EACH_ENTRY_SAFE(node, tmp, list, data)                                                     \
+    for (node = gpr_dlklist_get_head(list), data = gpr_dlklist_node_data(node), tmp = gpr_dlklist_node_next(node); \
+         gpr_dlklist_node_has_data(node); node = tmp, data = gpr_dlklist_node_data(node), tmp = gpr_dlklist_node_next(node))
+
+/**
+ * \brief Iterate backwards over data of a list
+ *
+ * \param node Node to use as a loop cursor
+ * \param list List to loop on
+ * \param data Data pointer to set
+ */
+#define GPR_DLKLIST_FOR_EACH_ENTRY_REVERSE(node, list, data)                                                     \
+    for (node = gpr_dlklist_get_tail(list), data = gpr_dlklist_node_data(node); gpr_dlklist_node_has_data(node); \
+         node = gpr_dlklist_node_prev(node), data = gpr_dlklist_node_data(node))
+
+/**
+ * \brief Iterate backwards over data of a list, safe against removal of list entry
+ *
+ * \param node Node to use as a loop cursor
+ * \param tmp  Temporary node to use as a temporary storage
+ * \param list List to loop on
+ * \param data Data pointer to set
+ */
+#define GPR_DLKLIST_FOR_EACH_ENTRY_REVERSE_SAFE(node, tmp, list, data)                                             \
+    for (node = gpr_dlklist_get_tail(list), data = gpr_dlklist_node_data(node), tmp = gpr_dlklist_node_prev(node); \
+         gpr_dlklist_node_has_data(node); node = tmp, data = gpr_dlklist_node_data(node), tmp = gpr_dlklist_node_prev(node))
 
 #endif /* H_GPR_DLKLIST */

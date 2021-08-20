@@ -123,7 +123,11 @@ int main()
     struct student *st6 = new_student("Caroline", 1);
     err = gpr_dlklist_replace(list, free_student, st6, 1);
     assert(err == GPR_ERR_OK);
-    gpr_dlklist_map(list, print_student);
+
+    /* Display list */
+    struct student *st = NULL;
+    GPR_DLKLIST_FOR_EACH_ENTRY (node, list, st)
+        print_student(st);
 
     /* Free list */
     gpr_dlklist_free(list, free_student);
