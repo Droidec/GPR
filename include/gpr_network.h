@@ -45,8 +45,7 @@
 
 #include "gpr_err.h"
 
-#include <sys/socket.h> // socket
-#include <netdb.h>      // getaddrinfo
+#include <netdb.h> // getaddrinfo
 
 /**
  * \brief GPR sockets statuses showing network progression
@@ -73,7 +72,7 @@ struct gpr_socket
 
 /******************************************************************************
  *
- * \brief Create a GPR socket used for communication
+ * \brief Allocate and initialize a new GPR socket used for communication
  *
  * \note For more information about parameters, please consult getaddrinfo()
  * manual
@@ -88,7 +87,20 @@ struct gpr_socket
  *     On failure, return NULL. This can occur if allocation failed
  *
  *****************************************************************************/
-struct gpr_socket *gpr_net_create_socket(int domain, int type, int protocol, int flags);
+struct gpr_socket *gpr_net_new_socket(int domain, int type, int protocol, int flags);
+
+/******************************************************************************
+ *
+ * \brief Initialize a GPR socket used for communication
+ *
+ * \param sock     GPR socket to initialize
+ * \param domain   Address family (AF_INET, AF_INET6)
+ * \param type     Socket type (SOCK_STREAM, SOCK_DGRAM) (Can be 0)
+ * \param protocol Socket address protocol (Can be 0)
+ * \param flags    Additional flags (Can be 0)
+ *
+ *****************************************************************************/
+void gpr_net_init_socket(struct gpr_socket *sock, int domain, int type, int protocol, int flags);
 
 /******************************************************************************
  *
@@ -105,7 +117,7 @@ enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock);
 
 /******************************************************************************
  *
- * \brief Initiate a connection on a GPR socket
+ * \brief Initiate a connection attempt with a GPR socket
  *
  * \param sock    GPR socket to use
  * \param addr    Peer address/hostname to connect to
@@ -118,7 +130,7 @@ enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock);
  *     GPR_ERR_NETWORK_ERROR: A network error occured
  *
  *****************************************************************************/
-enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *const addr, const char *const service);
+enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char * const addr, const char * const service);
 
 // ssize_t gpr_net_recv();
 // ssize_t gpr_net_send();

@@ -1,6 +1,17 @@
 CHANGELOG
 =========
 
+Version 0.0.18
+--------------
+* Alpha version
+    - Add compilation flags
+    - Update models
+    - Update development rules
+    - Introduce gpr_klist module for Linux Kernel linked list
+    - Add macros to gpr_dlklist module
+    - Add macros to gpr_err module
+    - Add CREDITS file
+
 Version 0.0.17
 --------------
 * Alpha version

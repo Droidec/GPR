@@ -41,6 +41,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <stddef.h> // offsetof
 
 /**
  * \brief Optimize branch prediction \a x in favour of a "likely" side jump
@@ -53,6 +54,11 @@
  * instruction
  */
 #define UNLIKELY(x) __builtin_expect((x), 0)
+
+/**
+ * \brief Get the number of elements in an array
+ */
+#define ARRAY_SIZE(x) (sizeof(x) / sizeof(x)[0])
 
 /******************************************************************************
  *

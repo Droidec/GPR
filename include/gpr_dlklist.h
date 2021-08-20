@@ -1,11 +1,12 @@
 /******************************************************************************
  *
  * \file gpr_dlklist.h
- * \brief Double linked list module
+ * \brief Doubly linked list module
  * \details
- * This module defines a generic double linked list composed of nodes\n
+ * This module defines a generic doubly linked list composed of nodes\n
  * The list keeps a pointer on the first node and the last node\n
- * Each node has a pointer to the previous one and the next one
+ * Each node has a pointer to the previous one and the next one\n
+ * Data can be accessed through each node
  *
  * \verbatim
  *
@@ -13,8 +14,9 @@
  *        │ head size(2) tail │
  *        └──┼────────────┼───┘
  *        ┌──┼───┐     ┌──┼───┐
- * NULL <─┼ node ┼─────┼ node ┼─> NULL
+ * NULL <─> node <─────> node <─> NULL
  *        └──┼───┘     └──┼───┘
+ *           v            v
  *          data         data
  *
  * \endverbatim
@@ -59,17 +61,17 @@
 #include <stdbool.h> // WARN: Not portable
 
 /**
- * \brief Double linked list component structure
+ * \brief Doubly linked list component structure
  */
 struct gpr_dlknode
 {
-    void *data;               ///< Pointed data
+    void *data;               ///< Pointed data (entry)
     struct gpr_dlknode *prev; ///< Previous node
     struct gpr_dlknode *next; ///< Next node
 };
 
 /**
- * \brief Double linked list structure
+ * \brief Doubly linked list structure
  */
 struct gpr_dlklist
 {
@@ -78,32 +80,33 @@ struct gpr_dlklist
     struct gpr_dlknode *tail; ///< Tail of the list (Last node)
 };
 
-/*-----------------------------------------------------------------------------
- | Allocation
- ----------------------------------------------------------------------------*/
-
 /******************************************************************************
  *
- * \brief Create a new double linked list
+ * \brief Allocate and initialize a new doubly linked list
  *
  * \return
- *     On success, return a pointer to the double linked list\n
+ *     On success, return a pointer to the doubly linked list\n
  *     On failure, return NULL
  *
  *****************************************************************************/
-struct gpr_dlklist *gpr_dlklist_create(void);
-
-/*-----------------------------------------------------------------------------
- | Deallocation
- ----------------------------------------------------------------------------*/
+struct gpr_dlklist *gpr_dlklist_new(void);
 
 /******************************************************************************
  *
- * \brief Reset a double linked list (Free all its nodes)
+ * \brief Initialize a doubly linked list
+ *
+ * \param list Doubly linked list to initialize
+ *
+ *****************************************************************************/
+void gpr_dlklist_init(struct gpr_dlklist *list);
+
+/******************************************************************************
+ *
+ * \brief Reset a doubly linked list (Free all its nodes)
  *
  * \note The callback function must deal with a void * (node data)
  *
- * \param list      Double linked list where to free nodes
+ * \param list      Doubly linked list where to free nodes
  * \param data_free Callback function that will be called to free data of
  *                  each node (Can be NULL)
  *
@@ -112,26 +115,22 @@ void gpr_dlklist_reset(struct gpr_dlklist *list, void (*data_free)());
 
 /******************************************************************************
  *
- * \brief Free a double linked list and all its nodes
+ * \brief Free a doubly linked list and all its nodes
  *
  * \note The callback function must deal with a void * (node data)
  *
- * \param list      Double linked list to free
+ * \param list      Doubly linked list to free
  * \param data_free Callback function that will be called to free data of
  *                  each node (Can be NULL)
  *
  *****************************************************************************/
 void gpr_dlklist_free(struct gpr_dlklist *list, void (*data_free)());
 
-/*-----------------------------------------------------------------------------
- | Manipulation
- ----------------------------------------------------------------------------*/
-
 /******************************************************************************
  *
- * \brief Add a new node at the beginning of a double linked list
+ * \brief Add a new node at the beginning of a doubly linked list
  *
- * \param list Double linked list where to add a new node at the beginning
+ * \param list Doubly linked list where to add a new node at the beginning
  * \param data Data to point to for the new node
  *
  * \return
@@ -145,9 +144,9 @@ enum GPR_Err gpr_dlklist_push_front(struct gpr_dlklist *list, void *data);
 
 /******************************************************************************
  *
- * \brief Add a new node at the end of a double linked list
+ * \brief Add a new node at the end of a doubly linked list
  *
- * \param list Double linked list where to add a new node at the end
+ * \param list Doubly linked list where to add a new node at the end
  * \param data Data to point to for the new node
  *
  * \return
@@ -161,9 +160,9 @@ enum GPR_Err gpr_dlklist_push_back(struct gpr_dlklist *list, void *data);
 
 /******************************************************************************
  *
- * \brief Add a new node at the requested position in a double linked list
+ * \brief Add a new node at the requested position in a doubly linked list
  *
- * \param list Double linked list where to add a new node
+ * \param list Doubly linked list where to add a new node
  * \param data Data to point to for the new node
  * \param pos  Position of the new node (starting at 0)
  *
@@ -179,11 +178,11 @@ enum GPR_Err gpr_dlklist_insert(struct gpr_dlklist *list, void *data, size_t pos
 
 /******************************************************************************
  *
- * \brief Remove the first node of a double linked list
+ * \brief Remove the first node of a doubly linked list
  *
  * \note The callback function must deal with a void * (node data)
  *
- * \param list      Double linked list where to remove the first node
+ * \param list      Doubly linked list where to remove the first node
  * \param data_free Callback function that will be called to free data of the
  *                  node (Can be NULL)
  *
@@ -197,11 +196,11 @@ enum GPR_Err gpr_dlklist_pop_front(struct gpr_dlklist *list, void (*data_free)()
 
 /******************************************************************************
  *
- * \brief Remove the last node of a double linked list
+ * \brief Remove the last node of a doubly linked list
  *
  * \note The callback function must deal with a void * (node data)
  *
- * \param list      Double linked list where to remove the last node
+ * \param list      Doubly linked list where to remove the last node
  * \param data_free Callback function that will be called to free data of the
  *                  node (Can be NULL)
  *
@@ -215,11 +214,11 @@ enum GPR_Err gpr_dlklist_pop_back(struct gpr_dlklist *list, void (*data_free)())
 
 /******************************************************************************
  *
- * \brief Remove a node at the requested position in a double linked list
+ * \brief Remove a node at the requested position in a doubly linked list
  *
  * \note The callback function must deal with a void * (node data)
  *
- * \param list      Double linked list where to remove a node
+ * \param list      Doubly linked list where to remove a node
  * \param data_free Callback function that will be called to free data of the
  *                  node (Can be NULL)
  * \param pos       Position of the node (starting at 0)
@@ -237,11 +236,11 @@ enum GPR_Err gpr_dlklist_remove(struct gpr_dlklist *list, void (*data_free)(), s
 /******************************************************************************
  *
  * \brief Replace the data pointed by a node at the requested position in a
- * double linked list
+ * doubly linked list
  *
  * \note The callback function must deal with a void * (node data)
  *
- * \param list      Double linked list where to replace the data pointed by a
+ * \param list      Doubly linked list where to replace the data pointed by a
  *                  node
  * \param data_free Callback function that will be called to free the previous
  *                  data of the node (Can be NULL)
@@ -260,30 +259,26 @@ enum GPR_Err gpr_dlklist_replace(struct gpr_dlklist *list, void (*data_free)(), 
 
 /******************************************************************************
  *
- * \brief Map an action on the data of each node contained in a double linked
+ * \brief Map an action on the data of each node contained in a doubly linked
  * list
  *
  * \note The callback function must deal with a void * (node data)
  *
- * \param list     Double linked list where to map an action
+ * \param list     Doubly linked list where to map an action
  * \param data_map Callback function that will be called to map an action
  *                 on the data of each node
  *
  *****************************************************************************/
 void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)());
 
-/*-----------------------------------------------------------------------------
- | Accessor
- ----------------------------------------------------------------------------*/
-
 /******************************************************************************
  *
  * \brief Search for a node according to the callback function return state in
- * a double linked list
+ * a doubly linked list
  *
  * \note The callback function must deal with two void * (node data, context)
  *
- * \param list        Double linked list where to search for a node
+ * \param list        Doubly linked list where to search for a node
  * \param data_search Callback function that will be called to search for a
  *                    node
  * \param ctx         Context that will be given as a parameter to the
@@ -293,19 +288,19 @@ void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)());
  * \return
  *     If the callback function returns true, the current node is returned
  *     with an update of the position variable if possible\n
- *     Return NULL if the end of the double linked list is reached
+ *     Return NULL if the end of the doubly linked list is reached
  *
  *****************************************************************************/
 struct gpr_dlknode *gpr_dlklist_search(const struct gpr_dlklist *list, bool (*data_search)(), const void *ctx, size_t *pos);
 
 /******************************************************************************
  *
- * \brief Check if a double linked list is empty
+ * \brief Check if a doubly linked list is empty
  *
- * \param list Double linked list to check
+ * \param list Doubly linked list to check
  *
  * \return
- *     True if the double linked list is empty or not allocated\n
+ *     True if the doubly linked list is empty or not allocated\n
  *     False otherwise
  *
  *****************************************************************************/
@@ -313,12 +308,12 @@ bool gpr_dlklist_is_empty(const struct gpr_dlklist *list);
 
 /******************************************************************************
  *
- * \brief Get the size of a double linked list (its number of nodes)
+ * \brief Get the size of a doubly linked list (its number of nodes)
  *
- * \param list Double linked list you want the size of
+ * \param list Doubly linked list you want the size of
  *
  * \return
- *     The double linked list size if allocated\n
+ *     The doubly linked list size if allocated\n
  *     Zero otherwise
  *
  *****************************************************************************/
@@ -326,12 +321,12 @@ size_t gpr_dlklist_get_size(const struct gpr_dlklist *list);
 
 /******************************************************************************
  *
- * \brief Get the head of a double linked list
+ * \brief Get the head of a doubly linked list
  *
- * \param list Double linked list you want the head of
+ * \param list Doubly linked list you want the head of
  *
  * \return
- *     The double linked list head if allocated\n
+ *     The doubly linked list head if allocated\n
  *     NULL otherwise
  *
  *****************************************************************************/
@@ -339,12 +334,12 @@ struct gpr_dlknode *gpr_dlklist_get_head(const struct gpr_dlklist *list);
 
 /******************************************************************************
  *
- * \brief Get the tail of a double linked list
+ * \brief Get the tail of a doubly linked list
  *
- * \param list Double linked list you want the tail of
+ * \param list Doubly linked list you want the tail of
  *
  * \return
- *     The double linked list tail if allocated\n
+ *     The doubly linked list tail if allocated\n
  *     NULL otherwise
  *
  *****************************************************************************/
@@ -352,7 +347,7 @@ struct gpr_dlknode *gpr_dlklist_get_tail(const struct gpr_dlklist *list);
 
 /******************************************************************************
  *
- * \brief Check if a node contain data
+ * \brief Check if a node contains data
  *
  * \param node Node you want to check
  *
@@ -401,5 +396,69 @@ struct gpr_dlknode *gpr_dlklist_node_prev(const struct gpr_dlknode *node);
  *
  *****************************************************************************/
 struct gpr_dlknode *gpr_dlklist_node_next(const struct gpr_dlknode *node);
+
+/**
+ * \brief Iterate over a list
+ *
+ * \param node Node to use as a loop cursor
+ * \param list List to loop on
+ */
+#define GPR_DLKLIST_FOR_EACH(node, list) \
+    for (node = gpr_dlklist_get_head(list); gpr_dlklist_node_has_data(node); node = gpr_dlklist_node_next(node))
+
+/**
+ * \brief Iterate backwards over a list
+ *
+ * \param node Node to use as a loop cursor
+ * \param list List to loop on
+ */
+#define GPR_DLKLIST_FOR_EACH_REVERSE(node, list) \
+    for (node = gpr_dlklist_get_tail(list); gpr_dlklist_node_has_data(node); node = gpr_dlklist_node_prev(node))
+
+/**
+ * \brief Iterate over data of a list
+ *
+ * \param node Node to use as a loop cursor
+ * \param list List to loop on
+ * \param data Data pointer to set
+ */
+#define GPR_DLKLIST_FOR_EACH_ENTRY(node, list, data)                                                             \
+    for (node = gpr_dlklist_get_head(list), data = gpr_dlklist_node_data(node); gpr_dlklist_node_has_data(node); \
+         node = gpr_dlklist_node_next(node), data = gpr_dlklist_node_data(node))
+
+/**
+ * \brief Iterate over data of a list, safe against removal of list entry
+ *
+ * \param node Node to use as a loop cursor
+ * \param tmp  Temporary node to use as a temporary storage
+ * \param list List to loop on
+ * \param data Data pointer to set
+ */
+#define GPR_DLKLIST_FOR_EACH_ENTRY_SAFE(node, tmp, list, data)                                                     \
+    for (node = gpr_dlklist_get_head(list), data = gpr_dlklist_node_data(node), tmp = gpr_dlklist_node_next(node); \
+         gpr_dlklist_node_has_data(node); node = tmp, data = gpr_dlklist_node_data(node), tmp = gpr_dlklist_node_next(node))
+
+/**
+ * \brief Iterate backwards over data of a list
+ *
+ * \param node Node to use as a loop cursor
+ * \param list List to loop on
+ * \param data Data pointer to set
+ */
+#define GPR_DLKLIST_FOR_EACH_ENTRY_REVERSE(node, list, data)                                                     \
+    for (node = gpr_dlklist_get_tail(list), data = gpr_dlklist_node_data(node); gpr_dlklist_node_has_data(node); \
+         node = gpr_dlklist_node_prev(node), data = gpr_dlklist_node_data(node))
+
+/**
+ * \brief Iterate backwards over data of a list, safe against removal of list entry
+ *
+ * \param node Node to use as a loop cursor
+ * \param tmp  Temporary node to use as a temporary storage
+ * \param list List to loop on
+ * \param data Data pointer to set
+ */
+#define GPR_DLKLIST_FOR_EACH_ENTRY_REVERSE_SAFE(node, tmp, list, data)                                             \
+    for (node = gpr_dlklist_get_tail(list), data = gpr_dlklist_node_data(node), tmp = gpr_dlklist_node_prev(node); \
+         gpr_dlklist_node_has_data(node); node = tmp, data = gpr_dlklist_node_data(node), tmp = gpr_dlklist_node_prev(node))
 
 #endif /* H_GPR_DLKLIST */

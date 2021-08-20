@@ -45,6 +45,9 @@ add_library(GPR_static STATIC ${SOURCES})
 target_include_directories(GPR_static PUBLIC ${INC_REP})
 target_compile_options(GPR_static PRIVATE -Wall -Wextra -Werror -O3)
 
+# Add compilation flags
+add_compile_options(-Wall -Wextra -Werror -O3)
+
 # Add debug flags
 if (${CMAKE_BUILD_TYPE} MATCHES DEBUG)
     target_compile_options(GPR PRIVATE -g -DDEBUG)

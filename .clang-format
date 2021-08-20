@@ -1,6 +1,7 @@
 AlignEscapedNewlines: Left
 AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakBeforeMultilineStrings: false
@@ -13,6 +14,19 @@ ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
 DerivePointerBinding: false
 ExperimentalAutoDetectBinPacking: false
+ForEachMacros:
+- 'GPR_DLKLIST_FOR_EACH'
+- 'GPR_DLKLIST_FOR_EACH_REVERSE'
+- 'GPR_DLKLIST_FOR_EACH_ENTRY'
+- 'GPR_DLKLIST_FOR_EACH_ENTRY_SAFE'
+- 'GPR_DLKLIST_FOR_EACH_ENTRY_REVERSE'
+- 'GPR_DLKLIST_FOR_EACH_ENTRY_REVERSE_SAFE'
+- 'GPR_KLIST_FOR_EACH'
+- 'GPR_KLIST_FOR_EACH_REVERSE'
+- 'GPR_KLIST_FOR_EACH_ENTRY'
+- 'GPR_KLIST_FOR_EACH_ENTRY_SAFE'
+- 'GPR_KLIST_FOR_EACH_ENTRY_REVERSE'
+- 'GPR_KLIST_FOR_EACH_ENTRY_REVERSE_SAFE'
 IndentCaseLabels: true
 IndentFunctionDeclarationAfterType: false
 IndentWidth: 4
@@ -33,6 +47,7 @@ SpacesInAngles: false
 SpaceInEmptyParentheses: false
 SpacesInCStyleCastParentheses: false
 SpaceAfterControlStatementKeyword: true
+SpaceAroundPointerQualifiers: Both
 SpaceBeforeAssignmentOperators: true
 TabWidth: 4
 UseTab: Never

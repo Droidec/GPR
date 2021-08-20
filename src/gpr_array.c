@@ -40,15 +40,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-/*=============================================================================
- ‖ Public functions
- ============================================================================*/
+/******************************************************************************
+ * Public functions
+ *****************************************************************************/
 
-/*-----------------------------------------------------------------------------
- | Allocation
- ----------------------------------------------------------------------------*/
-
-struct gpr_array *gpr_array_create(void)
+struct gpr_array *gpr_array_new(void)
 {
     struct gpr_array *arr = NULL;
 
@@ -58,15 +54,23 @@ struct gpr_array *gpr_array_create(void)
         return NULL;
 
     /* Initialize array */
-    arr->size = 0;
-    arr->elem = NULL;
+    gpr_array_init(arr);
 
     return arr;
 }
 
-/*-----------------------------------------------------------------------------
- | Deallocation
- ----------------------------------------------------------------------------*/
+void gpr_array_init(struct gpr_array *arr)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (arr == NULL)
+        return;
+#endif
+
+    /* Initialize array */
+    arr->size = 0;
+    arr->elem = NULL;
+}
 
 void gpr_array_reset(struct gpr_array *arr, void (*elem_free)())
 {
@@ -85,8 +89,6 @@ void gpr_array_reset(struct gpr_array *arr, void (*elem_free)())
     arr->size = 0;
     free(arr->elem);
     arr->elem = NULL;
-
-    return;
 }
 
 void gpr_array_free(struct gpr_array *arr, void (*elem_free)())
@@ -102,13 +104,7 @@ void gpr_array_free(struct gpr_array *arr, void (*elem_free)())
 
     /* Free array */
     free(arr);
-
-    return;
 }
-
-/*-----------------------------------------------------------------------------
- | Manipulation
- ----------------------------------------------------------------------------*/
 
 enum GPR_Err gpr_array_push_front(struct gpr_array *arr, void *elem)
 {
@@ -356,13 +352,7 @@ void gpr_array_map(struct gpr_array *arr, void (*elem_map)())
     /* Map action */
     for (size_t index = 0; index < arr->size; index++)
         elem_map(arr->elem[index]);
-
-    return;
 }
-
-/*-----------------------------------------------------------------------------
- | Accessor
- ----------------------------------------------------------------------------*/
 
 void *gpr_array_search(const struct gpr_array *arr, bool (*elem_search)(), const void *ctx, size_t *index)
 {

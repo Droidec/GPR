@@ -40,19 +40,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/socket.h> // socket
 
-/*=============================================================================
- ‖ Private prototypes
- ============================================================================*/
+/******************************************************************************
+ * Private prototypes
+ *****************************************************************************/
 
-static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *const addr, const char *const service);
+static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char * const addr, const char * const service);
 static enum GPR_Err connect_to_peer(struct gpr_socket *sock);
 
-/*=============================================================================
- ‖ Public functions
- ============================================================================*/
+/******************************************************************************
+ * Public functions
+ *****************************************************************************/
 
-struct gpr_socket *gpr_net_create_socket(int domain, int type, int protocol, int flags)
+struct gpr_socket *gpr_net_new_socket(int domain, int type, int protocol, int flags)
 {
     struct gpr_socket *sock = NULL;
 
@@ -62,6 +63,20 @@ struct gpr_socket *gpr_net_create_socket(int domain, int type, int protocol, int
         return NULL;
 
     /* Initialize GPR socket */
+    gpr_net_init_socket(sock, domain, type, protocol, flags);
+
+    return sock;
+}
+
+void gpr_net_init_socket(struct gpr_socket *sock, int domain, int type, int protocol, int flags)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (sock == NULL)
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid GPR socket");
+#endif
+
+    /* Initialize socket */
     sock->socket = -1;
     sock->status = GPR_NET_NONE;
     memset(&(sock->info), 0, sizeof(struct addrinfo));
@@ -71,8 +86,6 @@ struct gpr_socket *gpr_net_create_socket(int domain, int type, int protocol, int
     sock->info.ai_flags = flags;
     sock->result = NULL;
     sock->curr = NULL;
-
-    return sock;
 }
 
 enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock)
@@ -98,7 +111,7 @@ enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock)
     return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
-enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *const addr, const char *const service)
+enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char * const addr, const char * const service)
 {
     enum GPR_Err err;
 
@@ -151,9 +164,9 @@ enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *const addr, co
     return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
-/*=============================================================================
- ‖ Private functions
- ============================================================================*/
+/******************************************************************************
+ * Private functions
+ *****************************************************************************/
 
 /******************************************************************************
  *
@@ -168,7 +181,7 @@ enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *const addr, co
  *     GPR_ERR_NETWORK_ERROR: No network addresses found
  *
  *****************************************************************************/
-static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *const addr, const char *const service)
+static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char * const addr, const char * const service)
 {
     int err;
 
@@ -182,7 +195,7 @@ static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *co
 
 /*****************************************************************************
  *
- * \brief Attempt to connect to peer by testing all network addressed stored
+ * \brief Attempt to connect to peer by testing all network addresses stored
  * inside the given GPR socket
  *
  * \param sock GPR socket to use

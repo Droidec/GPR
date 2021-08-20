@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * \file gpr_dlklist.c
- * \brief Double linked list module
+ * \brief Doubly linked list module
  *
  ******************************************************************************
  *
@@ -39,23 +39,19 @@
 
 #include <stdlib.h>
 
-/*=============================================================================
- ‖ Private prototypes
- ============================================================================*/
+/******************************************************************************
+ * Private prototypes
+ *****************************************************************************/
 
-static struct gpr_dlknode *create_node(void *data);
+static struct gpr_dlknode *new_node(void *data);
 static void free_node(struct gpr_dlknode *node, void (*data_free)());
 static struct gpr_dlknode *search_node_by_position(const struct gpr_dlklist *list, size_t pos);
 
-/*=============================================================================
- ‖ Public functions
- ============================================================================*/
+/******************************************************************************
+ * Public functions
+ *****************************************************************************/
 
-/*-----------------------------------------------------------------------------
- | Allocation
- ----------------------------------------------------------------------------*/
-
-struct gpr_dlklist *gpr_dlklist_create(void)
+struct gpr_dlklist *gpr_dlklist_new(void)
 {
     struct gpr_dlklist *list = NULL;
 
@@ -65,16 +61,24 @@ struct gpr_dlklist *gpr_dlklist_create(void)
         return NULL;
 
     /* Initialize list */
-    list->size = 0;
-    list->head = NULL;
-    list->tail = NULL;
+    gpr_dlklist_init(list);
 
     return list;
 }
 
-/*-----------------------------------------------------------------------------
- | Deallocation
- ----------------------------------------------------------------------------*/
+void gpr_dlklist_init(struct gpr_dlklist *list)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (list == NULL)
+        return;
+#endif
+
+    /* Initialize list */
+    list->size = 0;
+    list->head = NULL;
+    list->tail = NULL;
+}
 
 void gpr_dlklist_reset(struct gpr_dlklist *list, void (*data_free)())
 {
@@ -100,8 +104,6 @@ void gpr_dlklist_reset(struct gpr_dlklist *list, void (*data_free)())
     list->size = 0;
     list->head = NULL;
     list->tail = NULL;
-
-    return;
 }
 
 void gpr_dlklist_free(struct gpr_dlklist *list, void (*data_free)())
@@ -117,13 +119,7 @@ void gpr_dlklist_free(struct gpr_dlklist *list, void (*data_free)())
 
     /* Free list */
     free(list);
-
-    return;
 }
-
-/*-----------------------------------------------------------------------------
- | Manipulation
- ----------------------------------------------------------------------------*/
 
 enum GPR_Err gpr_dlklist_push_front(struct gpr_dlklist *list, void *data)
 {
@@ -139,8 +135,8 @@ enum GPR_Err gpr_dlklist_push_front(struct gpr_dlklist *list, void *data)
         return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid data");
 #endif
 
-    /* Allocate node */
-    node = create_node(data);
+    /* New node */
+    node = new_node(data);
     if (UNLIKELY(node == NULL))
         return gpr_err_raise(GPR_ERR_MEMORY_FAILURE, "Node allocation failed");
 
@@ -179,8 +175,8 @@ enum GPR_Err gpr_dlklist_push_back(struct gpr_dlklist *list, void *data)
         return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid data");
 #endif
 
-    /* Allocate node */
-    node = create_node(data);
+    /* New node */
+    node = new_node(data);
     if (UNLIKELY(node == NULL))
         return gpr_err_raise(GPR_ERR_MEMORY_FAILURE, "Node allocation failed");
 
@@ -228,8 +224,8 @@ enum GPR_Err gpr_dlklist_insert(struct gpr_dlklist *list, void *data, size_t pos
     if (pos == gpr_dlklist_get_size(list))
         return gpr_dlklist_push_back(list, data);
 
-    /* Allocate node */
-    node = create_node(data);
+    /* New node */
+    node = new_node(data);
     if (UNLIKELY(node == NULL))
         return gpr_err_raise(GPR_ERR_MEMORY_FAILURE, "Node allocation failed");
 
@@ -398,13 +394,7 @@ void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)())
         data_map(gpr_dlklist_node_data(scout));
         scout = gpr_dlklist_node_next(scout);
     }
-
-    return;
 }
-
-/*-----------------------------------------------------------------------------
- | Accessor
- ----------------------------------------------------------------------------*/
 
 struct gpr_dlknode *gpr_dlklist_search(const struct gpr_dlklist *list, bool (*data_search)(), const void *ctx, size_t *pos)
 {
@@ -507,13 +497,13 @@ struct gpr_dlknode *gpr_dlklist_node_next(const struct gpr_dlknode *node)
     return node->next;
 }
 
-/*=============================================================================
- ‖ Private functions
- ============================================================================*/
+/******************************************************************************
+ * Private functions
+ *****************************************************************************/
 
 /******************************************************************************
  *
- * \brief Create a new node
+ * \brief Allocate and initialize a new node
  *
  * \param data Data to point to for the new node
  *
@@ -522,7 +512,7 @@ struct gpr_dlknode *gpr_dlklist_node_next(const struct gpr_dlknode *node)
  *     On failure, return NULL
  *
  *****************************************************************************/
-static struct gpr_dlknode *create_node(void *data)
+static struct gpr_dlknode *new_node(void *data)
 {
     struct gpr_dlknode *node = NULL;
 
@@ -567,16 +557,14 @@ static void free_node(struct gpr_dlknode *node, void (*data_free)())
         data_free(node->data);
 
     free(node);
-
-    return;
 }
 
 /******************************************************************************
  *
- * \brief Search by dichotomy the node at the requestsed position in a double
+ * \brief Search by dichotomy the node at the requestsed position in a doubly
  * linked list
  *
- * \param list Double linked list where to search for a node
+ * \param list Doubly linked list where to search for a node
  * \param pos  Position of the node (Starting from 0)
  *
  * \return

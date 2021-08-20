@@ -154,6 +154,12 @@ static struct my_struct *gpr_time_function(const char *param1, size_t param2)
 }
 
 ===============================================================================
+modules
+===============================================================================
+- Always write "new", "init", "reset", "free" functions for structures if
+possible
+
+===============================================================================
 arrays
 ===============================================================================
 - If a static array is null-terminated, show it with the "+ 1" suffix

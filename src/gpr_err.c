@@ -40,9 +40,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*=============================================================================
- ‖ Private prototypes
- ============================================================================*/
+/******************************************************************************
+ * Private prototypes
+ *****************************************************************************/
 
 /**
  * \brief Possible errors strings
@@ -52,7 +52,8 @@ static const char *Err_Array[] = {
     /* 001 */ "Failure",
     /* 002 */ "Invalid parameter",
     /* 003 */ "Memory failure",
-    /* 004 */ "Network error",
+    /* 004 */ "Not implemented",
+    /* 005 */ "Network error",
 };
 
 /**
@@ -60,9 +61,9 @@ static const char *Err_Array[] = {
  */
 char *Cmpl_Err_Msg = NULL;
 
-/*=============================================================================
- ‖ Public functions
- ============================================================================*/
+/******************************************************************************
+ * Public functions
+ *****************************************************************************/
 
 const char *gpr_err_to_str(enum GPR_Err error)
 {
@@ -75,7 +76,10 @@ const char *gpr_err_to_str(enum GPR_Err error)
     return Err_Array[error];
 }
 
-void gpr_err_allocate_cmpl_err(void) { Cmpl_Err_Msg = (char *)malloc(CMPL_ERR_MSG_LEN + 1); }
+void gpr_err_allocate_cmpl_err(void)
+{
+    Cmpl_Err_Msg = (char *)malloc(CMPL_ERR_MSG_LEN + 1);
+}
 
 void gpr_err_free_cmpl_err(void)
 {
@@ -91,7 +95,7 @@ char *gpr_err_get_cmpl_err(void)
     return Cmpl_Err_Msg;
 }
 
-enum GPR_Err gpr_err_raise(enum GPR_Err err, const char *const fmt, ...)
+enum GPR_Err gpr_err_raise(enum GPR_Err err, const char * const fmt, ...)
 {
     va_list list;
 
