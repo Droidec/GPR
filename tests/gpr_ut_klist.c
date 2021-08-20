@@ -127,9 +127,9 @@ int main()
 
     /* Delete worst student */
     worst_student = GPR_KLIST_ENTRY(list.next, struct student, head);
-    free_student(worst_student);
     err = gpr_klist_delete(list.next);
     assert(err == GPR_ERR_OK);
+    free_student(worst_student);
 
     /* Print students */
     printf("\n---Students (Deleted worst one)---\n");
