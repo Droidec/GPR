@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * \file gpr_network.c
+ * \file gpr_net.c
  * \brief Network module
  *
  ******************************************************************************
@@ -34,7 +34,7 @@
  *
  *****************************************************************************/
 
-#include "gpr_network.h"
+#include "gpr_net.h"
 #include "gpr_builtin.h"
 
 #include <stdlib.h>
@@ -73,7 +73,7 @@ void gpr_net_init_socket(struct gpr_socket *sock, int domain, int type, int prot
 #ifdef DEBUG
     /* Check consistency */
     if (sock == NULL)
-        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid GPR socket");
+        return;
 #endif
 
     /* Initialize socket */

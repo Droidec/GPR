@@ -28,7 +28,7 @@ Build & install API:
 Build & install API *(Debug)*:
 - mkdir build
 - cd build
-- cmake -DCMAKE_BUILD_TYPE=DEBUG ..
+- cmake -DCMAKE_BUILD_TYPE=Debug ..
 - make
 - make install
 
@@ -67,7 +67,7 @@ Required/recommended package(s):
 - [valgrind](https://valgrind.org/) : Memory debugging tool
 
 Add/modify a module:
-- Read HOW-TO-DEV text file
+- Read GUIDELINE file
 - Refer to the `models` section if needed
 - Add/enhance `include` and `src`
 - Add/enhance `test` section with new features, test retrocompatibility and memory leaks
@@ -80,7 +80,8 @@ Improve a module:
 
 ## Authors
 
-See the AUTHORS file in this source distribution for more information.
+See the AUTHORS file in this source distribution for more information.  
+See also CREDITS for the sources from which this project is inspired.
 
 ## Licence
 

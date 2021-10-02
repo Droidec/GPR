@@ -3,3 +3,4 @@ TODO list
 
 - Force indentation before commit ?
 - Detail a good way to use git branches
+- Write inl module from branch 'F_array_tp', add inl files to CMake recognition, Add align #define rule in clang format

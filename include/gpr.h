@@ -45,7 +45,7 @@
 #include "gpr_err.h"
 #include "gpr_klist.h"
 #include "gpr_log.h"
-#include "gpr_network.h"
+#include "gpr_net.h"
 #include "gpr_time.h"
 
 /**

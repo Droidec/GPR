@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * \file gpr_network.h
+ * \file gpr_net.h
  * \brief Network module
  * \details
  * This module offers a way to open network services and/or connect to a
