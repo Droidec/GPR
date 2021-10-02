@@ -104,10 +104,10 @@ char *func(param);
 ## Macros
 
 - Macros are made up with upper-case letters only
-- Macros start with the library name, followed by the module name
+- Macros start with the library name
 
 ```C
-#define GPR_DATE_SEC_MAX_LEN 15
+#define GPR_DATE_SEC_LEN 19
 ```
 
 ## Enumerations
