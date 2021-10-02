@@ -1,14 +1,14 @@
 /******************************************************************************
  *
- * gpr_ut_network.c
+ * gpr_ut_net.c
  *
  ******************************************************************************
  *
- * Unit tests on "gpr_network" module
+ * Unit tests on "gpr_net" module
  *
  *****************************************************************************/
 
-#include "gpr_network.h"
+#include "gpr_net.h"
 
 #include <stdio.h>
 #include <assert.h>
