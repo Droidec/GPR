@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.5)
 project(GPR) # PROJECT_NAME variable
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
+# Release mode by default
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
 ###############################################################################
 # Variables
 ###############################################################################
@@ -38,18 +43,21 @@ file(GLOB TESTS CONFIGURE_DEPENDS "${TEST_REP}/*.c")
 # Build shared API
 add_library(GPR SHARED ${SOURCES})
 target_include_directories(GPR PUBLIC ${INC_REP})
-target_compile_options(GPR PRIVATE -Wall -Wextra -Werror -O3)
+target_compile_options(GPR PRIVATE -Wall -Wextra -Werror)
 
 # Build static API
 add_library(GPR_static STATIC ${SOURCES})
 target_include_directories(GPR_static PUBLIC ${INC_REP})
-target_compile_options(GPR_static PRIVATE -Wall -Wextra -Werror -O3)
+target_compile_options(GPR_static PRIVATE -Wall -Wextra -Werror)
 
-# Add compilation flags
-add_compile_options(-Wall -Wextra -Werror -O3)
+# Add optimization flags
+if (${CMAKE_BUILD_TYPE} MATCHES Release)
+    target_compile_options(GPR PRIVATE -O3)
+    target_compile_options(GPR_static PRIVATE -O3)
+endif ()
 
 # Add debug flags
-if (${CMAKE_BUILD_TYPE} MATCHES DEBUG)
+if (${CMAKE_BUILD_TYPE} MATCHES Debug)
     target_compile_options(GPR PRIVATE -g -DDEBUG)
     target_compile_options(GPR_static PRIVATE -g -DDEBUG)
 endif ()

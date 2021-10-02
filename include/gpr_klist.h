@@ -66,6 +66,7 @@
 
 #include <stdlib.h>
 #include <stddef.h>
+#include <stdbool.h> // WARN: Not portable
 
 /**
  * \brief GPR circular doubly linked list structure (Entry)
@@ -257,7 +258,7 @@ static inline enum GPR_Err gpr_klist_push_back(struct gpr_klist *new, struct gpr
  *
  * \brief Delete an entry from a list
  *
- * \note The deleted entry will not be freed
+ * \note The deleted entry will not be freed (DIY)
  *
  * \param entry Entry to delete
  *
@@ -276,10 +277,32 @@ static inline enum GPR_Err gpr_klist_delete(struct gpr_klist *entry)
 
     /* Delete entry */
     __list_del_entry(entry->prev, entry->next);
-    entry->prev = NULL;
-    entry->next = NULL;
+    entry->prev = entry;
+    entry->next = entry;
 
     return gpr_err_raise(GPR_ERR_OK, NULL);
+}
+
+/******************************************************************************
+ *
+ * \brief Check if list is empty
+ *
+ * \param head List to check
+ *
+ * \return
+ *     True if the list is empty or not allocated
+ *     False otherwise
+ *
+ *****************************************************************************/
+static inline bool gpr_klist_is_empty(const struct gpr_klist *head)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (entry == NULL)
+        return true;
+#endif
+
+    return head->next == head;
 }
 
 /**
