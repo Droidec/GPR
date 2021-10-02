@@ -10,12 +10,13 @@ This guideline describes the indentation to be respected in the `GPR` project.
 - 1-space before *and* after operators
 - No space for unary operators
 - 1-blank line at the end of each file to help file printing
-- 140 characters max per line (*we are not in the '80s anymore...*)
+- 140 characters max per line for source code (*we are not in the '80s anymore...*)
 - No comments on a brace line
 - Multiple expressions are surrounded by parenthesis
 - Braces are ventilate on the same level as the instruction
 - Underscores are mandatory to separate words
 - Multithreading and portability when it's possible
+- Modules should be documented using the `Doxygen` syntax
 - `// TODO` comment is used to indicate subsequent changes
 - `// WARN` comment is used to question a particular fact
 

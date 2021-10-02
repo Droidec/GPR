@@ -87,7 +87,7 @@ void gpr_dlklist_reset(struct gpr_dlklist *list, void (*data_free)())
 
 #ifdef DEBUG
     /* Check consistency */
-    if (list == NULL || list->head == NULL)
+    if ((list == NULL) || (list->head == NULL))
         return;
 #endif
 
@@ -383,7 +383,7 @@ void gpr_dlklist_map(struct gpr_dlklist *list, void (*data_map)())
 
 #ifdef DEBUG
     /* Check consistency */
-    if (list == NULL || data_map == NULL)
+    if ((list == NULL) || (data_map == NULL))
         return;
 #endif
 
@@ -403,7 +403,7 @@ struct gpr_dlknode *gpr_dlklist_search(const struct gpr_dlklist *list, bool (*da
 
 #ifdef DEBUG
     /* Check consistency */
-    if (list == NULL || data_search == NULL)
+    if ((list == NULL) || (data_search == NULL))
         goto end;
 #endif
 
@@ -428,7 +428,7 @@ end:
 bool gpr_dlklist_is_empty(const struct gpr_dlklist *list)
 {
     /* Check consistency */
-    if (list == NULL || list->head == NULL)
+    if ((list == NULL) || (list->head == NULL))
         return true;
 
     return false;
@@ -464,7 +464,7 @@ struct gpr_dlknode *gpr_dlklist_get_tail(const struct gpr_dlklist *list)
 bool gpr_dlklist_node_has_data(const struct gpr_dlknode *node)
 {
     /* Check consistency */
-    if (node == NULL || node->data == NULL)
+    if ((node == NULL) || (node->data == NULL))
         return false;
 
     return true;
@@ -553,7 +553,7 @@ static void free_node(struct gpr_dlknode *node, void (*data_free)())
 #endif
 
     /* Free data if necessary */
-    if (node->data != NULL && data_free != NULL)
+    if ((node->data != NULL) && (data_free != NULL))
         data_free(node->data);
 
     free(node);
@@ -579,7 +579,7 @@ static struct gpr_dlknode *search_node_by_position(const struct gpr_dlklist *lis
 
 #ifdef DEBUG
     /* Check consistency */
-    if (list == NULL || pos >= gpr_dlklist_get_size(list))
+    if ((list == NULL) || (pos >= gpr_dlklist_get_size(list)))
         return NULL;
 #endif
 

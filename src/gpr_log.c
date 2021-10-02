@@ -69,7 +69,7 @@ enum GPR_Err gpr_log_configure(const char *filename, enum GPR_Log level)
     if (level != GPR_LOG_DEFAULT)
     {
         /* Check consistency */
-        if (level < 0 || level >= GPR_LOG_NUMBERS)
+        if ((level < 0) || (level >= GPR_LOG_NUMBERS))
             return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid log level");
 
         Default_Log_Level = level;
@@ -82,7 +82,7 @@ const char *gpr_log_level_to_str(enum GPR_Log level)
 {
 #ifdef DEBUG
     /* Check consistency */
-    if (level < 0 || level >= GPR_LOG_NUMBERS)
+    if ((level < 0) || (level >= GPR_LOG_NUMBERS))
         return "UNKNOWN";
 #endif
 
@@ -102,7 +102,7 @@ ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line,
 
 #ifdef DEBUG
     /* Check consistency */
-    if (file == NULL || line < 0 || func == NULL || fmt == NULL)
+    if ((file == NULL) || (line < 0) || (func == NULL) || (fmt == NULL))
         return -1;
 #endif
 
