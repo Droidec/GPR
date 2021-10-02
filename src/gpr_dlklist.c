@@ -35,7 +35,7 @@
  *****************************************************************************/
 
 #include "gpr_dlklist.h"
-#include "gpr_builtin.h"
+#include "gpr_utils.h"
 
 #include <stdlib.h>
 

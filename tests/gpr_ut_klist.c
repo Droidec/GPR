@@ -9,18 +9,18 @@
  *****************************************************************************/
 
 #include "gpr_klist.h"
-#include "gpr_builtin.h"
+#include "gpr_utils.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 
-#define STUDENT_NAME_MAX_LENGTH 20
+#define STUDENT_NAME_MAX_LEN 20
 
 struct student
 {
-    char name[STUDENT_NAME_MAX_LENGTH + 1];
+    char name[STUDENT_NAME_MAX_LEN + 1];
     unsigned int mark;
     struct gpr_klist head;
 };
@@ -35,8 +35,8 @@ struct student *new_student(char *name, unsigned int mark)
         return NULL;
 
     /* Initialize student */
-    memset(st->name, 0, STUDENT_NAME_MAX_LENGTH + 1);
-    SCNPRINTF(st->name, STUDENT_NAME_MAX_LENGTH + 1, "%s", name);
+    memset(st->name, 0, STUDENT_NAME_MAX_LEN + 1);
+    SCNPRINTF(st->name, STUDENT_NAME_MAX_LEN + 1, "%s", name);
     st->mark = mark;
     gpr_klist_init(&st->head);
 

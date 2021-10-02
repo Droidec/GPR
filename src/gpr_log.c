@@ -35,7 +35,7 @@
  *****************************************************************************/
 
 #include "gpr_log.h"
-#include "gpr_builtin.h"
+#include "gpr_utils.h"
 #include "gpr_time.h"
 
 #include <stdarg.h>

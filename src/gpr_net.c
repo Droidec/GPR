@@ -35,7 +35,7 @@
  *****************************************************************************/
 
 #include "gpr_net.h"
-#include "gpr_builtin.h"
+#include "gpr_utils.h"
 
 #include <stdlib.h>
 #include <string.h>

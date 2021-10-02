@@ -40,13 +40,13 @@
 #define H_GPR
 
 #include "gpr_array.h"
-#include "gpr_builtin.h"
 #include "gpr_dlklist.h"
 #include "gpr_err.h"
 #include "gpr_klist.h"
 #include "gpr_log.h"
 #include "gpr_net.h"
 #include "gpr_time.h"
+#include "gpr_utils.h"
 
 /**
  * \brief Initialize the GPR library in one go by calling initializations

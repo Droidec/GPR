@@ -1,8 +1,8 @@
 /******************************************************************************
  *
- * \file gpr_builtin.h
- * \brief Builtin macros/functions
- * \details This module offers builtin macros/functions to optimize and
+ * \file gpr_utils.h
+ * \brief Utils macros/functions
+ * \details This module offers utils macros/functions to optimize and
  * simplify tasks for GPR modules
  *
  ******************************************************************************
@@ -36,12 +36,11 @@
  *
  *****************************************************************************/
 
-#ifndef H_GPR_BUILTIN
-#define H_GPR_BUILTIN
+#ifndef H_GPR_UTILS
+#define H_GPR_UTILS
 
 #include <stdio.h>
 #include <stdarg.h>
-#include <stddef.h> // offsetof
 
 /**
  * \brief Optimize branch prediction \a x in favour of a "likely" side jump
@@ -79,12 +78,12 @@
  *     If an error occured, the function returns a negative number
  *
  *****************************************************************************/
-int gpr_builtin_vscnprintf(char *buf, size_t size, const char *fmt, va_list args);
+int gpr_utils_vscnprintf(char *buf, size_t size, const char *fmt, va_list args);
 
 /**
- * \brief Macro for the \a gpr_builtin_vscnprintf function
+ * \brief Macro for the \a gpr_utils_vscnprintf function
  */
-#define VSCNPRINTF(buf, size, fmt, args) gpr_builtin_vscnprintf(buf, size, fmt, args)
+#define VSCNPRINTF(buf, size, fmt, args) gpr_utils_vscnprintf(buf, size, fmt, args)
 
 /******************************************************************************
  *
@@ -105,11 +104,11 @@ int gpr_builtin_vscnprintf(char *buf, size_t size, const char *fmt, va_list args
  *     If an error occured, the function returns a negative number
  *
  *****************************************************************************/
-int gpr_builtin_scnprintf(char *buf, size_t size, const char *fmt, ...) __attribute__((format(printf, 3, 4)));
+int gpr_utils_scnprintf(char *buf, size_t size, const char *fmt, ...) __attribute__((format(printf, 3, 4)));
 
 /**
- * \brief Macro for the \a gpr_builtin_scnprintf function
+ * \brief Macro for the \a gpr_utils_scnprintf function
  */
-#define SCNPRINTF(buf, size, fmt, ...) gpr_builtin_scnprintf(buf, size, fmt, ##__VA_ARGS__)
+#define SCNPRINTF(buf, size, fmt, ...) gpr_utils_scnprintf(buf, size, fmt, ##__VA_ARGS__)
 
-#endif /* H_GPR_BUILTIN */
+#endif /* H_GPR_UTILS */

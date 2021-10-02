@@ -65,7 +65,7 @@
 #include "gpr_err.h"
 
 #include <stdlib.h>
-#include <stddef.h>
+#include <stddef.h> // offsetof
 #include <stdbool.h> // WARN: Not portable
 
 /**

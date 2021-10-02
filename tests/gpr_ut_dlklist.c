@@ -9,18 +9,18 @@
  *****************************************************************************/
 
 #include "gpr_dlklist.h"
-#include "gpr_builtin.h"
+#include "gpr_utils.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 
-#define STUDENT_NAME_MAX_LENGTH 20
+#define STUDENT_NAME_MAX_LEN 20
 
 struct student
 {
-    char name[STUDENT_NAME_MAX_LENGTH + 1];
+    char name[STUDENT_NAME_MAX_LEN + 1];
     unsigned int mark;
 };
 
@@ -34,8 +34,8 @@ struct student *new_student(char *name, unsigned int mark)
         return NULL;
 
     /* Initialize student */
-    memset(st->name, 0, STUDENT_NAME_MAX_LENGTH + 1);
-    SCNPRINTF(st->name, STUDENT_NAME_MAX_LENGTH + 1, "%s", name);
+    memset(st->name, 0, STUDENT_NAME_MAX_LEN + 1);
+    SCNPRINTF(st->name, STUDENT_NAME_MAX_LEN + 1, "%s", name);
     st->mark = mark;
 
     return st;
@@ -56,7 +56,7 @@ void print_student(struct student *st)
 
 bool search_student_by_name(const struct student *st, const char *name)
 {
-    if (strncmp(st->name, name, STUDENT_NAME_MAX_LENGTH) == 0)
+    if (strncmp(st->name, name, STUDENT_NAME_MAX_LEN) == 0)
         return true;
 
     return false;

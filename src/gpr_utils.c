@@ -1,7 +1,7 @@
 /******************************************************************************
  *
- * \file gpr_builtin.c
- * \brief Builtin macros/functions
+ * \file gpr_utils.c
+ * \brief Utils macros/functions
  *
  ******************************************************************************
  *
@@ -34,13 +34,13 @@
  *
  *****************************************************************************/
 
-#include "gpr_builtin.h"
+#include "gpr_utils.h"
 
 /******************************************************************************
  * Public functions
  *****************************************************************************/
 
-int gpr_builtin_vscnprintf(char *buf, size_t size, const char *fmt, va_list args)
+int gpr_utils_vscnprintf(char *buf, size_t size, const char *fmt, va_list args)
 {
     int i;
 
@@ -55,13 +55,13 @@ int gpr_builtin_vscnprintf(char *buf, size_t size, const char *fmt, va_list args
     return 0;
 }
 
-int gpr_builtin_scnprintf(char *buf, size_t size, const char *fmt, ...)
+int gpr_utils_scnprintf(char *buf, size_t size, const char *fmt, ...)
 {
     va_list args;
     int i;
 
     va_start(args, fmt);
-    i = gpr_builtin_vscnprintf(buf, size, fmt, args);
+    i = gpr_utils_vscnprintf(buf, size, fmt, args);
     va_end(args);
 
     return i;
