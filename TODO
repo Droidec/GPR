@@ -3,6 +3,4 @@ TODO list
 
 - Force indentation before commit ?
 - Detail a good way to use git branches
-- Rename HOW-TO-DEV to GUIDELINE and rewrite it in Markdown.
-- Rewrite CHANGELOG in Markdown
 - Write inl module from branch 'F_array_tp', add inl files to CMake recognition, Add align #define rule in clang format
