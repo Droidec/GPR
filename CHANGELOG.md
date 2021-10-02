@@ -2,6 +2,15 @@
 
 This CHANGELOG indicates the different versions of the `GPR` project.
 
+## Version 0.0.19
+
+- Rename HOW-TO-DEV to GUIDELINE and rewrite it in Markdown
+- Rewrite CHANGELOG in markdown
+- Rename gpr_network module to gpr_net
+- Add optimization flag 'O3' in Release version
+- Fix Debug version
+- Improve gpr_klist module
+
 ## Version 0.0.18
 
 - Add compilation flags
