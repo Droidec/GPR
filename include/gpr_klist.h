@@ -65,11 +65,11 @@
 #include "gpr_err.h"
 
 #include <stdlib.h>
-#include <stddef.h> // offsetof
+#include <stddef.h>  // offsetof
 #include <stdbool.h> // WARN: Not portable
 
 /**
- * \brief GPR circular doubly linked list structure (Entry)
+ * \brief Circular doubly linked list structure (Entry)
  */
 struct gpr_klist
 {

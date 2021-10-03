@@ -37,7 +37,7 @@ int main()
     memcpy(buf->ofs_b, string, string_len);
     buf->ofs_e += string_len;
 
-    printf("Buffer content: %.*s\n", (int)string_len, buf->ofs_b);
+    printf("Buffer content: %.*s\n", gpr_buf_get_used_size(buf), buf->ofs_b);
     printf("Buffer size: %u bytes\n", gpr_buf_get_size(buf));
     printf("Buffer free size: %u bytes\n", gpr_buf_get_free_size(buf));
     printf("Buffer used size: %u bytes\n", gpr_buf_get_used_size(buf));

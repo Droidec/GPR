@@ -59,6 +59,24 @@
  */
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof(x)[0])
 
+/**
+ * \brief Prevent the compiler to generate feedback for unused variables
+ */
+#ifdef __GNUC__
+#define UNUSED(x) UNUSED_##x __attribute__((__unused__))
+#else
+#define UNUSED(x) UNUSED_##x
+#endif
+
+/**
+ * \brief Prevent the compiler to generate feedback for unused functions
+ */
+#ifdef __GNUC__
+#define UNUSED_FUNC(x) __attribute__((__unused__)) UNUSED_##x
+#else
+#define UNUSED_FUNC(x) UNUSED_##x
+#endif
+
 /******************************************************************************
  *
  * \brief Format a string according to a list and place it in a buffer

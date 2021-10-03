@@ -3,7 +3,8 @@
 `GPR` is a multi-tool C library project, open source and free to use. The goal
 is to offer common functionnalities such as date manipulation, network
 management and log writing. It gathers diversified features in a single,
-easy to use, library.
+easy to use, library. The targeted compilers are [GCC](https://gcc.gnu.org/)
+and [CLANG](https://clang.llvm.org/).
 
 ## Content
 

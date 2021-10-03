@@ -48,7 +48,7 @@ struct gpr_buffer *gpr_buf_new(unsigned int size)
 {
     struct gpr_buffer *buf = NULL;
 
-    /* Allocate GPR buffer */
+    /* Allocate buffer */
 
     // Allocate structure
     buf = (struct gpr_buffer *)malloc(sizeof(struct gpr_buffer));
@@ -63,10 +63,8 @@ struct gpr_buffer *gpr_buf_new(unsigned int size)
         return NULL;
     }
 
-    /* Initialize GPR buffer */
-    buf->ofs_b = buf->buf;
-    buf->ofs_e = buf->buf;
-    buf->ofs_d = buf->buf;
+    /* Initialize buffer */
+    gpr_buf_reset(buf);
     buf->size = size;
 
     return buf;

@@ -24,14 +24,17 @@
  * The used area itself contains the active data the program can work on,
  * using the 'ofs_d' *d*ecoding pointer, which can can be freely moved
  *
- * The free area is delimited by the 'ofs_e' pointer and the buffer size
+ * The free area is delimited by the 'ofs_e' pointer and the buffer size\n
  * The rest area is delimited by the 'ofs_d' pointer and the 'ofs_e' pointer
  *
  * As the buffer is composed of standard C data types, it can be used with any
- * standard functions, such as: read, send, recv, ...
+ * standard functions, such as: read, send, recv, ...\n
  * The only additional step is to:
  * - Update the used area at successful reception by moving the 'ofs_e' pointer
  * - Update the used area at successful sending by moving the 'ofs_b' pointer
+ *
+ * When the buffer is full, the 'ofs_e' pointer will be in overflow of 1 byte,
+ * but arithmetic pointers will still work, even with cyclic memory addresses
  *
  ******************************************************************************
  *
@@ -70,14 +73,14 @@
 #include <stdbool.h> // WARN: Not portable
 
 /**
- * \brief GPR buffer structure
+ * \brief Buffer structure
  */
 struct gpr_buffer
 {
     unsigned char *buf;   ///< Buffer pointer
-    unsigned char *ofs_b; ///< Begin pointer of the used area (Should always be <= ofs_e)
-    unsigned char *ofs_e; ///< End pointer of the used area (Should always be >= ofs_b)
-    unsigned char *ofs_d; ///< Decode pointer of the used area (Should always be >= ofs_b and <= ofs_e)
+    unsigned char *ofs_b; ///< Begin pointer of the used area
+    unsigned char *ofs_e; ///< End pointer of the used area
+    unsigned char *ofs_d; ///< Decode pointer of the used area
     unsigned int size;    ///< Size of the buffer (Number of bytes)
 };
 
@@ -85,7 +88,7 @@ struct gpr_buffer
  *
  * \brief Allocate and initialize a new buffer
  *
- * \n Offset pointers are set at the very first byte of the buffer
+ * \note Offset pointers are set at the very first byte of the buffer
  *
  * \param size Size of the buffer to allocate (Number of bytes)
  *
@@ -100,7 +103,7 @@ struct gpr_buffer *gpr_buf_new(unsigned int size);
  *
  * \brief Reset the offset pointers of a buffer
  *
- * |param buf Buffer to reset
+ * \param buf Buffer to reset
  *
  *****************************************************************************/
 void gpr_buf_reset(struct gpr_buffer *buf);

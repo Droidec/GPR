@@ -1,9 +1,8 @@
 /******************************************************************************
  *
- * \file gpr.h
- * \brief Library management
- * \details This module includes all the other modules and offers the
- * possibility to initialize the library in one go
+ * \file gpr_bin.h
+ * \brief Binary module
+ * \details This module defines a way to handle binary data
  *
  ******************************************************************************
  *
@@ -36,30 +35,22 @@
  *
  *****************************************************************************/
 
-#ifndef H_GPR
-#define H_GPR
+#ifndef H_GPR_BIN
+#define H_GPR_BIN
 
-#include "gpr_array.h"
-#include "gpr_bin.h"
-#include "gpr_buf.h"
-#include "gpr_dlklist.h"
-#include "gpr_err.h"
-#include "gpr_klist.h"
-#include "gpr_log.h"
-#include "gpr_net.h"
-#include "gpr_time.h"
-#include "gpr_utils.h"
+#include <stdio.h>
 
-/**
- * \brief Initialize the GPR library in one go by calling initializations
- * macros from all other modules
- */
-#define GPR_ALLOC_LIBRARY GPR_ALLOC_ERR_MODULE
+/******************************************************************************
+ *
+ * \brief Format an hexadecimal string representation of a byte array
+ *
+ * \note The resulting buffer is assumed to be at least 'size * 2' bytes long
+ *
+ * \param src Bytes array containing binary data
+ * \param size Number of bytes to format
+ * \param out Buffer to place the result into
+ *
+ *****************************************************************************/
+void gpr_bin_hexlify(const void *src, size_t size, char *out);
 
-/**
- * \brief Free the GPR library in one go by calling free macros from all
- * other modules
- */
-#define GPR_FREE_LIBRARY GPR_FREE_ERR_MODULE
-
-#endif /* H_GPR */
+#endif /* H_GPR_BIN */
