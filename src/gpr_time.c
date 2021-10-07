@@ -35,7 +35,7 @@
  *****************************************************************************/
 
 #include "gpr_time.h"
-#include "gpr_builtin.h"
+#include "gpr_utils.h"
 
 #include <time.h>
 #include <string.h>

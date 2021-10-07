@@ -1,7 +1,8 @@
 /******************************************************************************
  *
- * \file gpr_builtin.c
- * \brief Builtin macros/functions
+ * \file gpr_bin.h
+ * \brief Binary module
+ * \details This module defines a way to handle binary data
  *
  ******************************************************************************
  *
@@ -34,35 +35,22 @@
  *
  *****************************************************************************/
 
-#include "gpr_builtin.h"
+#ifndef H_GPR_BIN
+#define H_GPR_BIN
+
+#include <stdio.h>
 
 /******************************************************************************
- * Public functions
+ *
+ * \brief Format an hexadecimal string representation of a byte array
+ *
+ * \note The resulting buffer is assumed to be at least 'size * 2' bytes long
+ *
+ * \param src Bytes array containing binary data
+ * \param size Number of bytes to format
+ * \param out Buffer to place the result into
+ *
  *****************************************************************************/
+void gpr_bin_hexlify(const void *src, size_t size, char *out);
 
-int gpr_builtin_vscnprintf(char *buf, size_t size, const char *fmt, va_list args)
-{
-    int i;
-
-    i = vsnprintf(buf, size, fmt, args);
-
-    if (LIKELY(i < (ssize_t)size))
-        return i;
-
-    if (size != 0)
-        return size - 1;
-
-    return 0;
-}
-
-int gpr_builtin_scnprintf(char *buf, size_t size, const char *fmt, ...)
-{
-    va_list args;
-    int i;
-
-    va_start(args, fmt);
-    i = gpr_builtin_vscnprintf(buf, size, fmt, args);
-    va_end(args);
-
-    return i;
-}
+#endif /* H_GPR_BIN */

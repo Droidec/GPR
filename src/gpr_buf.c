@@ -1,7 +1,7 @@
 /******************************************************************************
  *
- * \file gpr_err.c
- * \brief Error module
+ * \file gpr_buf.c
+ * \brief Buffer module
  *
  ******************************************************************************
  *
@@ -34,84 +34,122 @@
  *
  *****************************************************************************/
 
-#include "gpr_err.h"
+#include "gpr_buf.h"
 #include "gpr_utils.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
 /******************************************************************************
- * Private prototypes
- *****************************************************************************/
-
-/**
- * \brief Possible errors strings
- */
-static const char *Err_Array[] = {
-    /* 000 */ "Success",
-    /* 001 */ "Failure",
-    /* 002 */ "Invalid parameter",
-    /* 003 */ "Memory failure",
-    /* 004 */ "Not implemented",
-    /* 005 */ "Network error",
-};
-
-/**
- * \brief Complementary error message
- */
-char *Cmpl_Err_Msg = NULL;
-
-/******************************************************************************
  * Public functions
  *****************************************************************************/
 
-const char *gpr_err_to_str(enum GPR_Err error)
+struct gpr_buffer *gpr_buf_new(unsigned int size)
+{
+    struct gpr_buffer *buf = NULL;
+
+    /* Allocate buffer */
+
+    // Allocate structure
+    buf = (struct gpr_buffer *)malloc(sizeof(struct gpr_buffer));
+    if (UNLIKELY(buf == NULL))
+        return NULL;
+
+    // Allocate buffer
+    buf->buf = (unsigned char *)malloc(sizeof(unsigned char) * size);
+    if (UNLIKELY(buf->buf == NULL))
+    {
+        free(buf);
+        return NULL;
+    }
+
+    /* Initialize buffer */
+    gpr_buf_reset(buf);
+    buf->size = size;
+
+    return buf;
+}
+
+void gpr_buf_reset(struct gpr_buffer *buf)
 {
 #ifdef DEBUG
     /* Check consistency */
-    if ((error < 0) || (error >= GPR_ERR_NUMBERS))
-        return "UNKNOWN";
+    if (buf == NULL)
+        return;
 #endif
 
-    return Err_Array[error];
+    /* Reset offset pointers */
+    buf->ofs_b = buf->buf;
+    buf->ofs_e = buf->buf;
+    buf->ofs_d = buf->buf;
 }
 
-void gpr_err_allocate_cmpl_err(void)
+void gpr_buf_free(struct gpr_buffer *buf)
 {
-    Cmpl_Err_Msg = (char *)malloc(CMPL_ERR_MSG_LEN + 1);
+#ifdef DEBUG
+    /* Check consistency */
+    if ((buf == NULL) || (buf->buf == NULL))
+        return;
+#endif
+
+    /* Free buffer */
+    free(buf->buf);
+
+    /* Free structure */
+    free(buf);
 }
 
-void gpr_err_free_cmpl_err(void)
+bool gpr_buf_is_empty(const struct gpr_buffer *buf)
 {
-    if (Cmpl_Err_Msg != NULL)
-        free(Cmpl_Err_Msg);
+#ifdef DEBUG
+    /* Check consistency */
+    if (buf == NULL)
+        return true;
+#endif
+
+    return buf->ofs_b == buf->ofs_e ? true : false;
 }
 
-char *gpr_err_get_cmpl_err(void)
+unsigned int gpr_buf_get_size(const struct gpr_buffer *buf)
 {
-    if (Cmpl_Err_Msg == NULL)
-        return "";
+#ifdef DEBUG
+    /* Check consistency */
+    if (buf == NULL)
+        return 0;
+#endif
 
-    return Cmpl_Err_Msg;
+    return buf->size;
 }
 
-enum GPR_Err gpr_err_raise(enum GPR_Err err, const char * const fmt, ...)
+unsigned int gpr_buf_get_used_size(const struct gpr_buffer *buf)
 {
-    va_list list;
+#ifdef DEBUG
+    /* Check consistency */
+    if (buf == NULL)
+        return 0;
+#endif
 
-    if (Cmpl_Err_Msg != NULL)
-    {
-        if (fmt != NULL)
-        {
-            va_start(list, fmt);
-            VSCNPRINTF(Cmpl_Err_Msg, CMPL_ERR_MSG_LEN + 1, fmt, list);
-            va_end(list);
-        }
-        else
-        {
-            Cmpl_Err_Msg[0] = '\0';
-        }
-    }
+    return (buf->ofs_e - buf->ofs_b);
+}
 
-    return err;
+unsigned int gpr_buf_get_free_size(const struct gpr_buffer *buf)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (buf == NULL)
+        return 0;
+#endif
+
+    return (buf->size - (buf->ofs_e - buf->buf));
+}
+
+unsigned int gpr_buf_get_rest_size(const struct gpr_buffer *buf)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (buf == NULL)
+        return 0;
+#endif
+
+    return (buf->ofs_e - buf->ofs_d);
 }

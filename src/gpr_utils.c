@@ -1,9 +1,7 @@
 /******************************************************************************
  *
- * \file gpr.h
- * \brief Library management
- * \details This module includes all the other modules and offers the
- * possibility to initialize the library in one go
+ * \file gpr_utils.c
+ * \brief Utils macros/functions
  *
  ******************************************************************************
  *
@@ -36,30 +34,35 @@
  *
  *****************************************************************************/
 
-#ifndef H_GPR
-#define H_GPR
-
-#include "gpr_array.h"
-#include "gpr_bin.h"
-#include "gpr_buf.h"
-#include "gpr_dlklist.h"
-#include "gpr_err.h"
-#include "gpr_klist.h"
-#include "gpr_log.h"
-#include "gpr_net.h"
-#include "gpr_time.h"
 #include "gpr_utils.h"
 
-/**
- * \brief Initialize the GPR library in one go by calling initializations
- * macros from all other modules
- */
-#define GPR_ALLOC_LIBRARY GPR_ALLOC_ERR_MODULE
+/******************************************************************************
+ * Public functions
+ *****************************************************************************/
 
-/**
- * \brief Free the GPR library in one go by calling free macros from all
- * other modules
- */
-#define GPR_FREE_LIBRARY GPR_FREE_ERR_MODULE
+int gpr_utils_vscnprintf(char *buf, size_t size, const char *fmt, va_list args)
+{
+    int i;
 
-#endif /* H_GPR */
+    i = vsnprintf(buf, size, fmt, args);
+
+    if (LIKELY(i < (ssize_t)size))
+        return i;
+
+    if (size != 0)
+        return size - 1;
+
+    return 0;
+}
+
+int gpr_utils_scnprintf(char *buf, size_t size, const char *fmt, ...)
+{
+    va_list args;
+    int i;
+
+    va_start(args, fmt);
+    i = gpr_utils_vscnprintf(buf, size, fmt, args);
+    va_end(args);
+
+    return i;
+}

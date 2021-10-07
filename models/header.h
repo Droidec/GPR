@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * \file header
+ * \file header.h
  * \brief Module title
  * \details
  * ...Explanation about the module...

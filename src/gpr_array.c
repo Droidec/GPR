@@ -35,7 +35,7 @@
  *****************************************************************************/
 
 #include "gpr_array.h"
-#include "gpr_builtin.h"
+#include "gpr_utils.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -76,13 +76,13 @@ void gpr_array_reset(struct gpr_array *arr, void (*elem_free)())
 {
 #ifdef DEBUG
     /* Check consistency */
-    if (arr == NULL || arr->size == 0)
+    if ((arr == NULL) || (arr->size == 0))
         return;
 #endif
 
     /* Free each element */
     for (size_t index = 0; index < arr->size; index++)
-        if (arr->elem[index] != NULL && elem_free != NULL)
+        if ((arr->elem[index] != NULL) && (elem_free != NULL))
             elem_free(arr->elem[index]);
 
     /* Reset array */
@@ -345,7 +345,7 @@ void gpr_array_map(struct gpr_array *arr, void (*elem_map)())
 {
 #ifdef DEBUG
     /* Check consistency */
-    if (arr == NULL || elem_map == NULL)
+    if ((arr == NULL) || (elem_map == NULL))
         return;
 #endif
 
@@ -358,7 +358,7 @@ void *gpr_array_search(const struct gpr_array *arr, bool (*elem_search)(), const
 {
 #ifdef DEBUG
     /* Check consistency */
-    if (arr == NULL || elem_search == NULL)
+    if ((arr == NULL) || (elem_search == NULL))
         return NULL;
 #endif
 
@@ -381,7 +381,7 @@ void *gpr_array_search(const struct gpr_array *arr, bool (*elem_search)(), const
 bool gpr_array_is_empty(const struct gpr_array *arr)
 {
     /* Check consistency */
-    if (arr == NULL || arr->size == 0)
+    if ((arr == NULL) || (arr->size == 0))
         return true;
 
     return false;
@@ -400,7 +400,7 @@ void *gpr_array_get_elem(const struct gpr_array *arr, size_t index)
 {
 #ifdef DEBUG
     /* Check consistency */
-    if (arr == NULL || index >= gpr_array_get_size(arr))
+    if ((arr == NULL) || (index >= gpr_array_get_size(arr)))
         return NULL;
 #endif
 
