@@ -65,19 +65,19 @@
 #include <stddef.h>
 
 /**
- * \brief Type for the elements of the array (required)
+ * Type for the elements of the array (required)
  */
 // #define GPR_ARRTPL_TYPE
 
 /**
- * \brief Name of the array structure (required)
+ * Name of the array structure (required)
  */
 // #define GPR_ARRTPL_ST
 
 /**
- * \brief Prefix for function names (required)
+ * Prefix for function names (required)
  *
- * \param func Suffix for function name
+ * func Suffix for function name
  */
 // #define GPR_ARRTPL_FUNC(func)
 
@@ -103,7 +103,6 @@
  * \brief Function to free the GPR_ARRTPL_TYPE array, by default "free" is used (optional)
  *
  * \param ptr Pointer to the memory area to be reallocated (NULL if first allocation)
- * \param size Size for the array (re)allocation in bytes
  */
 // clang-format off
 #ifndef GPR_ARRTPL_DEALLOC_FUNC
