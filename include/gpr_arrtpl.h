@@ -81,9 +81,11 @@
  */
 // #define GPR_ARRTPL_FUNC(func)
 
+// clang-format off
 #if !defined(GPR_ARRTPL_TYPE) || !defined(GPR_ARRTPL_ST) || !defined(GPR_ARRTPL_FUNC)
     #error "Missing GPR_ARRTPL_TYPE, GPR_ARRTPL_ST or GPR_ARRTPL_FUNC as template parameters"
 #endif
+// clang-format on
 
 /**
  * \brief Function to (re)allocate the GPR_ARRTPL_TYPE array, by default "realloc" is used (optional)
@@ -91,9 +93,11 @@
  * \param ptr Pointer to the memory area to be reallocated (NULL if first allocation)
  * \param size Size for the array (re)allocation in bytes
  */
+// clang-format off
 #ifndef GPR_ARRTPL_REALLOC_FUNC
     #define GPR_ARRTPL_REALLOC_FUNC(ptr, size) realloc(ptr, size)
 #endif
+// clang-format on
 
 /**
  * \brief Function to free the GPR_ARRTPL_TYPE array, by default "free" is used (optional)
@@ -101,9 +105,11 @@
  * \param ptr Pointer to the memory area to be reallocated (NULL if first allocation)
  * \param size Size for the array (re)allocation in bytes
  */
+// clang-format off
 #ifndef GPR_ARRTPL_DEALLOC_FUNC
     #define GPR_ARRTPL_DEALLOC_FUNC(ptr) free(ptr)
 #endif
+// clang-format on
 
 /**
  * \brief Templated dynamic array structure
@@ -145,7 +151,7 @@ static inline bool GPR_ARRTPL_FUNC(init)(struct GPR_ARRTPL_ST *arr, size_t capac
     }
     else
     {
-        arr->array = (struct GPR_ARRTPL_ST *)GPR_ARRTPL_REALLOC_FUNC(NULL, capacity * sizeof(GPR_ARRTPL_TYPE));
+        arr->array = (GPR_ARRTPL_TYPE *)GPR_ARRTPL_REALLOC_FUNC(NULL, capacity * sizeof(GPR_ARRTPL_TYPE));
         if (arr->array == NULL)
             return false;
     }
@@ -170,14 +176,7 @@ static inline void GPR_ARRTPL_FUNC(free)(struct GPR_ARRTPL_ST *arr)
 
     /* Free templated array */
     if (arr->capacity != 0)
-    {
-        #ifdef GPR_ARRTPL_DEALLOC_MEMBER
-            for(GPR_ARRTPL_TYPE *it = arr->array; it != arr->array + arr->size; it++)
-                GPR_ARRTPL_DEALLOC_MEMBER(it);
-        #endif
-
         GPR_ARRTPL_DEALLOC_FUNC(arr->array);
-    }
 }
 
 #undef GPR_ARRTPL_TYPE

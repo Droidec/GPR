@@ -61,7 +61,7 @@ Make sure to link GPR library at compile time with:
 ## Development
 
 Required/recommended package(s):
-- [clang-format](https://clang.llvm.org/) >= 12.0.0 : Auto indent C/C++/Objective-C code tool
+- [clang-format](https://clang.llvm.org/) >= 13.0.0 : Auto indent C/C++/Objective-C code tool
 - [doxygen](https://www.doxygen.nl/index.html) >= 1.9.0 : Auto documentation generation tool
 - [graphviz](https://graphviz.org/) >= 2.44.1 : Set of graph drawing tools
 - [python3](https://www.python.org/) >= 3.6 : High-level programming language
