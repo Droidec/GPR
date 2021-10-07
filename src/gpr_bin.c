@@ -35,7 +35,6 @@
  *****************************************************************************/
 
 #include "gpr_bin.h"
-#include "gpr_utils.h" // UNUSED
 
 /**
  * \brief Hexadecimal array
