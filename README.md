@@ -68,6 +68,7 @@ Required/recommended package(s):
 - [valgrind](https://valgrind.org/) : Memory debugging tool
 
 Add/modify a module:
+- Create a branch `F_xxx` for features *(derived from develop)* or `HF_xxx` for hotfixes *(derived from master)*
 - Read GUIDELINE file
 - Refer to the `models` section if needed
 - Add/enhance `include` and `src`
