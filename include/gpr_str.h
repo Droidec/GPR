@@ -38,7 +38,7 @@
 #ifndef H_GPR_STR
 #define H_GPR_STR
 
-#include <stddef.h>
+#include <stddef.h> // size_t
 
 /******************************************************************************
  *
@@ -55,6 +55,9 @@
  * \param dst Destination array where the content is to be copied
  * \param src C-string to be copied
  * \param num Maximum number of characters to be copied from src
+ *
+ * \return
+ *     Number of characters written in dst
  *
  *****************************************************************************/
 size_t gpr_str_tolower(char *dst, const char *src, size_t num);
@@ -75,7 +78,46 @@ size_t gpr_str_tolower(char *dst, const char *src, size_t num);
  * \param src C-string to be copied
  * \param num Maximum number of characters to be copied from src
  *
+ * \return
+ *     Number of characters written in dst
+ *
  *****************************************************************************/
-size_t gpr_str_tolower(char *dst, const char *src, size_t num);
+size_t gpr_str_toupper(char *dst, const char *src, size_t num);
+
+/******************************************************************************
+ *
+ * \brief Trim leading spaces of a C-string
+ *
+ * \param str C-string to trim
+ *
+ * \return
+ *     The C-string trimmed
+ *
+ *****************************************************************************/
+char *gpr_str_ltrim(char *str);
+
+/******************************************************************************
+ *
+ * \brief Trim trailing spaces of a C-string
+ *
+ * \param str C-string to trim
+ *
+ * \return
+ *     The C-string trimmed
+ *
+ *****************************************************************************/
+char *gpr_str_rtrim(char *str);
+
+/******************************************************************************
+ *
+ * \brief Trim leading and trailing spaces of a C-string
+ *
+ * \param str C-string to trim
+ *
+ * \return
+ *     The C-string trimmed
+ *
+ *****************************************************************************/
+char *gpr_str_trim(char *str);
 
 #endif

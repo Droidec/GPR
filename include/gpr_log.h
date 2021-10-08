@@ -145,7 +145,7 @@ ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line,
 /**
  * \brief Maximum length of a log message
  */
-#define GPR_LOG_MESSAGE_MAX_LEN 512
+#define GPR_LOG_MESSAGE_MAX_LEN 8192
 
 /**
  * \brief Macro to log a message

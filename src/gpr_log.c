@@ -94,9 +94,9 @@ const char *gpr_log_level_to_str(enum GPR_Log level)
 ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line, const char * const func, const char * const fmt, ...)
 {
     va_list list;
-    int hdr_length;
-    int msg_length;
-    int ms_length;
+    int hdr_len;
+    int msg_len;
+    int ms_len;
     char msg[GPR_LOG_MESSAGE_MAX_LEN + 1];
     char date[GPR_DATE_MILLISEC_LEN + 1];
 
@@ -111,23 +111,22 @@ ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line,
         return 0;
 
     /* Build header message */
-    ms_length = gpr_time_get_date_millisec(date);
+    ms_len = gpr_time_get_date_millisec(date);
 
-    if (UNLIKELY(ms_length == 0))
+    if (UNLIKELY(ms_len == 0))
         return -1;
 
-    hdr_length =
-        SCNPRINTF(msg, GPR_LOG_MESSAGE_MAX_LEN + 1, "[%s] [%s] [%s:%d] [%s] ", date, gpr_log_level_to_str(level), file, line, func);
+    hdr_len = SCNPRINTF(msg, GPR_LOG_MESSAGE_MAX_LEN + 1, "[%s] [%s] [%s:%d] [%s] ", date, gpr_log_level_to_str(level), file, line, func);
 
-    if (UNLIKELY(hdr_length <= 0))
+    if (UNLIKELY(hdr_len <= 0))
         return -1;
 
     /* Build message */
     va_start(list, fmt);
-    msg_length = VSCNPRINTF(msg + hdr_length, GPR_LOG_MESSAGE_MAX_LEN + 1 - hdr_length, fmt, list);
+    msg_len = VSCNPRINTF(msg + hdr_len, GPR_LOG_MESSAGE_MAX_LEN + 1 - hdr_len, fmt, list);
     va_end(list);
 
-    if (UNLIKELY(msg_length < 0)) // Not inferior or equal to allow empty messages
+    if (UNLIKELY(msg_len < 0)) // Not inferior or equal to allow empty messages
         return -1;
 
     /* Write message on standard output */
@@ -136,5 +135,5 @@ ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line,
     /* Refresh standard output */
     fflush(stdout);
 
-    return hdr_length + msg_length;
+    return hdr_len + msg_len;
 }

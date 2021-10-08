@@ -36,7 +36,8 @@
 
 #include "gpr_str.h"
 
-#include <ctype.h> // tolower, toupper
+#include <ctype.h>  // tolower, toupper
+#include <string.h> // strlen
 
 size_t gpr_str_tolower(char *dst, const char *src, size_t num)
 {
@@ -78,4 +79,58 @@ size_t gpr_str_toupper(char *dst, const char *src, size_t num)
     }
 
     return count;
+}
+
+char *gpr_str_ltrim(char *str)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (str == NULL)
+        return;
+#endif
+
+    // Empty string
+    if (*str == '\0')
+        return str;
+
+    // Process from the start
+    while (isspace(*str))
+        str++;
+
+    return str;
+}
+
+char *gpr_str_rtrim(char *str)
+{
+    char *end = NULL;
+
+#ifdef DEBUG
+    /* Check consistency */
+    if (str == NULL)
+        return;
+#endif
+
+    // Empty string
+    if (*str == '\0')
+        return str;
+
+    // Process from the end
+    end = str + strlen(str);
+    while (isspace(*--end))
+        ;
+    *(end + 1) = '\0';
+
+    return str;
+}
+
+char *gpr_str_trim(char *str)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (str == NULL)
+        return;
+#endif
+
+    // Trim string
+    return gpr_str_rtrim(gpr_str_ltrim(str));
 }
