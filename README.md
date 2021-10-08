@@ -87,4 +87,5 @@ See also CREDITS for the sources from which this project is inspired.
 
 ## Licence
 
-`GPR` is released under BSD-3 clause licence. See the LICENCE file in this source distribution for more information.
+`GPR` is released under BSD-3 clause licence.  
+See the LICENCE file in this source distribution for more information.
