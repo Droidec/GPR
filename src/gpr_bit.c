@@ -1,9 +1,7 @@
 /******************************************************************************
  *
- * \file gpr.h
- * \brief Library management
- * \details This module includes all the other modules and offers the
- * possibility to initialize the library in one go
+ * \file gpr_bit.c
+ * \brief Bit module
  *
  ******************************************************************************
  *
@@ -36,32 +34,13 @@
  *
  *****************************************************************************/
 
-#ifndef H_GPR
-#define H_GPR
-
-#include "gpr_array.h"
-#include "gpr_bin.h"
 #include "gpr_bit.h"
-#include "gpr_buf.h"
-#include "gpr_dlklist.h"
-#include "gpr_err.h"
-#include "gpr_klist.h"
-#include "gpr_log.h"
-#include "gpr_net.h"
-#include "gpr_str.h"
-#include "gpr_time.h"
-#include "gpr_utils.h"
 
-/**
- * \brief Initialize the GPR library in one go by calling initializations
- * macros from all other modules
- */
-#define GPR_ALLOC_LIBRARY GPR_ALLOC_ERR_MODULE
+/******************************************************************************
+ * Public functions
+ *****************************************************************************/
 
-/**
- * \brief Free the GPR library in one go by calling free macros from all
- * other modules
- */
-#define GPR_FREE_LIBRARY GPR_FREE_ERR_MODULE
-
-#endif /* H_GPR */
+bool gpr_bit_is_set(unsigned char byte, unsigned int pos)
+{
+    return (byte & (1 << pos)) ? true : false;
+}

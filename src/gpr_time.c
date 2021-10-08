@@ -53,7 +53,7 @@ size_t gpr_time_get_date_sec(char * const buffer)
 #ifdef DEBUG
     /* Check consistency */
     if (buffer == NULL)
-        return;
+        return 0;
 #endif
 
     memset(buffer, 0, GPR_DATE_SEC_LEN + 1);
@@ -73,7 +73,7 @@ size_t gpr_time_get_date_millisec(char * const buffer)
 #ifdef DEBUG
     /* Check consistency */
     if (buffer == NULL)
-        return;
+        return 0;
 #endif
 
     memset(buffer, 0, GPR_DATE_MILLISEC_LEN + 1);

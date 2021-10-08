@@ -24,12 +24,12 @@ int main()
     SCNPRINTF(string2, STRING_SIZE + 1, "   Hello World   ");
 
     gpr_str_tolower(string1, string1, strlen(string1));
-    printf("%s\n", string1);
+    printf("tolower: %s\n", string1);
 
     gpr_str_toupper(string1, string1, strlen(string1));
-    printf("%s\n", string1);
+    printf("toupper: %s\n", string1);
 
-    printf("%s\n", gpr_str_trim(string2));
+    printf("trim: %s\n", gpr_str_trim(string2));
 
     return 0;
 }

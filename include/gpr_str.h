@@ -42,11 +42,11 @@
 
 /******************************************************************************
  *
- * \brief Convert in lowercase the first num characters of src to dst
+ * \brief Convert in lowercase the first \a num characters of \a src to \a dst
  *
- * \note If the end of src is reached before num characters have been
+ * \note If the end of \a src is reached before \a num characters have been
  * converted, the functions stops conversion and returns the number of
- * characters of src string, without the trailing '\0'
+ * characters of \a src string, without the trailing '\0'
  *
  * \note If a character can't be converted, it will be copied as is
  *
@@ -54,7 +54,7 @@
  *
  * \param dst Destination array where the content is to be copied
  * \param src C-string to be copied
- * \param num Maximum number of characters to be copied from src
+ * \param num Maximum number of characters to be copied from \a src
  *
  * \return
  *     Number of characters written in dst
@@ -64,11 +64,11 @@ size_t gpr_str_tolower(char *dst, const char *src, size_t num);
 
 /******************************************************************************
  *
- * \brief Convert in uppercase the first num characters of src to dst
+ * \brief Convert in uppercase the first \a num characters of \a src to \a dst
  *
- * \note If the end of src is reached before num characters have been
+ * \note If the end of \a src is reached before \a num characters have been
  * converted, the functions stops conversion and returns the number of
- * characters of src string, without the trailing '\0'
+ * characters of \a src string, without the trailing '\0'
  *
  * \note If a character can't be converted, it will be copied as is
  *
@@ -76,7 +76,7 @@ size_t gpr_str_tolower(char *dst, const char *src, size_t num);
  *
  * \param dst Destination array where the content is to be copied
  * \param src C-string to be copied
- * \param num Maximum number of characters to be copied from src
+ * \param num Maximum number of characters to be copied from \a src
  *
  * \return
  *     Number of characters written in dst
@@ -91,10 +91,12 @@ size_t gpr_str_toupper(char *dst, const char *src, size_t num);
  * \param str C-string to trim
  *
  * \return
- *     The C-string trimmed
+ *     The C-string trimmed\n
+ *     NULL if C-string is NULL (DEBUG mode only)
  *
  *****************************************************************************/
 char *gpr_str_ltrim(char *str);
+// TODO: trim according to a set of characters, not only spaces
 
 /******************************************************************************
  *
@@ -104,9 +106,11 @@ char *gpr_str_ltrim(char *str);
  *
  * \return
  *     The C-string trimmed
+ *     NULL if C-string is NULL (DEBUG mode only)
  *
  *****************************************************************************/
 char *gpr_str_rtrim(char *str);
+// TODO: trim according to a set of characters, not only spaces
 
 /******************************************************************************
  *
@@ -116,8 +120,10 @@ char *gpr_str_rtrim(char *str);
  *
  * \return
  *     The C-string trimmed
+ *     NULL if C-string is NULL (DEBUG mode only)
  *
  *****************************************************************************/
 char *gpr_str_trim(char *str);
+// TODO: trim according to a set of characters, not only spaces
 
 #endif

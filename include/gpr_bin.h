@@ -46,11 +46,13 @@
  *
  * \note The resulting buffer is assumed to be at least 'size * 2' bytes long
  *
+ * \note This function is endianness independant
+ *
+ * \param dst Buffer to place the result into
  * \param src Bytes array containing binary data
  * \param size Number of bytes to format
- * \param out Buffer to place the result into
  *
  *****************************************************************************/
-void gpr_bin_hexlify(const void *src, size_t size, char *out);
+void gpr_bin_hexlify(char *dst, const void *src, size_t size);
 
 #endif /* H_GPR_BIN */

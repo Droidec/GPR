@@ -1,9 +1,8 @@
 /******************************************************************************
  *
- * \file gpr.h
- * \brief Library management
- * \details This module includes all the other modules and offers the
- * possibility to initialize the library in one go
+ * \file gpr_bit.h
+ * \brief Bit module
+ * \details This module defines a way to handle bit manipulation
  *
  ******************************************************************************
  *
@@ -36,32 +35,28 @@
  *
  *****************************************************************************/
 
-#ifndef H_GPR
-#define H_GPR
+#ifndef H_GPR_BIT
+#define H_GPR_BIT
 
-#include "gpr_array.h"
-#include "gpr_bin.h"
-#include "gpr_bit.h"
-#include "gpr_buf.h"
-#include "gpr_dlklist.h"
-#include "gpr_err.h"
-#include "gpr_klist.h"
-#include "gpr_log.h"
-#include "gpr_net.h"
-#include "gpr_str.h"
-#include "gpr_time.h"
-#include "gpr_utils.h"
+#include <stdbool.h> // WARN: Not portable
 
-/**
- * \brief Initialize the GPR library in one go by calling initializations
- * macros from all other modules
- */
-#define GPR_ALLOC_LIBRARY GPR_ALLOC_ERR_MODULE
+/******************************************************************************
+ *
+ * \brief Check if the \a pos bit of a \a byte is set
+ *
+ * \note
+ *     The position of a bit is between 0 and 7\n
+ *     0 represents the least significant bit (LSB)\n
+ *     7 represents the most significant bit (MSB)
+ *
+ * \param byte Byte to check
+ * \param pos Position of the bit to check
+ *
+ * \return
+ *     True if the bit is set (1)\n
+ *     False otherwise (0)
+ *
+ *****************************************************************************/
+bool gpr_bit_is_set(unsigned char byte, unsigned int pos);
 
-/**
- * \brief Free the GPR library in one go by calling free macros from all
- * other modules
- */
-#define GPR_FREE_LIBRARY GPR_FREE_ERR_MODULE
-
-#endif /* H_GPR */
+#endif /* H_GPR_BIT */
