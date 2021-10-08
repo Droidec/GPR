@@ -1,7 +1,8 @@
 /******************************************************************************
  *
- * \file gpr_time.c
- * \brief Time module
+ * \file gpr_str.h
+ * \brief String module
+ * \details This module defines a way to handle C-string
  *
  ******************************************************************************
  *
@@ -34,60 +35,47 @@
  *
  *****************************************************************************/
 
-#include "gpr_time.h"
-#include "gpr_utils.h"
+#ifndef H_GPR_STR
+#define H_GPR_STR
 
-#include <time.h>
-#include <string.h>
-#include <sys/time.h>
+#include <stddef.h>
 
 /******************************************************************************
- * Public functions
+ *
+ * \brief Convert in lowercase the first num characters of src to dst
+ *
+ * \note If the end of src is reached before num characters have been
+ * converted, the functions stops conversion and returns the number of
+ * characters of src string, without the trailing '\0'
+ *
+ * \note If a character can't be converted, it will be copied as is
+ *
+ * \note This function is overlapping safe
+ *
+ * \param dst Destination array where the content is to be copied
+ * \param src C-string to be copied
+ * \param num Maximum number of characters to be copied from src
+ *
  *****************************************************************************/
+size_t gpr_str_tolower(char *dst, const char *src, size_t num);
 
-size_t gpr_time_get_date_sec(char * const buffer)
-{
-    time_t rawtime;
-    struct tm dateinfo;
+/******************************************************************************
+ *
+ * \brief Convert in uppercase the first num characters of src to dst
+ *
+ * \note If the end of src is reached before num characters have been
+ * converted, the functions stops conversion and returns the number of
+ * characters of src string, without the trailing '\0'
+ *
+ * \note If a character can't be converted, it will be copied as is
+ *
+ * \note This function is overlapping safe
+ *
+ * \param dst Destination array where the content is to be copied
+ * \param src C-string to be copied
+ * \param num Maximum number of characters to be copied from src
+ *
+ *****************************************************************************/
+size_t gpr_str_tolower(char *dst, const char *src, size_t num);
 
-#ifdef DEBUG
-    /* Check consistency */
-    if (buffer == NULL)
-        return;
 #endif
-
-    memset(buffer, 0, GPR_DATE_SEC_LEN + 1);
-
-    time(&rawtime);
-    localtime_r(&rawtime, &dateinfo); // WARN: Not portable
-
-    return strftime(buffer, GPR_DATE_SEC_LEN + 1, "%d/%m/%Y-%H:%M:%S", &dateinfo);
-}
-
-size_t gpr_time_get_date_millisec(char * const buffer)
-{
-    size_t sec_length;
-    int ms_length;
-    struct timeval timeinfo;
-
-#ifdef DEBUG
-    /* Check consistency */
-    if (buffer == NULL)
-        return;
-#endif
-
-    memset(buffer, 0, GPR_DATE_MILLISEC_LEN + 1);
-
-    sec_length = gpr_time_get_date_sec(buffer);
-
-    if (UNLIKELY(sec_length == 0))
-        return 0;
-
-    gettimeofday(&timeinfo, NULL); // WARN: Not portable
-    ms_length = SCNPRINTF(buffer + GPR_DATE_SEC_LEN, (GPR_DATE_MILLISEC_LEN - GPR_DATE_SEC_LEN) + 1, ".%.3ld", timeinfo.tv_usec / 1000L);
-
-    if (UNLIKELY(ms_length <= 0))
-        return 0;
-
-    return sec_length + ms_length;
-}

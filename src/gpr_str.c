@@ -1,7 +1,7 @@
 /******************************************************************************
  *
- * \file gpr_time.c
- * \brief Time module
+ * \file gpr_str.c
+ * \brief String module
  *
  ******************************************************************************
  *
@@ -34,60 +34,48 @@
  *
  *****************************************************************************/
 
-#include "gpr_time.h"
-#include "gpr_utils.h"
+#include "gpr_str.h"
 
-#include <time.h>
-#include <string.h>
-#include <sys/time.h>
+#include <ctype.h> // tolower, toupper
 
-/******************************************************************************
- * Public functions
- *****************************************************************************/
-
-size_t gpr_time_get_date_sec(char * const buffer)
+size_t gpr_str_tolower(char *dst, const char *src, size_t num)
 {
-    time_t rawtime;
-    struct tm dateinfo;
+    unsigned int count = 0;
 
 #ifdef DEBUG
     /* Check consistency */
-    if (buffer == NULL)
-        return;
+    if ((dst == NULL) || (src == NULL))
+        return 0;
 #endif
 
-    memset(buffer, 0, GPR_DATE_SEC_LEN + 1);
+    for (unsigned int i = 0; i < num; i++)
+    {
+        if (src[i] == '\0')
+            break;
+        dst[i] = tolower(src[i]);
+        count++;
+    }
 
-    time(&rawtime);
-    localtime_r(&rawtime, &dateinfo); // WARN: Not portable
-
-    return strftime(buffer, GPR_DATE_SEC_LEN + 1, "%d/%m/%Y-%H:%M:%S", &dateinfo);
+    return count;
 }
 
-size_t gpr_time_get_date_millisec(char * const buffer)
+size_t gpr_str_toupper(char *dst, const char *src, size_t num)
 {
-    size_t sec_length;
-    int ms_length;
-    struct timeval timeinfo;
+    unsigned int count = 0;
 
 #ifdef DEBUG
     /* Check consistency */
-    if (buffer == NULL)
-        return;
+    if ((dst == NULL) || (src == NULL))
+        return 0;
 #endif
 
-    memset(buffer, 0, GPR_DATE_MILLISEC_LEN + 1);
+    for (unsigned int i = 0; i < num; i++)
+    {
+        if (src[i] == '\0')
+            break;
+        dst[i] = toupper(src[i]);
+        count++;
+    }
 
-    sec_length = gpr_time_get_date_sec(buffer);
-
-    if (UNLIKELY(sec_length == 0))
-        return 0;
-
-    gettimeofday(&timeinfo, NULL); // WARN: Not portable
-    ms_length = SCNPRINTF(buffer + GPR_DATE_SEC_LEN, (GPR_DATE_MILLISEC_LEN - GPR_DATE_SEC_LEN) + 1, ".%.3ld", timeinfo.tv_usec / 1000L);
-
-    if (UNLIKELY(ms_length <= 0))
-        return 0;
-
-    return sec_length + ms_length;
+    return count;
 }
