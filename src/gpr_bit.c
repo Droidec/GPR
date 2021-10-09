@@ -1,8 +1,7 @@
 /******************************************************************************
  *
- * \file gpr_time.h
- * \brief Time module
- * \details This module offers generic functions to manipulate time
+ * \file gpr_bit.c
+ * \brief Bit module
  *
  ******************************************************************************
  *
@@ -35,61 +34,13 @@
  *
  *****************************************************************************/
 
-#ifndef H_GPR_TIME
-#define H_GPR_TIME
-
-#include <stddef.h> // size_t
+#include "gpr_bit.h"
 
 /******************************************************************************
- *
- * \brief Copy in a buffer the current local date with format
- * "%d/%m/%Y-%H:%M:%S".\n
- * Read it as "day/month/year-hour:minutes:seconds"
- *
- * \warning The given buffer should be at least "GPR_DATE_SEC_LEN + 1" bytes
- * long
- *
- * \param buffer Buffer where to copy the current local date
- *
- * \return
- *     Return the total number of characters copied in the buffer
- *     (not including the terminating null-character)\n
- *     If an error occured, returns zero, and the content of the array
- *     pointed by buffer is indeterminate
- *
+ * Public functions
  *****************************************************************************/
-size_t gpr_time_get_date_sec(char * const buffer);
 
-/**
- * \brief Number of bytes needed for the \a gpr_time_get_date_sec function
- * without the null character
- */
-#define GPR_DATE_SEC_LEN 19
-
-/******************************************************************************
- *
- * \brief Copy in a buffer the current local date with format
- * "%d/%m/%Y-%H:%M:%S.ms".\n
- * Read it as "day/month/year-hour:minutes:seconds.milliseconds"
- *
- * \warning The given buffer should be at least "GPR_DATE_MILLISEC_LEN + 1"
- * bytes long
- *
- * \param buffer Buffer where to copy the current local date
- *
- * \return
- *     Return the total number of characters copied in the buffer
- *     (not including the terminating null-character)\n
- *     If an error occured, returns zero, and the content of the array
- *     pointed by buffer is indeterminate
- *
- *****************************************************************************/
-size_t gpr_time_get_date_millisec(char * const buffer);
-
-/**
- * \brief Number of bytes needed for the \a gpr_time_get_date_millisec function
- * without the null character
- */
-#define GPR_DATE_MILLISEC_LEN 23
-
-#endif /* H_GPR_TIME */
+bool gpr_bit_is_set(unsigned char byte, unsigned int pos)
+{
+    return (byte & (1 << pos)) ? true : false;
+}

@@ -1,8 +1,8 @@
 /******************************************************************************
  *
- * \file gpr_err.h
- * \brief Error module
- * \details This module gathers errors that can be returned by GPR modules
+ * \file gpr_str.h
+ * \brief String module
+ * \details This module defines a way to handle C-string
  *
  ******************************************************************************
  *
@@ -35,98 +35,95 @@
  *
  *****************************************************************************/
 
-#ifndef H_GPR_ERR
-#define H_GPR_ERR
+#ifndef H_GPR_STR
+#define H_GPR_STR
 
-/**
- * \brief Length of the complementary error message buffer, not including the
- * trailing '\0'
- */
-#define CMPL_ERR_MSG_LEN 512 // WARN : Not thread safe
-
-/**
- * \brief Possible errors that can be returned by GPR modules
- */
-enum GPR_Err
-{
-    /* 000 */ GPR_ERR_OK,                ///< Success
-    /* 001 */ GPR_ERR_KO,                ///< Generic error
-    /* 002 */ GPR_ERR_INVALID_PARAMETER, ///< One or multiple invalid parameter
-    /* 003 */ GPR_ERR_MEMORY_FAILURE,    ///< Failure caused by a lack of memory
-    /* 004 */ GPR_ERR_LOOP_DETECTED,     ///< An infinite loop has been detected
-    /* 004 */ GPR_ERR_NOT_IMPLEMENTED,   ///< Feature not implemented
-    /* 005 */ GPR_ERR_NETWORK_ERROR,     ///< A network error occured
-    /* xxx */ GPR_ERR_NUMBERS            ///< Number of errors (DO NOT USE)
-};
+#include <stddef.h> // size_t
 
 /******************************************************************************
  *
- * \brief Stringify error
+ * \brief Convert in lowercase the first \a num characters of \a src to \a dst
  *
- * \param error Error to stringify
+ * \note If the end of \a src is reached before \a num characters have been
+ * converted, the functions stops conversion and returns the number of
+ * characters of \a src string, without the trailing '\0'
+ *
+ * \note If a character can't be converted, it will be copied as is
+ *
+ * \note This function is overlapping safe
+ *
+ * \param dst Destination array where the content is to be copied
+ * \param src C-string to be copied
+ * \param num Maximum number of characters to be copied from \a src
  *
  * \return
- *     C-string representing error
+ *     Number of characters written in dst
  *
  *****************************************************************************/
-const char *gpr_err_to_str(enum GPR_Err error);
+size_t gpr_str_tolower(char *dst, const char *src, size_t num);
 
 /******************************************************************************
  *
- * \brief Allocate complementary error message buffer
+ * \brief Convert in uppercase the first \a num characters of \a src to \a dst
  *
- *****************************************************************************/
-void gpr_err_allocate_cmpl_err(void);
-
-/**
- * \brief Allocate the complementary error message buffer
- */
-#define GPR_ALLOC_ERR_MODULE gpr_err_allocate_cmpl_err();
-
-/******************************************************************************
+ * \note If the end of \a src is reached before \a num characters have been
+ * converted, the functions stops conversion and returns the number of
+ * characters of \a src string, without the trailing '\0'
  *
- * \brief Free complementary error message buffer
+ * \note If a character can't be converted, it will be copied as is
  *
- *****************************************************************************/
-void gpr_err_free_cmpl_err(void);
-
-/**
- * \brief Free the complementary error message buffer
- */
-#define GPR_FREE_ERR_MODULE gpr_err_free_cmpl_err();
-
-/******************************************************************************
+ * \note This function is overlapping safe
  *
- * \brief Get last complementary error message
- *
- * \note This complementary error message can be positionned by functions from
- * various GPR modules
+ * \param dst Destination array where the content is to be copied
+ * \param src C-string to be copied
+ * \param num Maximum number of characters to be copied from \a src
  *
  * \return
- *     C-string containing complementary error message
+ *     Number of characters written in dst
  *
  *****************************************************************************/
-char *gpr_err_get_cmpl_err(void);
+size_t gpr_str_toupper(char *dst, const char *src, size_t num);
 
 /******************************************************************************
  *
- * \brief Raise a GPR error and attempts to fill the complementary error
- * message buffer if possible
+ * \brief Trim leading spaces of a C-string
  *
- * \note A call to this function always reset the previous complementary error
- * message
- *
- * \warning The complementary error message can't exceed CMPL_ERR_MSG_LEN
- * bytes, otherwise it will be truncated by this function
- *
- * \param err GPR error to raise
- * \param fmt Complementary error message format (Can be NULL)
- * \param ... Optional arguments
+ * \param str C-string to trim
  *
  * \return
- *     The GPR error specified in parameter
+ *     The C-string trimmed\n
+ *     NULL if C-string is NULL (DEBUG mode only)
  *
  *****************************************************************************/
-enum GPR_Err gpr_err_raise(enum GPR_Err err, const char * const fmt, ...) __attribute__((format(printf, 2, 3)));
+char *gpr_str_ltrim(char *str);
+// TODO: trim according to a set of characters, not only spaces
 
-#endif /* H_GPR_ERR */
+/******************************************************************************
+ *
+ * \brief Trim trailing spaces of a C-string
+ *
+ * \param str C-string to trim
+ *
+ * \return
+ *     The C-string trimmed
+ *     NULL if C-string is NULL (DEBUG mode only)
+ *
+ *****************************************************************************/
+char *gpr_str_rtrim(char *str);
+// TODO: trim according to a set of characters, not only spaces
+
+/******************************************************************************
+ *
+ * \brief Trim leading and trailing spaces of a C-string
+ *
+ * \param str C-string to trim
+ *
+ * \return
+ *     The C-string trimmed
+ *     NULL if C-string is NULL (DEBUG mode only)
+ *
+ *****************************************************************************/
+char *gpr_str_trim(char *str);
+// TODO: trim according to a set of characters, not only spaces
+
+#endif

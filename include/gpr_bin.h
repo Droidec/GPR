@@ -38,19 +38,22 @@
 #ifndef H_GPR_BIN
 #define H_GPR_BIN
 
-#include <stdio.h>
+#include <stddef.h> // size_t
 
 /******************************************************************************
  *
- * \brief Format an hexadecimal string representation of a byte array
+ * \brief Format an hexadecimal string representation of a byte array\n
+ * No trailing '\0' is automatically appended
  *
- * \note The resulting buffer is assumed to be at least 'size * 2' bytes long
+ * \note This function is endianness independant
  *
- * \param src Bytes array containing binary data
+ * \warning The \a dst buffer should be at least "size * 2" bytes long
+ *
+ * \param dst  Buffer to place the result into
+ * \param src  Bytes array containing binary data
  * \param size Number of bytes to format
- * \param out Buffer to place the result into
  *
  *****************************************************************************/
-void gpr_bin_hexlify(const void *src, size_t size, char *out);
+void gpr_bin_hexlify(char *dst, const void *src, size_t size);
 
 #endif /* H_GPR_BIN */

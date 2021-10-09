@@ -16,6 +16,7 @@ This guideline describes the indentation to be respected in the `GPR` project.
 - Braces are ventilate on the same level as the instruction
 - Underscores are mandatory to separate words
 - Multithreading and portability when it's possible
+- Include directive should be followed by actual functions used in commentary
 - Modules should be documented using the `Doxygen` syntax
 - `// TODO` comment is used to indicate subsequent changes
 - `// WARN` comment is used to question a particular fact

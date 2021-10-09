@@ -1,8 +1,7 @@
 /******************************************************************************
  *
- * \file gpr_time.h
- * \brief Time module
- * \details This module offers generic functions to manipulate time
+ * \file gpr_str.c
+ * \brief String module
  *
  ******************************************************************************
  *
@@ -35,61 +34,107 @@
  *
  *****************************************************************************/
 
-#ifndef H_GPR_TIME
-#define H_GPR_TIME
+#include "gpr_str.h"
 
-#include <stddef.h> // size_t
-
-/******************************************************************************
- *
- * \brief Copy in a buffer the current local date with format
- * "%d/%m/%Y-%H:%M:%S".\n
- * Read it as "day/month/year-hour:minutes:seconds"
- *
- * \warning The given buffer should be at least "GPR_DATE_SEC_LEN + 1" bytes
- * long
- *
- * \param buffer Buffer where to copy the current local date
- *
- * \return
- *     Return the total number of characters copied in the buffer
- *     (not including the terminating null-character)\n
- *     If an error occured, returns zero, and the content of the array
- *     pointed by buffer is indeterminate
- *
- *****************************************************************************/
-size_t gpr_time_get_date_sec(char * const buffer);
-
-/**
- * \brief Number of bytes needed for the \a gpr_time_get_date_sec function
- * without the null character
- */
-#define GPR_DATE_SEC_LEN 19
+#include <ctype.h>  // tolower, toupper, isspace
+#include <string.h> // strlen
 
 /******************************************************************************
- *
- * \brief Copy in a buffer the current local date with format
- * "%d/%m/%Y-%H:%M:%S.ms".\n
- * Read it as "day/month/year-hour:minutes:seconds.milliseconds"
- *
- * \warning The given buffer should be at least "GPR_DATE_MILLISEC_LEN + 1"
- * bytes long
- *
- * \param buffer Buffer where to copy the current local date
- *
- * \return
- *     Return the total number of characters copied in the buffer
- *     (not including the terminating null-character)\n
- *     If an error occured, returns zero, and the content of the array
- *     pointed by buffer is indeterminate
- *
+ * Public functions
  *****************************************************************************/
-size_t gpr_time_get_date_millisec(char * const buffer);
 
-/**
- * \brief Number of bytes needed for the \a gpr_time_get_date_millisec function
- * without the null character
- */
-#define GPR_DATE_MILLISEC_LEN 23
+size_t gpr_str_tolower(char *dst, const char *src, size_t num)
+{
+    unsigned int count = 0;
 
-#endif /* H_GPR_TIME */
+#ifdef DEBUG
+    /* Check consistency */
+    if ((dst == NULL) || (src == NULL))
+        return 0;
+#endif
+
+    for (unsigned int i = 0; i < num; i++)
+    {
+        if (src[i] == '\0')
+            break;
+        dst[i] = tolower(src[i]);
+        count++;
+    }
+
+    return count;
+}
+
+size_t gpr_str_toupper(char *dst, const char *src, size_t num)
+{
+    unsigned int count = 0;
+
+#ifdef DEBUG
+    /* Check consistency */
+    if ((dst == NULL) || (src == NULL))
+        return 0;
+#endif
+
+    for (unsigned int i = 0; i < num; i++)
+    {
+        if (src[i] == '\0')
+            break;
+        dst[i] = toupper(src[i]);
+        count++;
+    }
+
+    return count;
+}
+
+char *gpr_str_ltrim(char *str)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (str == NULL)
+        return NULL;
+#endif
+
+    // Empty string
+    if (*str == '\0')
+        return str;
+
+    // Process from the start
+    while (isspace(*str))
+        str++;
+
+    return str;
+}
+
+char *gpr_str_rtrim(char *str)
+{
+    char *end = NULL;
+
+#ifdef DEBUG
+    /* Check consistency */
+    if (str == NULL)
+        return NULL;
+#endif
+
+    // Empty string
+    if (*str == '\0')
+        return str;
+
+    // Process from the end
+    end = str + strlen(str);
+    while (isspace(*--end))
+        ;
+    *(end + 1) = '\0';
+
+    return str;
+}
+
+char *gpr_str_trim(char *str)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (str == NULL)
+        return NULL;
+#endif
+
+    // Trim string
+    return gpr_str_rtrim(gpr_str_ltrim(str));
+}

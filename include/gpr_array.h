@@ -2,8 +2,7 @@
  *
  * \file gpr_array.h
  * \brief Array module
- * \details
- * This module defines a way to handle generic dynamic arrays
+ * \details This module defines a way to handle generic dynamic arrays
  *
  * \verbatim
  *
@@ -55,8 +54,8 @@
 
 #include "gpr_err.h"
 
-#include <stdio.h>
-#include <stdbool.h> // WARN: Not portable
+#include <stddef.h>  // size_t
+#include <stdbool.h> // bool // WARN: Not portable
 
 /**
  * \brief Dynamic array structure

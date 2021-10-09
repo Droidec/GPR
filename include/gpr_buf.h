@@ -3,7 +3,7 @@
  * \file gpr_buf.h
  * \brief Buffer module
  * \details
- * This modules defines a way to handle data by declaring buffers
+ * This module defines a way to handle data by declaring buffers
  *
  * A buffer is declared on the heap, has a fixed size which cannot exceed
  * UINT_MAX bytes (~ 4Gb) and is composed of offset pointers (ofs_)
@@ -70,7 +70,7 @@
 #ifndef H_GPR_BUF
 #define H_GPR_BUF
 
-#include <stdbool.h> // WARN: Not portable
+#include <stdbool.h> // bool // WARN: Not portable
 
 /**
  * \brief Buffer structure

@@ -45,7 +45,7 @@
 
 #include "gpr_err.h"
 
-#include <netdb.h> // getaddrinfo
+#include <netdb.h> // addrinfo, getaddrinfo, freeaddrinfo
 
 /**
  * \brief GPR sockets statuses showing network progression

@@ -68,6 +68,7 @@ Required/recommended package(s):
 - [valgrind](https://valgrind.org/) : Memory debugging tool
 
 Add/modify a module:
+- Create a branch `F_xxx` for features *(derived from develop)* or `HF_xxx` for hotfixes *(derived from master)*
 - Read GUIDELINE file
 - Refer to the `models` section if needed
 - Add/enhance `include` and `src`
@@ -86,4 +87,5 @@ See also CREDITS for the sources from which this project is inspired.
 
 ## Licence
 
-`GPR` is released under BSD-3 clause licence. See the LICENCE file in this source distribution for more information.
+`GPR` is released under BSD-3 clause licence.  
+See the LICENCE file in this source distribution for more information.

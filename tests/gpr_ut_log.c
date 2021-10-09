@@ -10,15 +10,15 @@
 
 #include "gpr_log.h"
 
-#include <stdio.h>
-#include <assert.h>
+#include <stdio.h>  // fprintf, puts
+#include <assert.h> // assert
 
 int main(int argc, char *argv[])
 {
     GPR_ALLOC_ERR_MODULE
 
     enum GPR_Err err;
-    ssize_t written_length;
+    ssize_t written_len;
 
     if (argc > 1)
     {
@@ -32,16 +32,16 @@ int main(int argc, char *argv[])
     }
 
     // Default behavior
-    written_length = GPR_LOG_MSG(GPR_LOG_DEBUG, "This is a DEBUG log message"); // Will not be displayed
-    assert(written_length == 0);
-    written_length = GPR_LOG_MSG(GPR_LOG_INFO, "This is an INFO log message");
-    assert(written_length > 0);
-    written_length = GPR_LOG_MSG(GPR_LOG_WARNING, "This is a WARNING log message");
-    assert(written_length > 0);
-    written_length = GPR_LOG_MSG(GPR_LOG_ERROR, "This is an ERROR log message");
-    assert(written_length > 0);
-    written_length = GPR_LOG_MSG(GPR_LOG_CRITICAL, "This is a CRITICAL log message");
-    assert(written_length > 0);
+    written_len = GPR_LOG_MSG(GPR_LOG_DEBUG, "This is a DEBUG log message"); // Will not be displayed
+    assert(written_len == 0);
+    written_len = GPR_LOG_MSG(GPR_LOG_INFO, "This is an INFO log message");
+    assert(written_len > 0);
+    written_len = GPR_LOG_MSG(GPR_LOG_WARNING, "This is a WARNING log message");
+    assert(written_len > 0);
+    written_len = GPR_LOG_MSG(GPR_LOG_ERROR, "This is an ERROR log message");
+    assert(written_len > 0);
+    written_len = GPR_LOG_MSG(GPR_LOG_CRITICAL, "This is a CRITICAL log message");
+    assert(written_len > 0);
 
     puts("Changing default log level to DEBUG");
 
@@ -54,16 +54,16 @@ int main(int argc, char *argv[])
     }
 
     // Debug behavior
-    written_length = GPR_LOG_DEBUG("This is a DEBUG log message");
-    assert(written_length > 0);
-    written_length = GPR_LOG_INFO("This is an INFO log message");
-    assert(written_length > 0);
-    written_length = GPR_LOG_WARN("This is a WARNING log message");
-    assert(written_length > 0);
-    written_length = GPR_LOG_ERR("This is an ERROR log message");
-    assert(written_length > 0);
-    written_length = GPR_LOG_CRIT("This is a CRITICAL log message");
-    assert(written_length > 0);
+    written_len = GPR_LOG_DEBUG("This is a DEBUG log message");
+    assert(written_len > 0);
+    written_len = GPR_LOG_INFO("This is an INFO log message");
+    assert(written_len > 0);
+    written_len = GPR_LOG_WARN("This is a WARNING log message");
+    assert(written_len > 0);
+    written_len = GPR_LOG_ERR("This is an ERROR log message");
+    assert(written_len > 0);
+    written_len = GPR_LOG_CRIT("This is a CRITICAL log message");
+    assert(written_len > 0);
 
     GPR_FREE_ERR_MODULE
 

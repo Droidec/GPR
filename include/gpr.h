@@ -41,13 +41,16 @@
 
 #include "gpr_array.h"
 #include "gpr_bin.h"
+#include "gpr_bit.h"
 #include "gpr_buf.h"
 #include "gpr_dlklist.h"
 #include "gpr_err.h"
 #include "gpr_klist.h"
 #include "gpr_log.h"
 #include "gpr_net.h"
+#include "gpr_str.h"
 #include "gpr_time.h"
+#include "gpr_tree.h"
 #include "gpr_utils.h"
 
 /**

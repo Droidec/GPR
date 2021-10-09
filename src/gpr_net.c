@@ -37,10 +37,10 @@
 #include "gpr_net.h"
 #include "gpr_utils.h"
 
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/socket.h> // socket
+#include <stdlib.h>     // malloc, free
+#include <string.h>     // memset
+#include <unistd.h>     // close
+#include <sys/socket.h> // socket, connect
 
 /******************************************************************************
  * Private prototypes

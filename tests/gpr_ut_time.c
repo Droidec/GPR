@@ -10,9 +10,9 @@
 
 #include "gpr_time.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
+#include <stdio.h>  // printf
+#include <string.h> // strlen
+#include <assert.h> // assert
 
 int main()
 {

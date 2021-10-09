@@ -10,8 +10,8 @@
 
 #include "gpr_bin.h"
 
-#include <stdio.h>
-#include <string.h>
+#include <stdio.h>  // printf
+#include <string.h> // memset
 
 int main()
 {
@@ -20,7 +20,7 @@ int main()
     char str_hex_buf[(str_size * 2) + 1];
     memset(str_hex_buf, 0, (str_size * 2) + 1);
 
-    gpr_bin_hexlify(string, str_size, str_hex_buf);
+    gpr_bin_hexlify(str_hex_buf, string, str_size);
 
     printf("String: \"Hello World\"\n");
     printf("In hex: %s\n", str_hex_buf);
@@ -30,7 +30,7 @@ int main()
     char val_hex_buf[(val_size * 2) + 1];
     memset(val_hex_buf, 0, (val_size * 2) + 1);
 
-    gpr_bin_hexlify(&value, val_size, val_hex_buf);
+    gpr_bin_hexlify(val_hex_buf, &value, val_size);
 
     printf("Value: %llu\n", value);
     printf("In hex: %s\n", val_hex_buf);

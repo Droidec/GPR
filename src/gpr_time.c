@@ -37,9 +37,9 @@
 #include "gpr_time.h"
 #include "gpr_utils.h"
 
-#include <time.h>
-#include <string.h>
-#include <sys/time.h>
+#include <time.h>     // time_t, tm, time, localtime_r, strftime
+#include <string.h>   // memset
+#include <sys/time.h> // gettimeofday
 
 /******************************************************************************
  * Public functions
@@ -49,6 +49,12 @@ size_t gpr_time_get_date_sec(char * const buffer)
 {
     time_t rawtime;
     struct tm dateinfo;
+
+#ifdef DEBUG
+    /* Check consistency */
+    if (buffer == NULL)
+        return 0;
+#endif
 
     memset(buffer, 0, GPR_DATE_SEC_LEN + 1);
 
@@ -60,22 +66,28 @@ size_t gpr_time_get_date_sec(char * const buffer)
 
 size_t gpr_time_get_date_millisec(char * const buffer)
 {
-    size_t sec_length;
-    int ms_length;
+    size_t sec_len;
+    int ms_len;
     struct timeval timeinfo;
+
+#ifdef DEBUG
+    /* Check consistency */
+    if (buffer == NULL)
+        return 0;
+#endif
 
     memset(buffer, 0, GPR_DATE_MILLISEC_LEN + 1);
 
-    sec_length = gpr_time_get_date_sec(buffer);
+    sec_len = gpr_time_get_date_sec(buffer);
 
-    if (UNLIKELY(sec_length == 0))
+    if (UNLIKELY(sec_len == 0))
         return 0;
 
     gettimeofday(&timeinfo, NULL); // WARN: Not portable
-    ms_length = SCNPRINTF(buffer + GPR_DATE_SEC_LEN, (GPR_DATE_MILLISEC_LEN - GPR_DATE_SEC_LEN) + 1, ".%.3ld", timeinfo.tv_usec / 1000L);
+    ms_len = SCNPRINTF(buffer + GPR_DATE_SEC_LEN, (GPR_DATE_MILLISEC_LEN - GPR_DATE_SEC_LEN) + 1, ".%.3ld", timeinfo.tv_usec / 1000L);
 
-    if (UNLIKELY(ms_length <= 0))
+    if (UNLIKELY(ms_len <= 0))
         return 0;
 
-    return sec_length + ms_length;
+    return sec_len + ms_len;
 }

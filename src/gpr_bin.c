@@ -36,20 +36,28 @@
 
 #include "gpr_bin.h"
 
+/******************************************************************************
+ * Private prototypes
+ *****************************************************************************/
+
 /**
  * \brief Hexadecimal array
  */
 static const char *Hex_Arr = "0123456789ABCDEF";
 
-void gpr_bin_hexlify(const void *src, size_t size, char *out)
+/******************************************************************************
+ * Public functions
+ *****************************************************************************/
+
+void gpr_bin_hexlify(char *dst, const void *src, size_t size)
 {
     const char *ptr = src;
 
     for (; size > 0; size--)
     {
         /* Process byte per byte */
-        *out++ = Hex_Arr[(*ptr >> 4) & 0x0F];
-        *out++ = Hex_Arr[*ptr & 0x0F];
+        *dst++ = Hex_Arr[(*ptr >> 4) & 0x0F];
+        *dst++ = Hex_Arr[*ptr & 0x0F];
         ptr++;
     }
 }

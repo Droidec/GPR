@@ -37,8 +37,8 @@
 #include "gpr_array.h"
 #include "gpr_utils.h"
 
-#include <stdlib.h>
-#include <string.h>
+#include <stdlib.h> // malloc, realloc, free
+#include <string.h> // memmove
 
 /******************************************************************************
  * Public functions

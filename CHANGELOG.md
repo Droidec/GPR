@@ -2,6 +2,19 @@
 
 This CHANGELOG indicates the different versions of the `GPR` project.
 
+## Version 0.0.21
+
+- Introduce gpr_bit module for bit management
+- Introduce gpr_str module for C-string management
+- Introduce gpr_tree module for n-ary tree management
+- Add GPR_ERR_LOOP_DETECTED to gpr_err module
+- Increase log messages maximum size in gpr_log module
+- Change some variable names to reduce their size
+- Update GUIDELINE
+- Update README
+- Remove TODO file
+- Fix typo
+
 ## Version 0.0.20
 
 - Introduce gpr_arrtpl module for templated dynamic array management
@@ -92,7 +105,7 @@ This CHANGELOG indicates the different versions of the `GPR` project.
 
 ## Version 0.0.6
 
-- Introduce gpr_dlklist to the GPR library for double linked list management
+- Introduce gpr_dlklist for double linked list management
 
 ## Version 0.0.5
 
@@ -100,7 +113,7 @@ This CHANGELOG indicates the different versions of the `GPR` project.
 
 ## Version 0.0.4
 
-- Introduce gpr_network to the GPR library for network management
+- Introduce gpr_network for network management
 - Drop hungarian notation
 - Various MacOS fixes
 
@@ -110,10 +123,10 @@ This CHANGELOG indicates the different versions of the `GPR` project.
 
 ## Version 0.0.2
 
-- Introduce gpr to the GPR library for library macros
+- Introduce gpr for library macros
 - Introduce gpr_builtin to the GPR library for builtin macros/functions
-- Introduce gpr_err to the GPR library for error management
-- Introduce gpr_log to the GPR library for log management
+- Introduce gpr_err for error management
+- Introduce gpr_log for log management
 
 ## Version 0.0.1
 

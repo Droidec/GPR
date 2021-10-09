@@ -37,8 +37,8 @@
 #include "gpr_err.h"
 #include "gpr_utils.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> // malloc, free
+#include <stdarg.h> // va_list, va_start, va_end
 
 /******************************************************************************
  * Private prototypes
@@ -52,8 +52,9 @@ static const char *Err_Array[] = {
     /* 001 */ "Failure",
     /* 002 */ "Invalid parameter",
     /* 003 */ "Memory failure",
-    /* 004 */ "Not implemented",
-    /* 005 */ "Network error",
+    /* 004 */ "Loop detected",
+    /* 005 */ "Not implemented",
+    /* 006 */ "Network error",
 };
 
 /**
