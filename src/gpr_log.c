@@ -38,7 +38,7 @@
 #include "gpr_utils.h"
 #include "gpr_time.h"
 
-#include <stdarg.h>
+#include <stdarg.h> // va_list, va_start, va_end
 
 /******************************************************************************
  * Private prototypes

@@ -10,7 +10,7 @@
 
 #include "gpr_bit.h"
 
-#include <assert.h>
+#include <assert.h> // assert
 
 int main()
 {

@@ -36,7 +36,7 @@
 
 #include "gpr_str.h"
 
-#include <ctype.h>  // tolower, toupper
+#include <ctype.h>  // tolower, toupper, isspace
 #include <string.h> // strlen
 
 /******************************************************************************

@@ -64,9 +64,8 @@
 
 #include "gpr_err.h"
 
-#include <stdlib.h>
 #include <stddef.h>  // offsetof
-#include <stdbool.h> // WARN: Not portable
+#include <stdbool.h> // bool // WARN: Not portable
 
 /**
  * \brief Circular doubly linked list structure (Entry)

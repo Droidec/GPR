@@ -37,7 +37,7 @@
 #include "gpr_dlklist.h"
 #include "gpr_utils.h"
 
-#include <stdlib.h>
+#include <stdlib.h> // malloc, free
 
 /******************************************************************************
  * Private prototypes

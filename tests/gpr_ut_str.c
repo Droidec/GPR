@@ -11,8 +11,8 @@
 #include "gpr_str.h"
 #include "gpr_utils.h"
 
-#include <stdio.h>
-#include <string.h>
+#include <stdio.h>  // printf
+#include <string.h> // strlen
 
 #define STRING_SIZE 20
 

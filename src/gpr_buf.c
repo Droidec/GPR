@@ -37,8 +37,7 @@
 #include "gpr_buf.h"
 #include "gpr_utils.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> // malloc, free
 
 /******************************************************************************
  * Public functions

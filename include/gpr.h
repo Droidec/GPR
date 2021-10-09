@@ -50,6 +50,7 @@
 #include "gpr_net.h"
 #include "gpr_str.h"
 #include "gpr_time.h"
+#include "gpr_tree.h"
 #include "gpr_utils.h"
 
 /**

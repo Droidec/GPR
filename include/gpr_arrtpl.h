@@ -60,9 +60,9 @@
 #ifndef H_GPR_ARRTPL
 #define H_GPR_ARRTPL
 
-#include <stdbool.h> // WARN: Not portable
-#include <stdlib.h>
-#include <stddef.h>
+#include <stddef.h>  // size_t
+#include <stdlib.h>  // realloc, free
+#include <stdbool.h> // bool // WARN: Not portable
 
 /**
  * Type for the elements of the array (required)
@@ -124,7 +124,7 @@ struct GPR_ARRTPL_ST
  *
  * \brief Initialize a new templated array (GPR_ARRTPL_ST)
  *
- * \param arr Templated array to initialize
+ * \param arr      Templated array to initialize
  * \param capacity Number of elements to allocate
  *
  * \return

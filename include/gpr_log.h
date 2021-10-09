@@ -52,7 +52,7 @@
 
 #include "gpr_err.h"
 
-#include <stdio.h>
+#include <stdio.h> // ssize_t
 
 /**
  * \brief Possible log levels that can be used to log messages

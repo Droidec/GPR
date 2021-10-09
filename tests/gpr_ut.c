@@ -10,7 +10,7 @@
 
 #include "gpr.h"
 
-#include <stdio.h>
+#include <stdio.h> // puts
 
 int main()
 {

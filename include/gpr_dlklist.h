@@ -57,8 +57,8 @@
 
 #include "gpr_err.h"
 
-#include <stdio.h>
-#include <stdbool.h> // WARN: Not portable
+#include <stddef.h>  // size_t
+#include <stdbool.h> // bool // WARN: Not portable
 
 /**
  * \brief Doubly linked list component structure

@@ -39,8 +39,9 @@
 #ifndef H_GPR_UTILS
 #define H_GPR_UTILS
 
-#include <stdio.h>
-#include <stdarg.h>
+#include <stdio.h>  // vsnprintf
+#include <stddef.h> // size_t
+#include <stdarg.h> // va_list, va_start, va_end
 
 /**
  * \brief Optimize branch prediction \a x in favour of a "likely" side jump

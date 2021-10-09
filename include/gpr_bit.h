@@ -38,7 +38,7 @@
 #ifndef H_GPR_BIT
 #define H_GPR_BIT
 
-#include <stdbool.h> // WARN: Not portable
+#include <stdbool.h> // bool // WARN: Not portable
 
 /******************************************************************************
  *
@@ -50,7 +50,7 @@
  *     7 represents the most significant bit (MSB)
  *
  * \param byte Byte to check
- * \param pos Position of the bit to check
+ * \param pos  Position of the bit to check
  *
  * \return
  *     True if the bit is set (1)\n

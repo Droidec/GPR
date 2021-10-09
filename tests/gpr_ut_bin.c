@@ -10,8 +10,8 @@
 
 #include "gpr_bin.h"
 
-#include <stdio.h>
-#include <string.h>
+#include <stdio.h>  // printf
+#include <string.h> // memset
 
 int main()
 {

@@ -37,9 +37,9 @@
 #include "gpr_time.h"
 #include "gpr_utils.h"
 
-#include <time.h>
-#include <string.h>
-#include <sys/time.h>
+#include <time.h>     // time_t, tm, time, localtime_r, strftime
+#include <string.h>   // memset
+#include <sys/time.h> // gettimeofday
 
 /******************************************************************************
  * Public functions

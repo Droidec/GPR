@@ -10,8 +10,8 @@
 
 #include "gpr_net.h"
 
-#include <stdio.h>
-#include <assert.h>
+#include <stdio.h>  // fprintf, printf
+#include <assert.h> // assert
 
 int main()
 {

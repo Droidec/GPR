@@ -70,7 +70,7 @@
 #ifndef H_GPR_BUF
 #define H_GPR_BUF
 
-#include <stdbool.h> // WARN: Not portable
+#include <stdbool.h> // bool // WARN: Not portable
 
 /**
  * \brief Buffer structure

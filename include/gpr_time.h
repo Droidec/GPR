@@ -38,7 +38,7 @@
 #ifndef H_GPR_TIME
 #define H_GPR_TIME
 
-#include <stdio.h>
+#include <stddef.h> // size_t
 
 /******************************************************************************
  *

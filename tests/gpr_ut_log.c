@@ -10,8 +10,8 @@
 
 #include "gpr_log.h"
 
-#include <stdio.h>
-#include <assert.h>
+#include <stdio.h>  // fprintf, puts
+#include <assert.h> // assert
 
 int main(int argc, char *argv[])
 {
