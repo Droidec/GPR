@@ -9,6 +9,7 @@ You can alter rendered file(s) with command-line options
 __version__ = '0.1'
 __author__ = 'Marc GIANNETTI'
 
+from itertools import cycle
 import subprocess
 import argparse
 import shutil
@@ -16,31 +17,40 @@ import sys
 import os
 import re
 
+# Available colors
+COLOR_LIST = (
+    'aquamarine4', 'bisque4', 'black', 'blue', 'blueviolet', 'brown', 'cadetblue', 'chartreuse4', 'chocolate', 'coral2', 'crimson',
+    'cyan3', 'fuchsia', 'gold3', 'gray50', 'green4', 'indigo', 'magenta', 'maroon', 'olive', 'orange3',
+    'orchid3', 'plum', 'purple', 'red', 'royalblue', 'salmon', 'seagreen', 'sienna', 'skyblue4', 'teal',
+    'tomato', 'turquoise4', 'violetred', 'yellow3'
+)
+
 class GraphFile(object):
     """GraphFile class
 
     Describe a file and its dependencies
     """
 
-    def __init__(self, name, ext, path):
+    def __init__(self, name, ext, path, color):
         self.name = name
         self.ext  = ext
         self.path = path
-        self.includes = self.__get_include_list()
+        self.color = color
+        self.includes = self._get_include_list()
 
     def __str__(self, files=None):
         if files is None:
-            return f'"{self.name}{self.ext}" -> {{' + ' '.join('"{}"'.format(x) for x in self.includes) + '}'
+            return f'"{self.name}{self.ext}" [color="{self.color}", fontcolor="{self.color}"] ' + f'"{self.name}{self.ext}" -> {{' + ' '.join('"{}"'.format(x) for x in self.includes) + f'}} [color="{self.color}"]'
         else:
-            return f'"{self.name}{self.ext}" -> {{' + ' '.join('"{}"'.format(x) for x in self.includes if any((y.name+y.ext) == x for y in files)) + '}'
+            return f'"{self.name}{self.ext}" [color="{self.color}", fontcolor="{self.color}"] ' + f'"{self.name}{self.ext}" -> {{' + ' '.join('"{}"'.format(x) for x in self.includes if any((y.name+y.ext) == x for y in files)) + f'}} [color="{self.color}"]'
 
     def __repr__(self, files=None):
         if files is None:
-            return f'"{self.name}" -> {{' + ' '.join('"{}"'.format(os.path.splitext(x)[0]) for x in self.includes if os.path.splitext(x)[0] != self.name) + '}'
+            return f'"{self.name}" [color="{self.color}", fontcolor="{self.color}"] ' + f'"{self.name}" -> {{' + ' '.join('"{}"'.format(os.path.splitext(x)[0]) for x in self.includes if os.path.splitext(x)[0] != self.name) + f'}} [color="{self.color}"]'
         else:
-            return f'"{self.name}" -> {{' + ' '.join('"{}"'.format(os.path.splitext(x)[0]) for x in self.includes if os.path.splitext(x)[0] != self.name and any((y.name+y.ext) == x for y in files)) + '}'
+            return f'"{self.name}" [color="{self.color}", fontcolor="{self.color}"] ' + f'"{self.name}" -> {{' + ' '.join('"{}"'.format(os.path.splitext(x)[0]) for x in self.includes if os.path.splitext(x)[0] != self.name and any((y.name+y.ext) == x for y in files)) + f'}} [color="{self.color}"]'
 
-    def __get_include_list(self):
+    def _get_include_list(self):
         """Get a list of includes from a file"""
         try:
             return [x[1:-1] for line in open(f'{self.path}{self.name}{self.ext}', 'r') for x in re.findall(r'\s*#\s*include\s+(\S+)', line) if x]
@@ -53,7 +63,7 @@ class GraphSet(object):
 
     Describe a set and its dependencies
     """
-    def __init__(self, dir_list, name='set', mode='file', output='.', standalone=None, known_only=False):
+    def __init__(self, dir_list, name='set', mode='file', output='.', standalone=None, known_only=False, color=False):
         self.name = name
         self.mode = mode
 
@@ -63,6 +73,8 @@ class GraphSet(object):
         self.output = output + '/' if not output.endswith('/') else output
         self.standalone = standalone
         self.known_only = known_only
+        self.color = color
+        self.colors = cycle(COLOR_LIST)
         self.files = []
 
         # Get files and their dependencies
@@ -71,7 +83,7 @@ class GraphSet(object):
                 raise ValueError(f'\'{directory}\' is not a directory')
 
             path = directory + '/' if not directory.endswith('/') else directory
-            self.files.extend(self.__get_dir_files(path))
+            self._get_dir_files(path)
 
     def __str__(self):
         if self.known_only is False:
@@ -85,11 +97,26 @@ class GraphSet(object):
         else:
             return '\n'.join([file.__repr__(self.files) for file in self.files])
 
-    def __get_dir_files(self, path):
+    def _get_dir_files(self, path):
         """Get a list of files object from a path"""
-        return [GraphFile(os.path.splitext(x.name)[0], os.path.splitext(x.name)[1], path) for x in os.scandir(path) if x.is_file()]
+        for x in os.scandir(path):
+            if x.is_file():
+                name, ext = os.path.splitext(x.name)
+                color = 'black'
 
-    def __default_open(self, path):
+                if self.color:
+                    for file in self.files:
+                        # If we have a similar file, get its color
+                        if name == file.name:
+                            color = file.color
+                            break
+                    else:
+                        # ...Otherwise, get next available color
+                        color = next(self.colors)
+
+                self.files.append(GraphFile(name, ext, path, color))
+
+    def _default_open(self, path):
         """Open default viewer app according to platform"""
         defaultapp = {
             'linux':'xdg-open',
@@ -143,7 +170,7 @@ class GraphSet(object):
             os.remove(f'{self.output}{self.name}.gv')
 
         if view is True:
-            self.__default_open(f'{self.output}{self.name}.pdf')
+            self._default_open(f'{self.output}{self.name}.pdf')
 
 if __name__ == "__main__":
 
@@ -155,6 +182,7 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--standalone', default=None, help="Graph only given module")
     parser.add_argument('-v', '--verbose', default=False, action="store_true", help="Display graph process in standard output")
     parser.add_argument('--known-only', default=False, action="store_true", help="Render only known files")
+    parser.add_argument('--color', default=False, action="store_true", help="Render graph with colors")
     parser.add_argument('--cleanup', default=False, action="store_true", help="Cleanup intermediate files")
     parser.add_argument('--view', default=False, action="store_true", help="Open the rendered result with the default application")
     parser.add_argument('dir', nargs='*', help="Directories containing files to graph")
@@ -164,7 +192,7 @@ if __name__ == "__main__":
         print(args)
 
     # Graph set
-    graph_set = GraphSet(args.dir, args.name, args.mode, args.output, args.standalone, args.known_only)
+    graph_set = GraphSet(args.dir, args.name, args.mode, args.output, args.standalone, args.known_only, args.color)
     if args.verbose is True and args.mode == 'file':
         print(str(graph_set))
     if args.verbose is True and args.mode == 'module':
