@@ -2,7 +2,7 @@
  *
  * \file gpr_str.h
  * \brief String module
- * \details This module defines a way to handle C-string
+ * \details This module offers additional functions to manipulate C-strings
  *
  ******************************************************************************
  *
@@ -79,20 +79,21 @@ size_t gpr_str_tolower(char *dst, const char *src, size_t num);
  * \param num Maximum number of characters to be copied from \a src
  *
  * \return
- *     Number of characters written in dst
+ *     Number of characters written in \a dst
  *
  *****************************************************************************/
 size_t gpr_str_toupper(char *dst, const char *src, size_t num);
 
 /******************************************************************************
  *
- * \brief Trim leading spaces of a C-string
+ * \brief Trim leading spaces of \a str by moving C-string pointer until it
+ * reaches the new start or a trailing '\0'
  *
  * \param str C-string to trim
  *
  * \return
- *     The C-string trimmed\n
- *     NULL if C-string is NULL (DEBUG mode only)
+ *     Pointer to the new start of \a str\n
+ *     NULL if \a str is NULL (DEBUG mode only)
  *
  *****************************************************************************/
 char *gpr_str_ltrim(char *str);
@@ -100,12 +101,13 @@ char *gpr_str_ltrim(char *str);
 
 /******************************************************************************
  *
- * \brief Trim trailing spaces of a C-string
+ * \brief Trim trailing spaces of /a str by adding a new trailing '\0' at the
+ * new end of the string
  *
  * \param str C-string to trim
  *
  * \return
- *     The C-string trimmed
+ *     Pointer to \a str trimmed
  *     NULL if C-string is NULL (DEBUG mode only)
  *
  *****************************************************************************/
@@ -114,12 +116,15 @@ char *gpr_str_rtrim(char *str);
 
 /******************************************************************************
  *
- * \brief Trim leading and trailing spaces of a C-string
+ * \brief Trim leading and trailing spaces of \a str
+ *
+ * \note A call to this function is equivalent to a call of gpr_str_ltrim
+ * and gpr_str_rtrim, in any order
  *
  * \param str C-string to trim
  *
  * \return
- *     The C-string trimmed
+ *     Pointer to \a str trimmed
  *     NULL if C-string is NULL (DEBUG mode only)
  *
  *****************************************************************************/

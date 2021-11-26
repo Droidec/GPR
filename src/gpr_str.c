@@ -45,7 +45,7 @@
 
 size_t gpr_str_tolower(char *dst, const char *src, size_t num)
 {
-    unsigned int count = 0;
+    size_t count = 0;
 
 #ifdef DEBUG
     /* Check consistency */
@@ -53,7 +53,7 @@ size_t gpr_str_tolower(char *dst, const char *src, size_t num)
         return 0;
 #endif
 
-    for (unsigned int i = 0; i < num; i++)
+    for (size_t i = 0; i < num; i++)
     {
         if (src[i] == '\0')
             break;
@@ -66,7 +66,7 @@ size_t gpr_str_tolower(char *dst, const char *src, size_t num)
 
 size_t gpr_str_toupper(char *dst, const char *src, size_t num)
 {
-    unsigned int count = 0;
+    size_t count = 0;
 
 #ifdef DEBUG
     /* Check consistency */
@@ -74,7 +74,7 @@ size_t gpr_str_toupper(char *dst, const char *src, size_t num)
         return 0;
 #endif
 
-    for (unsigned int i = 0; i < num; i++)
+    for (size_t i = 0; i < num; i++)
     {
         if (src[i] == '\0')
             break;
@@ -135,6 +135,6 @@ char *gpr_str_trim(char *str)
         return NULL;
 #endif
 
-    // Trim string
-    return gpr_str_rtrim(gpr_str_ltrim(str));
+    // Apply leading and trailing functions
+    return gpr_str_ltrim(gpr_str_rtrim(str));
 }

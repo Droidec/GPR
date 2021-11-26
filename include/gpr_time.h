@@ -2,7 +2,7 @@
  *
  * \file gpr_time.h
  * \brief Time module
- * \details This module offers generic functions to manipulate time
+ * \details This module offers additional functions to manipulate time
  *
  ******************************************************************************
  *

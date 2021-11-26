@@ -246,6 +246,7 @@ void gpr_tree_free(struct gpr_tnode *origin)
     if (origin->sibling != NULL)
         gpr_tree_free(origin->sibling);
 
+    /* Free children */
     if (origin->child != NULL)
         gpr_tree_free(origin->child);
 
