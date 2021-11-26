@@ -2,6 +2,12 @@
 
 This CHANGELOG indicates the different versions of the `GPR` project.
 
+## Version 0.0.22
+
+- Add the 'color' command-line option to grapher
+- Fix misuse types in gpr_str module
+- Fix typo
+
 ## Version 0.0.21
 
 - Introduce gpr_bit module for bit management
