@@ -52,13 +52,13 @@
  * \param buffer Buffer where to copy the current local date
  *
  * \return
- *     Return the total number of characters copied in the buffer
+ *     Returns the total number of characters copied in the buffer
  *     (not including the terminating null-character)\n
  *     If an error occured, returns zero, and the content of the array
  *     pointed by buffer is indeterminate
  *
  *****************************************************************************/
-size_t gpr_time_get_date_sec(char * const buffer);
+size_t gpr_time_get_date_sec(char *buffer);
 
 /**
  * \brief Number of bytes needed for the \a gpr_time_get_date_sec function
@@ -78,13 +78,13 @@ size_t gpr_time_get_date_sec(char * const buffer);
  * \param buffer Buffer where to copy the current local date
  *
  * \return
- *     Return the total number of characters copied in the buffer
+ *     Returns the total number of characters copied in the buffer
  *     (not including the terminating null-character)\n
  *     If an error occured, returns zero, and the content of the array
  *     pointed by buffer is indeterminate
  *
  *****************************************************************************/
-size_t gpr_time_get_date_millisec(char * const buffer);
+size_t gpr_time_get_date_millisec(char *buffer);
 
 /**
  * \brief Number of bytes needed for the \a gpr_time_get_date_millisec function

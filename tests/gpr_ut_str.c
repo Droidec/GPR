@@ -9,10 +9,11 @@
  *****************************************************************************/
 
 #include "gpr_str.h"
-#include "gpr_utils.h"
 
 #include <stdio.h>  // printf
 #include <string.h> // strlen
+
+#include "gpr_utils.h"
 
 #define STRING_SIZE 20
 

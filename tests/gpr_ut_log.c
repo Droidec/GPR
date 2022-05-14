@@ -11,14 +11,12 @@
 #include "gpr_log.h"
 
 #include <stdio.h>  // fprintf, puts
-#include <assert.h> // assert
 
 int main(int argc, char *argv[])
 {
     GPR_ALLOC_ERR_MODULE
 
     enum GPR_Err err;
-    ssize_t written_len;
 
     if (argc > 1)
     {

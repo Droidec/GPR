@@ -53,10 +53,10 @@
 #ifndef H_GPR_LOG
 #define H_GPR_LOG
 
+#include <stdio.h> // ssize_t
+
 #include "gpr_err.h"
 #include "gpr_time.h"
-
-#include <stdio.h> // ssize_t
 
 /**
  * \brief Possible log levels that can be used to log messages
@@ -225,8 +225,8 @@ ssize_t gpr_log_msg(enum GPR_Log level, const char * const fmt, ...) __attribute
  * \brief Flush standard output
  *
  * \return
- *     On success, return 0\n
- *     On failure, return EOF and set errno
+ *     On success, returns 0\n
+ *     On failure, returns EOF and set errno
  *
  *****************************************************************************/
 int gpr_log_flush(void);

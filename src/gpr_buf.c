@@ -35,9 +35,11 @@
  *****************************************************************************/
 
 #include "gpr_buf.h"
-#include "gpr_utils.h"
 
-#include <stdlib.h> // malloc, free
+#include <stdbool.h> // bool
+#include <stdlib.h>  // malloc, free
+
+#include "gpr_utils.h"
 
 /******************************************************************************
  * Public functions

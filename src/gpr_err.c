@@ -35,10 +35,11 @@
  *****************************************************************************/
 
 #include "gpr_err.h"
-#include "gpr_utils.h"
 
-#include <stdlib.h> // malloc, free
 #include <stdarg.h> // va_list, va_start, va_end
+#include <stdlib.h> // malloc, free
+
+#include "gpr_utils.h"
 
 /******************************************************************************
  * Private prototypes
@@ -96,7 +97,7 @@ char *gpr_err_get_cmpl_err(void)
     return Cmpl_Err_Msg;
 }
 
-enum GPR_Err gpr_err_raise(enum GPR_Err err, const char * const fmt, ...)
+enum GPR_Err gpr_err_raise(enum GPR_Err err, const char *fmt, ...)
 {
     va_list list;
 

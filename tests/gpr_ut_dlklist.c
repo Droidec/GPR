@@ -9,12 +9,13 @@
  *****************************************************************************/
 
 #include "gpr_dlklist.h"
-#include "gpr_utils.h"
 
+#include <assert.h> // assert
 #include <stdio.h>  // printf
 #include <stdlib.h> // malloc, free
 #include <string.h> // memset, strncmp
-#include <assert.h> // assert
+
+#include "gpr_utils.h"
 
 #define STUDENT_NAME_MAX_LEN 20
 

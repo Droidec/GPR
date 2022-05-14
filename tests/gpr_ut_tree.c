@@ -10,8 +10,8 @@
 
 #include "gpr_tree.h"
 
-#include <stdio.h>  // fprintf, printf
 #include <stddef.h> // size_t
+#include <stdio.h>  // fprintf, printf
 #include <stdlib.h> // abort
 #include <string.h> // strlen
 

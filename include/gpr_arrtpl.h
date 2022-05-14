@@ -60,9 +60,9 @@
 #ifndef H_GPR_ARRTPL
 #define H_GPR_ARRTPL
 
+#include <stdbool.h> // bool
 #include <stddef.h>  // size_t
 #include <stdlib.h>  // realloc, free
-#include <stdbool.h> // bool // WARN: Not portable
 
 /**
  * Type for the elements of the array (required)

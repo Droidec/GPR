@@ -35,10 +35,14 @@
  *****************************************************************************/
 
 #include "gpr_array.h"
-#include "gpr_utils.h"
 
-#include <stdlib.h> // malloc, realloc, free
-#include <string.h> // memmove
+#include <stdbool.h> // bool
+#include <stddef.h>  // size_t
+#include <stdlib.h>  // malloc, realloc, free
+#include <string.h>  // memmove
+
+#include "gpr_err.h"
+#include "gpr_utils.h"
 
 /******************************************************************************
  * Public functions

@@ -52,10 +52,10 @@
 #ifndef H_GPR_ARRAY
 #define H_GPR_ARRAY
 
-#include "gpr_err.h"
-
+#include <stdbool.h> // bool
 #include <stddef.h>  // size_t
-#include <stdbool.h> // bool // WARN: Not portable
+
+#include "gpr_err.h"
 
 /**
  * \brief Dynamic array structure
@@ -71,8 +71,8 @@ struct gpr_array
  * \brief Allocate and initialize a new array
  *
  * \return
- *     On success, return a pointer to the array\n
- *     On failure, return NULL
+ *     On success, returns a pointer to the array\n
+ *     On failure, returns NULL
  *
  *****************************************************************************/
 struct gpr_array *gpr_array_new(void);

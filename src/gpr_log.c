@@ -35,9 +35,12 @@
  *****************************************************************************/
 
 #include "gpr_log.h"
-#include "gpr_utils.h"
 
 #include <stdarg.h> // va_list, va_start, va_end
+#include <stdio.h> // ssize_t
+
+#include "gpr_err.h"
+#include "gpr_utils.h"
 
 /******************************************************************************
  * Private prototypes
@@ -79,15 +82,15 @@ enum GPR_Err gpr_log_configure(const char *filename, enum GPR_Log level)
 
 const char *gpr_log_level_to_str(enum GPR_Log level)
 {
+    static const char *log_array[] = {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"};
+
 #ifdef DEBUG
     /* Check consistency */
     if ((level < 0) || (level >= GPR_LOG_NUMBERS))
         return "UNKNOWN";
 #endif
 
-    const char *p_log_array[] = {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"};
-
-    return p_log_array[level];
+    return log_array[level];
 }
 
 ssize_t gpr_log_msg(enum GPR_Log level, const char * const fmt, ...)
@@ -98,7 +101,7 @@ ssize_t gpr_log_msg(enum GPR_Log level, const char * const fmt, ...)
 
 #ifdef DEBUG
     /* Check consistency */
-    if ((file == NULL) || (line < 0) || (func == NULL) || (fmt == NULL))
+    if (fmt == NULL)
         return -1;
 #endif
 
