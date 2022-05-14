@@ -147,7 +147,7 @@ struct gpr_tnode *build_big_bang(void)
     // And what if... Pluto was the origin of everything?...
     if (gpr_tree_add_child(pluto, big_bang) == GPR_ERR_OK)
     {
-        fprintf(stderr, "A paradox has occured (Memory leak)\n");
+        fprintf(stderr, "A paradox has occurred (Memory leak)\n");
         return NULL;
     }
 

@@ -93,7 +93,7 @@
  *     The return value is the number of characters which have been written
  *     into the buffer not including the trailing '\0'\n
  *     If the size of the buffer is equal to 0, the function returns 0\n
- *     If an error occured, the function returns a negative number
+ *     If an error occurred, the function returns a negative number
  *
  *****************************************************************************/
 int gpr_utils_vscnprintf(char *buf, size_t size, const char *fmt, va_list args);
@@ -119,7 +119,7 @@ int gpr_utils_vscnprintf(char *buf, size_t size, const char *fmt, va_list args);
  *     The return value is the number of characters which have been written
  *     into the buffer not including the trailing '\0'\n
  *     If the size of the buffer is equal to 0, the function returns 0\n
- *     If an error occured, the function returns a negative number
+ *     If an error occurred, the function returns a negative number
  *
  *****************************************************************************/
 int gpr_utils_scnprintf(char *buf, size_t size, const char *fmt, ...) __attribute__((format(printf, 3, 4)));

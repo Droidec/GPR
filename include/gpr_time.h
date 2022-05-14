@@ -54,7 +54,7 @@
  * \return
  *     Returns the total number of characters copied in the buffer
  *     (not including the terminating null-character)\n
- *     If an error occured, returns zero, and the content of the array
+ *     If an error occurred, returns zero, and the content of the array
  *     pointed by buffer is indeterminate
  *
  *****************************************************************************/
@@ -80,7 +80,7 @@ size_t gpr_time_get_date_sec(char *buffer);
  * \return
  *     Returns the total number of characters copied in the buffer
  *     (not including the terminating null-character)\n
- *     If an error occured, returns zero, and the content of the array
+ *     If an error occurred, returns zero, and the content of the array
  *     pointed by buffer is indeterminate
  *
  *****************************************************************************/

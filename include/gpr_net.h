@@ -127,7 +127,7 @@ enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock);
  *     GPR_ERR_OK: The connection has been established\n
  *     GPR_ERR_INVALID_PARAMETER: One of the parameter is NULL
  *     (DEBUG mode only)\n
- *     GPR_ERR_NETWORK_ERROR: A network error occured
+ *     GPR_ERR_NETWORK_ERROR: A network error occurred
  *
  *****************************************************************************/
 enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *addr, const char *service);

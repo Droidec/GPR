@@ -10,7 +10,7 @@
  * - GPR_LOG_DEBUG (Highly detailed output for debug purpose)
  * - GPR_LOG_INFO (Informational messages)
  * - GPR_LOG_WARNING (Nothing serious but might indicate problems)
- * - GPR_LOG_ERROR (An error occured but does not affect program)
+ * - GPR_LOG_ERROR (An error occurred but does not affect program)
  * - GPR_LOG_CRITICAL (Something bad happened and need immediate attention)
  *
  * The default log level is INFO, it means that only log message at INFO level
@@ -66,7 +66,7 @@ enum GPR_Log
     GPR_LOG_DEBUG,    ///< Highly detailed output for debug purpose
     GPR_LOG_INFO,     ///< Informational messages
     GPR_LOG_WARNING,  ///< Nothing serious but might indicate problems
-    GPR_LOG_ERROR,    ///< An error occured but does not affect program
+    GPR_LOG_ERROR,    ///< An error occurred but does not affect program
     GPR_LOG_CRITICAL, ///< Something bad happened and need immediate attention
     GPR_LOG_NUMBERS,  ///< Number of log levels (DO NOT USE)
     GPR_LOG_DEFAULT   ///< Can be used to stay on default log level
@@ -133,7 +133,7 @@ const char *gpr_log_level_to_str(enum GPR_Log level);
  *     If a specific level has been configured, only messages with this
  *     specific level or below will be processed, otherwise the function
  *     does nothing and returns zero\n
- *     If an error occured, the function returns a negative number and
+ *     If an error occurred, the function returns a negative number and
  *     nothing is written to the standard output
  *
  *****************************************************************************/
