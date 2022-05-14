@@ -16,6 +16,9 @@
  * The default log level is INFO, it means that only log message at INFO level
  * and below are processed, unless the module is configured differently
  *
+ * Standard macros format the message as follows:\n
+ * [Date in milliseconds] [Level] [File:Line] [Function] Message
+ *
  ******************************************************************************
  *
  * \copyright Copyright (c) 2019, the respective contributors, as shown by the
@@ -51,6 +54,7 @@
 #define H_GPR_LOG
 
 #include "gpr_err.h"
+#include "gpr_time.h"
 
 #include <stdio.h> // ssize_t
 
@@ -115,16 +119,10 @@ const char *gpr_log_level_to_str(enum GPR_Log level);
  * \note An implicit carriage return is automatically appended at the end of
  * the formatted C-string message
  *
- * \note This function is not intended to be used directly. Use the macro
- * \a "GPR_LOG_MSG" instead
- *
  * \warning The message can't exceed GPR_LOG_MESSAGE_MAX_LEN bytes,
  * otherwise it will be truncated by this function
  *
  * \param level Log level
- * \param file  Current filename
- * \param line  Current line
- * \param func  Current function
  * \param fmt   Message format to write
  * \param ...   Optional arguments
  *
@@ -139,8 +137,7 @@ const char *gpr_log_level_to_str(enum GPR_Log level);
  *     nothing is written to the standard output
  *
  *****************************************************************************/
-ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line, const char * const func, const char * const fmt, ...)
-    __attribute__((format(printf, 5, 6)));
+ssize_t gpr_log_msg(enum GPR_Log level, const char * const fmt, ...) __attribute__((format(printf, 2, 3)));
 
 /**
  * \brief Maximum length of a log message
@@ -148,33 +145,90 @@ ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line,
 #define GPR_LOG_MESSAGE_MAX_LEN 8192
 
 /**
+ * \brief Standard header of a log message
+ */
+#define GPR_LOG_MESSAGE_STD_HDR "[%s] [%s] [%s:%d] [%s] "
+
+/**
  * \brief Macro to log a message
  */
-#define GPR_LOG_MSG(lvl, fmt, ...) gpr_log_msg(lvl, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
+#define GPR_LOG_MSG(lvl, fmt, ...)                                                                                                       \
+    do                                                                                                                                   \
+    {                                                                                                                                    \
+        char date[GPR_DATE_MILLISEC_LEN + 1];                                                                                            \
+        gpr_time_get_date_millisec(date);                                                                                                \
+        gpr_log_msg(lvl, GPR_LOG_MESSAGE_STD_HDR fmt, date, gpr_log_level_to_str(lvl), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__); \
+    } while (0)
 
 /**
  * \brief Macro to log a debug message
  */
-#define GPR_LOG_DEBUG(fmt, ...) gpr_log_msg(GPR_LOG_DEBUG, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
+#define GPR_LOG_DEBUG(fmt, ...)                                                                                                \
+    do                                                                                                                         \
+    {                                                                                                                          \
+        char date[GPR_DATE_MILLISEC_LEN + 1];                                                                                  \
+        gpr_time_get_date_millisec(date);                                                                                      \
+        gpr_log_msg(GPR_LOG_DEBUG, GPR_LOG_MESSAGE_STD_HDR fmt, date, gpr_log_level_to_str(GPR_LOG_DEBUG), __FILE__, __LINE__, \
+                    __FUNCTION__, ##__VA_ARGS__);                                                                              \
+    } while (0)
 
 /**
  * \brief Macro to log an info message
  */
-#define GPR_LOG_INFO(fmt, ...) gpr_log_msg(GPR_LOG_INFO, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
+#define GPR_LOG_INFO(fmt, ...)                                                                                                             \
+    do                                                                                                                                     \
+    {                                                                                                                                      \
+        char date[GPR_DATE_MILLISEC_LEN + 1];                                                                                              \
+        gpr_time_get_date_millisec(date);                                                                                                  \
+        gpr_log_msg(GPR_LOG_INFO, GPR_LOG_MESSAGE_STD_HDR fmt, date, gpr_log_level_to_str(GPR_LOG_INFO), __FILE__, __LINE__, __FUNCTION__, \
+                    ##__VA_ARGS__);                                                                                                        \
+    } while (0)
 
 /**
  * \brief Macro to log a warning message
  */
-#define GPR_LOG_WARN(fmt, ...) gpr_log_msg(GPR_LOG_WARNING, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
+#define GPR_LOG_WARN(fmt, ...)                                                                                                     \
+    do                                                                                                                             \
+    {                                                                                                                              \
+        char date[GPR_DATE_MILLISEC_LEN + 1];                                                                                      \
+        gpr_time_get_date_millisec(date);                                                                                          \
+        gpr_log_msg(GPR_LOG_WARNING, GPR_LOG_MESSAGE_STD_HDR fmt, date, gpr_log_level_to_str(GPR_LOG_WARNING), __FILE__, __LINE__, \
+                    __FUNCTION__, ##__VA_ARGS__);                                                                                  \
+    } while (0)
 
 /**
  * \brief Macro to log an error message
  */
-#define GPR_LOG_ERR(fmt, ...) gpr_log_msg(GPR_LOG_ERROR, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
+#define GPR_LOG_ERR(fmt, ...)                                                                                                  \
+    do                                                                                                                         \
+    {                                                                                                                          \
+        char date[GPR_DATE_MILLISEC_LEN + 1];                                                                                  \
+        gpr_time_get_date_millisec(date);                                                                                      \
+        gpr_log_msg(GPR_LOG_ERROR, GPR_LOG_MESSAGE_STD_HDR fmt, date, gpr_log_level_to_str(GPR_LOG_ERROR), __FILE__, __LINE__, \
+                    __FUNCTION__, ##__VA_ARGS__);                                                                              \
+    } while (0)
 
 /**
  * \brief Macro to log a critical message
  */
-#define GPR_LOG_CRIT(fmt, ...) gpr_log_msg(GPR_LOG_CRITICAL, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
+#define GPR_LOG_CRIT(fmt, ...)                                                                                                       \
+    do                                                                                                                               \
+    {                                                                                                                                \
+        char date[GPR_DATE_MILLISEC_LEN + 1];                                                                                        \
+        gpr_time_get_date_millisec(date);                                                                                            \
+        gpr_log_msg(GPR_LOG_CRITICAL, GPR_LOG_MESSAGE_STD_HDR fmt, date, gpr_log_level_to_str(GPR_LOG_CRITICAL), __FILE__, __LINE__, \
+                    __FUNCTION__, ##__VA_ARGS__);                                                                                    \
+    } while (0)
+
+/******************************************************************************
+ *
+ * \brief Flush standard output
+ *
+ * \return
+ *     On success, return 0\n
+ *     On failure, return EOF and set errno
+ *
+ *****************************************************************************/
+int gpr_log_flush(void);
 
 #endif /* H_GPR_LOG */

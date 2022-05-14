@@ -368,6 +368,6 @@ enum GPR_Err gpt_tree_convert_to_xml(unsigned char *out, struct gpr_tnode *origi
             gpr_tree_free(origin);                    \
             return NULL;                              \
         }                                             \
-    } while (0);
+    } while (0)
 
 #endif /* H_GPR_TREE */

@@ -68,7 +68,7 @@ size_t gpr_time_get_date_millisec(char * const buffer)
 {
     size_t sec_len;
     int ms_len;
-    struct timeval timeinfo;
+    struct timeval tv;
 
 #ifdef DEBUG
     /* Check consistency */
@@ -83,8 +83,8 @@ size_t gpr_time_get_date_millisec(char * const buffer)
     if (UNLIKELY(sec_len == 0))
         return 0;
 
-    gettimeofday(&timeinfo, NULL); // WARN: Not portable
-    ms_len = SCNPRINTF(buffer + GPR_DATE_SEC_LEN, (GPR_DATE_MILLISEC_LEN - GPR_DATE_SEC_LEN) + 1, ".%.3ld", timeinfo.tv_usec / 1000L);
+    gettimeofday(&tv, NULL); // WARN: Not portable
+    ms_len = SCNPRINTF(buffer + GPR_DATE_SEC_LEN, (GPR_DATE_MILLISEC_LEN - GPR_DATE_SEC_LEN) + 1, ".%.3ld", tv.tv_usec / 1000L);
 
     if (UNLIKELY(ms_len <= 0))
         return 0;

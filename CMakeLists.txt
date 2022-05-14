@@ -43,12 +43,12 @@ file(GLOB TESTS CONFIGURE_DEPENDS "${TEST_REP}/*.c")
 # Build shared API
 add_library(GPR SHARED ${SOURCES})
 target_include_directories(GPR PUBLIC ${INC_REP})
-target_compile_options(GPR PRIVATE -Wall -Wextra -Werror)
+target_compile_options(GPR PRIVATE -Wall -Wextra -Werror -std=c17)
 
 # Build static API
 add_library(GPR_static STATIC ${SOURCES})
 target_include_directories(GPR_static PUBLIC ${INC_REP})
-target_compile_options(GPR_static PRIVATE -Wall -Wextra -Werror)
+target_compile_options(GPR_static PRIVATE -Wall -Wextra -Werror -std=c17)
 
 # Add optimization flags
 if (${CMAKE_BUILD_TYPE} MATCHES Release)
