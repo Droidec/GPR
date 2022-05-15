@@ -10,14 +10,15 @@
 
 #include "gpr.h"
 
-#include <stdio.h> // puts
+#include <stdio.h> // printf, puts
 
 int main()
 {
     /* Allocate default modules */
     GPR_ALLOC_LIBRARY
 
-    puts("See memory leaks with valgrind\n");
+    printf("C standard: %ld\n", __STDC_VERSION__);
+    puts("See memory leaks with valgrind");
 
     /* Free all modules */
     GPR_FREE_LIBRARY
