@@ -55,10 +55,10 @@
 #ifndef H_GPR_DLKLIST
 #define H_GPR_DLKLIST
 
-#include "gpr_err.h"
-
+#include <stdbool.h> // bool
 #include <stddef.h>  // size_t
-#include <stdbool.h> // bool // WARN: Not portable
+
+#include "gpr_err.h"
 
 /**
  * \brief Doubly linked list component structure
@@ -85,8 +85,8 @@ struct gpr_dlklist
  * \brief Allocate and initialize a new doubly linked list
  *
  * \return
- *     On success, return a pointer to the doubly linked list\n
- *     On failure, return NULL
+ *     On success, returns a pointer to the doubly linked list\n
+ *     On failure, returns NULL
  *
  *****************************************************************************/
 struct gpr_dlklist *gpr_dlklist_new(void);

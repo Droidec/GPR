@@ -2,19 +2,27 @@
 
 This CHANGELOG indicates the different versions of the `GPR` project.
 
+## Version 0.0.23
+
+- Add C standard in `cmake` compilation options
+- Update `Doxygen` rendering
+- Change headers inclusion order
+- Update CREDITS
+- Fix typo
+
 ## Version 0.0.22
 
-- Add the 'color' command-line option to grapher
-- Fix misuse types in gpr_str module
+- Add the `color` command-line option to grapher
+- Fix misuse types in `gpr_str` module
 - Fix typo
 
 ## Version 0.0.21
 
-- Introduce gpr_bit module for bit management
-- Introduce gpr_str module for C-string management
-- Introduce gpr_tree module for n-ary tree management
-- Add GPR_ERR_LOOP_DETECTED to gpr_err module
-- Increase log messages maximum size in gpr_log module
+- Introduce `gpr_bit` module for bit management
+- Introduce `gpr_str` module for C-string management
+- Introduce `gpr_tree` module for n-ary tree management
+- Add GPR_ERR_LOOP_DETECTED to `gpr_err` module
+- Increase log messages maximum size in `gpr_log` module
 - Change some variable names to reduce their size
 - Update GUIDELINE
 - Update README
@@ -23,10 +31,10 @@ This CHANGELOG indicates the different versions of the `GPR` project.
 
 ## Version 0.0.20
 
-- Introduce gpr_arrtpl module for templated dynamic array management
-- Introduce gpr_bin module for binary manipulation
-- Introduce gpr_buffer module for data array management
-- Rename gpr_builtin module to gpr_utils
+- Introduce `gpr_arrtpl` module for templated dynamic array management
+- Introduce `gpr_bin` module for binary manipulation
+- Introduce `gpr_buffer` module for data array management
+- Rename `gpr_builtin` module to `gpr_utils`
 - Update clang-format style
 - Update Doxyfile configuration
 - Update GUIDELINE
@@ -36,19 +44,19 @@ This CHANGELOG indicates the different versions of the `GPR` project.
 
 - Rename HOW-TO-DEV to GUIDELINE and rewrite it in Markdown
 - Rewrite CHANGELOG in Markdown
-- Rename gpr_network module to gpr_net
-- Add optimization flag 'O3' in Release version
+- Rename `gpr_network` module to `gpr_net`
+- Add optimization flag `O3` in Release version
 - Fix Debug version
-- Improve gpr_klist module
+- Improve `gpr_klist` module
 
 ## Version 0.0.18
 
 - Add compilation flags
 - Update models
 - Update development rules
-- Introduce gpr_klist module for Linux Kernel linked list
-- Add macros to gpr_dlklist module
-- Add macros to gpr_err module
+- Introduce `gpr_klist` module for Linux Kernel linked list
+- Add macros to `gpr_dlklist` module
+- Add macros to `gpr_err` module
 - Add CREDITS file
 
 ## Version 0.0.17
@@ -61,7 +69,7 @@ This CHANGELOG indicates the different versions of the `GPR` project.
 
 - Try to find external packages for additional Makefile targets
 - Compile GPR library in both static/shared
-- Introduce gpr_array module for dynamic array management
+- Introduce `gpr_array` module for dynamic array management
 
 ## Version 0.0.15
 
@@ -86,9 +94,9 @@ This CHANGELOG indicates the different versions of the `GPR` project.
 
 ## Version 0.0.11
 
-- Add the 'standalone' command-line option to grapher
-- Improve 'search' functionnality in dlklist module
-- Introduce doxygen documentation
+- Add the `standalone` command-line option to grapher
+- Improve `search` functionnality in dlklist module
+- Introduce `Doxygen` documentation
 
 ## Version 0.0.10
 
@@ -107,11 +115,11 @@ This CHANGELOG indicates the different versions of the `GPR` project.
 
 ## Version 0.0.7
 
-- Fix clang format + auto indent source code
+- Fix clang-format + auto indent source code
 
 ## Version 0.0.6
 
-- Introduce gpr_dlklist for double linked list management
+- Introduce `gpr_dlklist` for double linked list management
 
 ## Version 0.0.5
 
@@ -119,22 +127,22 @@ This CHANGELOG indicates the different versions of the `GPR` project.
 
 ## Version 0.0.4
 
-- Introduce gpr_network for network management
+- Introduce `gpr_network` for network management
 - Drop hungarian notation
 - Various MacOS fixes
 
 ## Version 0.0.3
 
-- Various Cygwin fixes
+- Various `Cygwin` fixes
 
 ## Version 0.0.2
 
-- Introduce gpr for library macros
-- Introduce gpr_builtin to the GPR library for builtin macros/functions
-- Introduce gpr_err for error management
-- Introduce gpr_log for log management
+- Introduce `gpr` for library macros
+- Introduce `gpr_builtin` to the GPR library for builtin macros/functions
+- Introduce `gpr_err` for error management
+- Introduce `gpr_log` for log management
 
 ## Version 0.0.1
 
 - Introduce doc, models, and extras stuff
-- Introduce gpr_time module to the GPR library for time management
+- Introduce `gpr_time` module to the GPR library for time management

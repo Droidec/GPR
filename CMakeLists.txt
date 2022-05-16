@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(GPR) # PROJECT_NAME variable
 #set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_C_STANDARD 17)
 
 # Release mode by default
 if(NOT CMAKE_BUILD_TYPE)
@@ -113,6 +114,7 @@ endforeach()
 # Custom targets
 ###############################################################################
 
+find_package(Git)
 find_package(Doxygen)
 find_package(Python3 COMPONENTS Interpreter)
 
@@ -121,9 +123,18 @@ add_custom_target(clear
     COMMAND ${CMAKE_MAKE_PROGRAM} clean)
 
 if (DOXYGEN_FOUND)
+    if (GIT_FOUND)
+    # Get git project version
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} describe --tags
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        OUTPUT_VARIABLE GIT_PROJECT_VER
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    endif()
+
     # make doc
     add_custom_target(doc
-        COMMAND doxygen ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
+        COMMAND ${CMAKE_COMMAND} -E env "PROJECT_NUMBER=${GIT_PROJECT_VER}" doxygen ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Generating API documentation with Doxygen..."
         VERBATIM)

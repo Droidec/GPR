@@ -35,10 +35,12 @@
  *****************************************************************************/
 
 #include "gpr_log.h"
-#include "gpr_utils.h"
-#include "gpr_time.h"
 
 #include <stdarg.h> // va_list, va_start, va_end
+#include <stdio.h> // ssize_t
+
+#include "gpr_err.h"
+#include "gpr_utils.h"
 
 /******************************************************************************
  * Private prototypes
@@ -80,29 +82,26 @@ enum GPR_Err gpr_log_configure(const char *filename, enum GPR_Log level)
 
 const char *gpr_log_level_to_str(enum GPR_Log level)
 {
+    static const char *log_array[] = {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"};
+
 #ifdef DEBUG
     /* Check consistency */
     if ((level < 0) || (level >= GPR_LOG_NUMBERS))
         return "UNKNOWN";
 #endif
 
-    const char *p_log_array[] = {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"};
-
-    return p_log_array[level];
+    return log_array[level];
 }
 
-ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line, const char * const func, const char * const fmt, ...)
+ssize_t gpr_log_msg(enum GPR_Log level, const char * const fmt, ...)
 {
     va_list list;
-    int hdr_len;
     int msg_len;
-    int ms_len;
     char msg[GPR_LOG_MESSAGE_MAX_LEN + 1];
-    char date[GPR_DATE_MILLISEC_LEN + 1];
 
 #ifdef DEBUG
     /* Check consistency */
-    if ((file == NULL) || (line < 0) || (func == NULL) || (fmt == NULL))
+    if (fmt == NULL)
         return -1;
 #endif
 
@@ -110,30 +109,21 @@ ssize_t gpr_log_msg(enum GPR_Log level, const char * const file, const int line,
     if (level < Default_Log_Level)
         return 0;
 
-    /* Build header message */
-    ms_len = gpr_time_get_date_millisec(date);
-
-    if (UNLIKELY(ms_len == 0))
-        return -1;
-
-    hdr_len = SCNPRINTF(msg, GPR_LOG_MESSAGE_MAX_LEN + 1, "[%s] [%s] [%s:%d] [%s] ", date, gpr_log_level_to_str(level), file, line, func);
-
-    if (UNLIKELY(hdr_len <= 0))
-        return -1;
-
     /* Build message */
     va_start(list, fmt);
-    msg_len = VSCNPRINTF(msg + hdr_len, GPR_LOG_MESSAGE_MAX_LEN + 1 - hdr_len, fmt, list);
+    msg_len = VSCNPRINTF(msg, GPR_LOG_MESSAGE_MAX_LEN + 1, fmt, list);
     va_end(list);
 
-    if (UNLIKELY(msg_len < 0)) // Not inferior or equal to allow empty messages
+    if (UNLIKELY(msg_len <= 0))
         return -1;
 
     /* Write message on standard output */
     fprintf(stdout, "%s\n", msg);
 
-    /* Refresh standard output */
-    fflush(stdout);
+    return msg_len;
+}
 
-    return hdr_len + msg_len;
+int gpr_log_flush(void)
+{
+    return fflush(stdout);
 }

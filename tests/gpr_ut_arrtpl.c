@@ -8,12 +8,13 @@
  *
  *****************************************************************************/
 
-#include "gpr_utils.h"
+#include <assert.h>  // assert
+#include <stdbool.h> // bool
+#include <stdio.h>   // printf
+#include <stdlib.h>  // malloc, free
+#include <string.h>  // memset
 
-#include <stdio.h>  // printf
-#include <stdlib.h> // malloc, free
-#include <string.h> // memset
-#include <assert.h> // assert
+#include "gpr_utils.h"
 
 #define STUDENT_NAME_MAX_LEN 20
 

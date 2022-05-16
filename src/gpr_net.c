@@ -35,18 +35,20 @@
  *****************************************************************************/
 
 #include "gpr_net.h"
-#include "gpr_utils.h"
 
+#include <netdb.h>      // addrinfo, getaddrinfo, freeaddrinfo
 #include <stdlib.h>     // malloc, free
 #include <string.h>     // memset
-#include <unistd.h>     // close
 #include <sys/socket.h> // socket, connect
+#include <unistd.h>     // close
+
+#include "gpr_utils.h"
 
 /******************************************************************************
  * Private prototypes
  *****************************************************************************/
 
-static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char * const addr, const char * const service);
+static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *addr, const char *service);
 static enum GPR_Err connect_to_peer(struct gpr_socket *sock);
 
 /******************************************************************************
@@ -111,7 +113,7 @@ enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock)
     return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
-enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char * const addr, const char * const service)
+enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *addr, const char *service)
 {
     enum GPR_Err err;
 
@@ -181,7 +183,7 @@ enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char * const addr, c
  *     GPR_ERR_NETWORK_ERROR: No network addresses found
  *
  *****************************************************************************/
-static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char * const addr, const char * const service)
+static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *addr, const char *service)
 {
     int err;
 

@@ -62,9 +62,9 @@
 #ifndef H_GPR_TREE
 #define H_GPR_TREE
 
-#include "gpr_err.h"
-
 #include <stddef.h> // size_t
+
+#include "gpr_err.h"
 
 /**
  * \brief Number of bytes for a tree node label
@@ -97,8 +97,8 @@ struct gpr_tnode
  * \param label Node's label to set as a C-string
  *
  * \return
- *     On success, return a pointer to the tree node\n
- *     On failure, return NULL
+ *     On success, returns a pointer to the tree node\n
+ *     On failure, returns NULL
  *
  *****************************************************************************/
 struct gpr_tnode *gpr_tree_new_node(const char *label);
@@ -121,8 +121,8 @@ struct gpr_tnode *gpr_tree_new_node(const char *label);
  * \param ...   Optional arguments
  *
  * \return
- *     On success, return a pointer to the tree node\n
- *     On failure, return NULL
+ *     On success, returns a pointer to the tree node\n
+ *     On failure, returns NULL
  *
  *****************************************************************************/
 struct gpr_tnode *gpr_tree_new_vnode(const char *label, const char *value, ...) __attribute__((format(printf, 2, 3)));
@@ -139,8 +139,8 @@ struct gpr_tnode *gpr_tree_new_vnode(const char *label, const char *value, ...) 
  * \param label Node's label to set for child node as a C-string
  *
  * \return
- *     On success, return a pointer to the child node\n
- *     On failure, return NULL
+ *     On success, returns a pointer to the child node\n
+ *     On failure, returns NULL
  *
  *****************************************************************************/
 struct gpr_tnode *gpr_tree_new_child(struct gpr_tnode *origin, const char *label);
@@ -165,8 +165,8 @@ struct gpr_tnode *gpr_tree_new_child(struct gpr_tnode *origin, const char *label
  * \param ...    Optional arguments
  *
  * \return
- *     On success, return a pointer to the child node\n
- *     On failure, return NULL
+ *     On success, returns a pointer to the child node\n
+ *     On failure, returns NULL
  *
  *****************************************************************************/
 struct gpr_tnode *gpr_tree_new_vchild(struct gpr_tnode *origin, const char *label, const char *value, ...)
@@ -184,8 +184,8 @@ struct gpr_tnode *gpr_tree_new_vchild(struct gpr_tnode *origin, const char *labe
  * \param label Node's label to set for sibling node as a C-string
  *
  * \return
- *     On success, return a pointer to the sibling node\n
- *     On failure, return NULL
+ *     On success, returns a pointer to the sibling node\n
+ *     On failure, returns NULL
  *
  *****************************************************************************/
 struct gpr_tnode *gpr_tree_new_sibling(struct gpr_tnode *origin, const char *label);
@@ -210,8 +210,8 @@ struct gpr_tnode *gpr_tree_new_sibling(struct gpr_tnode *origin, const char *lab
  * \param ...    Optional arguments
  *
  * \return
- *     On success, return a pointer to the sibling node\n
- *     On failure, return NULL
+ *     On success, returns a pointer to the sibling node\n
+ *     On failure, returns NULL
  *
  *****************************************************************************/
 struct gpr_tnode *gpr_tree_new_vsibling(struct gpr_tnode *origin, const char *label, const char *value, ...)
@@ -356,9 +356,6 @@ enum GPR_Err gpt_tree_convert_to_xml(unsigned char *out, struct gpr_tnode *origi
  *
  * \param node   Node to check
  * \param origin Origin node of the tree to free
- *
- * \return
- *     Always return NULL
  */
 #define FREE_AND_RETURN_ON_TREE_FAILURE(node, origin) \
     do                                                \
@@ -368,6 +365,6 @@ enum GPR_Err gpt_tree_convert_to_xml(unsigned char *out, struct gpr_tnode *origi
             gpr_tree_free(origin);                    \
             return NULL;                              \
         }                                             \
-    } while (0);
+    } while (0)
 
 #endif /* H_GPR_TREE */

@@ -92,7 +92,7 @@ size_t gpr_str_toupper(char *dst, const char *src, size_t num);
  * \param str C-string to trim
  *
  * \return
- *     Pointer to the new start of \a str\n
+ *     Pointer to the new start of \a str \n
  *     NULL if \a str is NULL (DEBUG mode only)
  *
  *****************************************************************************/
@@ -101,13 +101,13 @@ char *gpr_str_ltrim(char *str);
 
 /******************************************************************************
  *
- * \brief Trim trailing spaces of /a str by adding a new trailing '\0' at the
+ * \brief Trim trailing spaces of \a str by adding a new trailing '\0' at the
  * new end of the string
  *
  * \param str C-string to trim
  *
  * \return
- *     Pointer to \a str trimmed
+ *     Pointer to \a str trimmed\n
  *     NULL if C-string is NULL (DEBUG mode only)
  *
  *****************************************************************************/
@@ -124,7 +124,7 @@ char *gpr_str_rtrim(char *str);
  * \param str C-string to trim
  *
  * \return
- *     Pointer to \a str trimmed
+ *     Pointer to \a str trimmed\n
  *     NULL if C-string is NULL (DEBUG mode only)
  *
  *****************************************************************************/

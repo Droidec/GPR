@@ -55,7 +55,7 @@ enum GPR_Err
     /* 003 */ GPR_ERR_MEMORY_FAILURE,    ///< Failure caused by a lack of memory
     /* 004 */ GPR_ERR_LOOP_DETECTED,     ///< An infinite loop has been detected
     /* 004 */ GPR_ERR_NOT_IMPLEMENTED,   ///< Feature not implemented
-    /* 005 */ GPR_ERR_NETWORK_ERROR,     ///< A network error occured
+    /* 005 */ GPR_ERR_NETWORK_ERROR,     ///< A network error occurred
     /* xxx */ GPR_ERR_NUMBERS            ///< Number of errors (DO NOT USE)
 };
 
@@ -127,6 +127,6 @@ char *gpr_err_get_cmpl_err(void);
  *     The GPR error specified in parameter
  *
  *****************************************************************************/
-enum GPR_Err gpr_err_raise(enum GPR_Err err, const char * const fmt, ...) __attribute__((format(printf, 2, 3)));
+enum GPR_Err gpr_err_raise(enum GPR_Err err, const char *fmt, ...) __attribute__((format(printf, 2, 3)));
 
 #endif /* H_GPR_ERR */

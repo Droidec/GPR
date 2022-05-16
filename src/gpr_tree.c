@@ -35,12 +35,15 @@
  *****************************************************************************/
 
 #include "gpr_tree.h"
-#include "gpr_utils.h"
 
+#include <stdarg.h>  // va_list, va_start, va_end
+#include <stdbool.h> // bool
+#include <stddef.h>  // size_t
 #include <stdlib.h>  // malloc, free
 #include <string.h>  // memset, strncmp
-#include <stdarg.h>  // va_list, va_start, va_end
-#include <stdbool.h> // bool // WARN: Not portable
+
+#include "gpr_err.h"
+#include "gpr_utils.h"
 
 /******************************************************************************
  * Private prototypes

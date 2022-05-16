@@ -38,7 +38,7 @@
 #ifndef H_GPR_BIT
 #define H_GPR_BIT
 
-#include <stdbool.h> // bool // WARN: Not portable
+#include <stdbool.h> // bool
 
 /******************************************************************************
  *

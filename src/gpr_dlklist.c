@@ -35,9 +35,13 @@
  *****************************************************************************/
 
 #include "gpr_dlklist.h"
-#include "gpr_utils.h"
 
+#include <stdbool.h> // bool
+#include <stddef.h>  // size_t
 #include <stdlib.h> // malloc, free
+
+#include "gpr_err.h"
+#include "gpr_utils.h"
 
 /******************************************************************************
  * Private prototypes

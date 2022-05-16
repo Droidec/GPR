@@ -62,10 +62,10 @@
 #ifndef H_GPR_KLIST
 #define H_GPR_KLIST
 
-#include "gpr_err.h"
-
+#include <stdbool.h> // bool
 #include <stddef.h>  // offsetof
-#include <stdbool.h> // bool // WARN: Not portable
+
+#include "gpr_err.h"
 
 /**
  * \brief Circular doubly linked list structure (Entry)

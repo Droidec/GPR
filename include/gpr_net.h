@@ -43,9 +43,9 @@
 #ifndef H_GPR_NETWORK
 #define H_GPR_NETWORK
 
-#include "gpr_err.h"
+#include <netdb.h> // addrinfo
 
-#include <netdb.h> // addrinfo, getaddrinfo, freeaddrinfo
+#include "gpr_err.h"
 
 /**
  * \brief GPR sockets statuses showing network progression
@@ -83,8 +83,8 @@ struct gpr_socket
  * \param flags    Additional flags (Can be 0)
  *
  * \return
- *     On success, return a GPR socket allocated and initialized\n
- *     On failure, return NULL. This can occur if allocation failed
+ *     On success, returns a GPR socket allocated and initialized\n
+ *     On failure, returns NULL. This can occur if allocation failed
  *
  *****************************************************************************/
 struct gpr_socket *gpr_net_new_socket(int domain, int type, int protocol, int flags);
@@ -127,10 +127,10 @@ enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock);
  *     GPR_ERR_OK: The connection has been established\n
  *     GPR_ERR_INVALID_PARAMETER: One of the parameter is NULL
  *     (DEBUG mode only)\n
- *     GPR_ERR_NETWORK_ERROR: A network error occured
+ *     GPR_ERR_NETWORK_ERROR: A network error occurred
  *
  *****************************************************************************/
-enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char * const addr, const char * const service);
+enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *addr, const char *service);
 
 // ssize_t gpr_net_recv();
 // ssize_t gpr_net_send();

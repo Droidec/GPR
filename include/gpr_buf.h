@@ -70,7 +70,7 @@
 #ifndef H_GPR_BUF
 #define H_GPR_BUF
 
-#include <stdbool.h> // bool // WARN: Not portable
+#include <stdbool.h> // bool
 
 /**
  * \brief Buffer structure
@@ -93,8 +93,8 @@ struct gpr_buffer
  * \param size Size of the buffer to allocate (Number of bytes)
  *
  * \return
- *     On success, return a buffer allocated and initialized\n
- *     On failure, return NULL. This can occur if allocation failed
+ *     On success, returns a buffer allocated and initialized\n
+ *     On failure, returns NULL. This can occur if allocation failed
  *
  *****************************************************************************/
 struct gpr_buffer *gpr_buf_new(unsigned int size);

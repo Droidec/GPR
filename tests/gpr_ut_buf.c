@@ -10,9 +10,9 @@
 
 #include "gpr_buf.h"
 
+#include <assert.h> // assert
 #include <stdio.h>  // printf
 #include <string.h> // strlen, memcpy
-#include <assert.h> // assert
 
 #define BUFFER_SIZE 20
 

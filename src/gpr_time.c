@@ -35,20 +35,22 @@
  *****************************************************************************/
 
 #include "gpr_time.h"
-#include "gpr_utils.h"
 
-#include <time.h>     // time_t, tm, time, localtime_r, strftime
+#include <stddef.h>   // size_t
 #include <string.h>   // memset
 #include <sys/time.h> // gettimeofday
+#include <time.h>     // time_t, tm, time, localtime_r, strftime
+
+#include "gpr_utils.h"
 
 /******************************************************************************
  * Public functions
  *****************************************************************************/
 
-size_t gpr_time_get_date_sec(char * const buffer)
+size_t gpr_time_get_date_sec(char *buffer)
 {
-    time_t rawtime;
-    struct tm dateinfo;
+    time_t raw_time;
+    struct tm date_info;
 
 #ifdef DEBUG
     /* Check consistency */
@@ -58,17 +60,17 @@ size_t gpr_time_get_date_sec(char * const buffer)
 
     memset(buffer, 0, GPR_DATE_SEC_LEN + 1);
 
-    time(&rawtime);
-    localtime_r(&rawtime, &dateinfo); // WARN: Not portable
+    time(&raw_time);
+    localtime_r(&raw_time, &date_info); // WARN: Not portable
 
-    return strftime(buffer, GPR_DATE_SEC_LEN + 1, "%d/%m/%Y-%H:%M:%S", &dateinfo);
+    return strftime(buffer, GPR_DATE_SEC_LEN + 1, "%d/%m/%Y-%H:%M:%S", &date_info);
 }
 
-size_t gpr_time_get_date_millisec(char * const buffer)
+size_t gpr_time_get_date_millisec(char *buffer)
 {
     size_t sec_len;
     int ms_len;
-    struct timeval timeinfo;
+    struct timeval tv;
 
 #ifdef DEBUG
     /* Check consistency */
@@ -83,8 +85,8 @@ size_t gpr_time_get_date_millisec(char * const buffer)
     if (UNLIKELY(sec_len == 0))
         return 0;
 
-    gettimeofday(&timeinfo, NULL); // WARN: Not portable
-    ms_len = SCNPRINTF(buffer + GPR_DATE_SEC_LEN, (GPR_DATE_MILLISEC_LEN - GPR_DATE_SEC_LEN) + 1, ".%.3ld", timeinfo.tv_usec / 1000L);
+    gettimeofday(&tv, NULL); // WARN: Not portable
+    ms_len = SCNPRINTF(buffer + GPR_DATE_SEC_LEN, (GPR_DATE_MILLISEC_LEN - GPR_DATE_SEC_LEN) + 1, ".%.3ld", tv.tv_usec / 1000L);
 
     if (UNLIKELY(ms_len <= 0))
         return 0;

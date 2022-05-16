@@ -36,6 +36,10 @@
 
 #include "gpr_utils.h"
 
+#include <stdarg.h> // va_list, va_start, va_end
+#include <stddef.h> // size_t
+#include <stdio.h>  // vsnprintf, ssize_t
+
 /******************************************************************************
  * Public functions
  *****************************************************************************/
