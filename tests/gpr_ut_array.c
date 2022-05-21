@@ -10,7 +10,6 @@
 
 #include "gpr_array.h"
 
-#include <assert.h> // assert
 #include <stdio.h>  // printf
 #include <stdlib.h> // malloc, free
 #include <string.h> // memset, strncmp
@@ -72,7 +71,7 @@ int main()
 
     /* New array */
     arr = gpr_array_new();
-    assert(arr != NULL);
+    ASSERT(arr != NULL);
 
     /* New students */
     struct student *st0 = new_student("Valentin", 0);
@@ -85,17 +84,17 @@ int main()
     /* Add students to array */
     printf("---Array of students---\n");
     err = gpr_array_push_back(arr, st0);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_array_push_back(arr, st1);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_array_push_front(arr, st2);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_array_push_front(arr, st3);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_array_insert(arr, st4, 2);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_array_push_front(arr, st5);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
 
     /* Display array */
     gpr_array_map(arr, print_student);
@@ -103,25 +102,25 @@ int main()
     /* Search in array */
     printf("\n---Searching students---\n");
     elem = gpr_array_search(arr, search_student_by_name, "Julius", &index);
-    assert(elem != NULL);
-    assert(index == 2);
+    ASSERT(elem != NULL);
+    ASSERT(index == 2);
     printf("Julius has been found at position %zu\n", index);
 
     /* Delete in array */
     printf("\n---Removing students---\n");
     err = gpr_array_pop_front(arr, free_student);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_array_pop_back(arr, free_student);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_array_remove(arr, free_student, 2);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     gpr_array_map(arr, print_student);
 
     /* Replace in array */
     printf("\n---Replacing students---\n");
     struct student *st6 = new_student("Caroline", 1);
     err = gpr_array_replace(arr, free_student, st6, 1);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     gpr_array_map(arr, print_student);
 
     /* Free array */

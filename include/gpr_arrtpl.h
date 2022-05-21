@@ -137,7 +137,7 @@ static inline bool GPR_ARRTPL_FUNC(init)(struct GPR_ARRTPL_ST *arr, size_t capac
 #ifdef DEBUG
     /* Check consistency */
     if (arr == NULL)
-        return;
+        return false;
 #endif
 
     /* Initialize templated array */

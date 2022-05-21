@@ -53,4 +53,33 @@
 #include "gpr_tree.h"
 #include "gpr_utils.h"
 
+/**
+ * \brief Prints compilation informations of caller
+ */
+static inline void gpr_print_conf(void)
+{
+    /* C standard */
+#ifdef __STDC_VERSION__
+    printf("C standard: %ld\n", __STDC_VERSION__);
+#else
+    puts("C89/C90 standard");
+#endif
+
+    /* GNU extensions */
+#ifdef _GNU_SOURCE
+    puts("GNU extensions available");
+#else
+    puts("GNU extensions not available");
+#endif
+
+    /* Compilation mode */
+#ifdef DEBUG
+    puts("DEBUG mode enabled");
+#else
+    /* N.B. By default, cmake add -DNDEBUG in release mode,
+     * which disable debug functionnalities such as assert */
+    puts("RELEASE mode enabled");
+#endif
+}
+
 #endif /* H_GPR */

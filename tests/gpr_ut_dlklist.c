@@ -10,7 +10,6 @@
 
 #include "gpr_dlklist.h"
 
-#include <assert.h> // assert
 #include <stdio.h>  // printf
 #include <stdlib.h> // malloc, free
 #include <string.h> // memset, strncmp
@@ -72,7 +71,7 @@ int main()
 
     /* New list */
     list = gpr_dlklist_new();
-    assert(list != NULL);
+    ASSERT(list != NULL);
 
     /* New students */
     struct student *st0 = new_student("Valentin", 0);
@@ -85,17 +84,17 @@ int main()
     /* Add students to list */
     printf("---List of students---\n");
     err = gpr_dlklist_push_back(list, st0);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_dlklist_push_back(list, st1);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_dlklist_push_front(list, st2);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_dlklist_push_front(list, st3);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_dlklist_insert(list, st4, 2);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_dlklist_push_front(list, st5);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
 
     /* Display list */
     gpr_dlklist_map(list, print_student);
@@ -103,25 +102,25 @@ int main()
     /* Search in list */
     printf("\n---Searching students---\n");
     node = gpr_dlklist_search(list, search_student_by_name, "Julius", &pos);
-    assert(node != NULL);
-    assert(pos == 2);
+    ASSERT(node != NULL);
+    ASSERT(pos == 2);
     printf("Julius has been found at position %zu\n", pos);
 
     /* Delete in list */
     printf("\n---Removing students---\n");
     err = gpr_dlklist_pop_front(list, free_student);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_dlklist_pop_back(list, free_student);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     err = gpr_dlklist_remove(list, free_student, 2);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     gpr_dlklist_map(list, print_student);
 
     /* Replace in list */
     printf("\n---Replacing students---\n");
     struct student *st6 = new_student("Caroline", 1);
     err = gpr_dlklist_replace(list, free_student, st6, 1);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
 
     /* Display list */
     struct student *st = NULL;

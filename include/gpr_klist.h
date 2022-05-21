@@ -274,7 +274,7 @@ static inline bool gpr_klist_is_empty(const struct gpr_klist *head)
 {
 #ifdef DEBUG
     /* Check consistency */
-    if (entry == NULL)
+    if (head == NULL)
         return true;
 #endif
 
