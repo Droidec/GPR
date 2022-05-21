@@ -10,7 +10,7 @@
 
 #include "gpr_log.h"
 
-#include <stdio.h>  // fprintf, puts
+#include <stdio.h> // fprintf, puts
 
 int main(int argc, char *argv[])
 {

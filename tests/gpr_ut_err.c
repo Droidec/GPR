@@ -10,7 +10,7 @@
 
 #include "gpr_err.h"
 
-#include <stdio.h>  // printf
+#include <stdio.h> // printf
 
 enum GPR_Err err_test1(void)
 {
