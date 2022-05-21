@@ -7,14 +7,14 @@
  * file\n
  *
  * A log level is assigned to each log message. You can use them as follows:
- * - GPR_LOG_DEBUG (Highly detailed output for debug purpose)
- * - GPR_LOG_INFO (Informational messages)
- * - GPR_LOG_WARNING (Nothing serious but might indicate problems)
- * - GPR_LOG_ERROR (An error occurred but does not affect program)
- * - GPR_LOG_CRITICAL (Something bad happened and need immediate attention)
+ * - #GPR_LOG_DEBUG (Highly detailed output for debug purpose)
+ * - #GPR_LOG_INFO (Informational messages)
+ * - #GPR_LOG_WARNING (Nothing serious but might indicate problems)
+ * - #GPR_LOG_ERROR (An error occurred but does not affect program)
+ * - #GPR_LOG_CRITICAL (Something bad happened and need immediate attention)
  *
- * The default log level is INFO, it means that only log message at INFO level
- * and below are processed, unless the module is configured differently
+ * The default log level is \c INFO, it means that only log message at \c INFO
+ * level and below are processed, unless the module is configured differently
  *
  * Standard macros format the message as follows:\n
  * [Date in milliseconds] [Level] [File:Line] [Function] Message
@@ -72,71 +72,57 @@ enum GPR_Log
     GPR_LOG_DEFAULT   ///< Can be used to stay on default log level
 };
 
-/******************************************************************************
- *
- * \brief Configure log module by specifiying a filename where to redirect log
- * messages and/or change the current default log level
+/**
+ * \brief Configures log module by specifiying a filename where to redirect log
+ *        messages and/or change the current default log level
  *
  * \note The configuration of the log module is not mandatory if the default
- * behavior suits you
+ *       behavior suits you
  *
  * \warning If a filename is specified, the standard output of your program
- * will be redirected to this filename
+ *          will be redirected to this filename
  *
- * \param filename Absolute or relative path to a filename (Can be NULL)
- * \param level    New default log level (Can be NULL)\n
- *                 Pass GPR_LOG_DEFAULT if you don't want to change it
+ * \param[in] filename Absolute or relative path to a filename or \c NULL
+ * \param[in] level    New default log level or \c NULL.\n
+ *                     Pass #GPR_LOG_DEFAULT if you don't want to change it
  *
- * \return
- *     GPR_ERR_OK: Redirection to a file and/or default log level
- *     modification succeeded\n
- *     GPR_ERR_INVALID_PARAMETER: Invalid log level passed\n
- *     GPR_ERR_KO: Failed to redirect log messages to the given file\n
- *     This function also set a complementary error message if initialized
- *     (See \a gpr_err_get_cmpl_err)
- *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK Redirection to a file and/or default log level modification succeeded
+ * \retval #GPR_ERR_INVALID_PARAMETER Invalid log level passed
+ * \retval #GPR_ERR_KO Failed to redirect log messages to the given file
+ */
 enum GPR_Err gpr_log_configure(const char *filename, enum GPR_Log level);
 
-/******************************************************************************
- *
- * \brief Stringify log level
+/**
+ * \brief Gets log level string
  *
  * \param level Log level to stringify
  *
- * \return
- *     C-string representing log level
- *
- *****************************************************************************/
+ * \return Returns the C-string representing log level
+ */
 const char *gpr_log_level_to_str(enum GPR_Log level);
 
-/******************************************************************************
- *
- * \brief Write a formatted C-string log message to standard output\n
- * Format is as follows:\n
- * [Date in milliseconds] [File:Line] [Function] Message
+/**
+ * \brief Writes a formatted C-string log message to standard output
  *
  * \note An implicit carriage return is automatically appended at the end of
- * the formatted C-string message
+ *       the formatted C-string message
  *
- * \warning The message can't exceed GPR_LOG_MESSAGE_MAX_LEN bytes,
- * otherwise it will be truncated by this function
+ * \warning The message can't exceed #GPR_LOG_MESSAGE_MAX_LEN bytes,
+ *          otherwise it will be truncated by this function
  *
- * \param level Log level
- * \param fmt   Message format to write
- * \param ...   Optional arguments
+ * \param[in] level Log level
+ * \param[in] fmt   Message format to write
+ * \param[in] ...   Optional arguments
  *
- * \return
- *     The return value is the number of characters which have been written
- *     to the standard output, counting header format but not including the
- *     trailing '\0' or the carriage return\n
- *     If a specific level has been configured, only messages with this
- *     specific level or below will be processed, otherwise the function
- *     does nothing and returns zero\n
- *     If an error occurred, the function returns a negative number and
- *     nothing is written to the standard output
- *
- *****************************************************************************/
+ * \return The return value is the number of characters which have been written
+ *         to the standard output, counting header format but not including the
+ *         trailing \c \0 or the carriage return.\n
+ *         If a specific level has been configured, only messages with this
+ *         specific level or below will be processed, otherwise the function
+ *         does nothing and returns \c 0.\n
+ *         If an error occurred, the function returns a negative number and
+ *         nothing is written to the standard output
+ */
 ssize_t gpr_log_msg(enum GPR_Log level, const char * const fmt, ...) __attribute__((format(printf, 2, 3)));
 
 /**
@@ -220,15 +206,11 @@ ssize_t gpr_log_msg(enum GPR_Log level, const char * const fmt, ...) __attribute
                     __FUNCTION__, ##__VA_ARGS__);                                                                                    \
     } while (0)
 
-/******************************************************************************
- *
+/**
  * \brief Flush standard output
  *
- * \return
- *     On success, returns 0\n
- *     On failure, returns EOF and set errno
- *
- *****************************************************************************/
+ * \return Returns \c 0 on success or \c EOF and sets errno on failure
+ */
 int gpr_log_flush(void);
 
 #endif /* H_GPR_LOG */

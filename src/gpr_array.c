@@ -44,10 +44,6 @@
 #include "gpr_err.h"
 #include "gpr_utils.h"
 
-/******************************************************************************
- * Public functions
- *****************************************************************************/
-
 struct gpr_array *gpr_array_new(void)
 {
     struct gpr_array *arr = NULL;

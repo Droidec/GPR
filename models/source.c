@@ -36,42 +36,24 @@
 
 /**
  * Source file includes
- * Include corresponding header module first
- * Then other modules if needed
- * Finally, system modules, separated with a whitespace from modules
  */
-
-/******************************************************************************
- * Private prototypes
- *****************************************************************************/
 
 /**
  * \brief Global variables
  */
 
 /**
- * Private prototypes
+ * Private prototypes declarations
  */
-
-/******************************************************************************
- * Public functions
- *****************************************************************************/
-
-/******************************************************************************
- * Optional: Separator (Group of functions)
- *****************************************************************************/
 
 /**
- * Public functions core (Separate main blocks by explanation comments)
+ * Public functions definitions
  */
 
-/******************************************************************************
- * Private functions
- *****************************************************************************/
-
-/******************************************************************************
- *
+/**
  * \brief Explanation about what the function do
+ *
+ * \details More details about the function [Optional]
  *
  * \note Important catch-eye note
  * \warning Import catch-eye warning
@@ -79,12 +61,13 @@
  * \param param1 Explanation about parameter1
  * \param param2 Explanation about parameter2
  *
- * \return
- *     Explanation about the return value
+ * \return Explanation about return
+ * or
+ * \retval Explanation about return value
  *
- *****************************************************************************/
+ */
 /**
- * Private function core (Separate main blocks by explanation comments)
+ * Private function definition
  */
 
 // and so on...

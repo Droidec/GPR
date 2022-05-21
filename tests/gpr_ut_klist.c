@@ -91,8 +91,6 @@ unsigned int insert_student_by_mark(struct student *st, struct gpr_klist *list, 
 
 int main()
 {
-    GPR_ALLOC_ERR_MODULE
-
     struct student *cur_student = NULL;
     struct student *tmp_student = NULL;
     struct student *worst_student = NULL;
@@ -140,8 +138,6 @@ int main()
     /* Free students */
     GPR_KLIST_FOR_EACH_ENTRY_SAFE (cur_student, tmp_student, &list, head)
         free_student(cur_student);
-
-    GPR_FREE_ERR_MODULE
 
     return 0;
 }

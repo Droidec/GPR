@@ -15,8 +15,6 @@
 
 int main()
 {
-    GPR_ALLOC_ERR_MODULE
-
     struct gpr_socket *sock;
     enum GPR_Err err;
 
@@ -26,23 +24,16 @@ int main()
     err = gpr_net_connect(sock, "www.google.com", "443");
     if (err != GPR_ERR_OK)
     {
-        fprintf(stderr, "gpr_net_connect() : %s (%s)\n", gpr_err_to_str(err), gpr_err_get_cmpl_err());
+        fprintf(stderr, "gpr_net_connect() : [%s] %s\n", gpr_err_to_str(err), gpr_err_get_msg());
         gpr_net_close_socket(sock);
-        GPR_FREE_ERR_MODULE
+        gpr_net_free_socket(sock);
         return 1;
     }
 
     printf("Connection successful!\n");
 
-    err = gpr_net_close_socket(sock);
-    if (err != GPR_ERR_OK)
-    {
-        fprintf(stderr, "gpr_net_close_socket(): %s (%s)\n", gpr_err_to_str(err), gpr_err_get_cmpl_err());
-        GPR_FREE_ERR_MODULE
-        return 1;
-    }
-
-    GPR_FREE_ERR_MODULE
+    gpr_net_close_socket(sock);
+    gpr_net_free_socket(sock);
 
     return 0;
 }

@@ -77,13 +77,13 @@ struct gpr_klist
 };
 
 /**
- * \brief Cast a member of a structure out to the containing structure
+ * \brief Casts a member of a structure out to the containing structure
  *
  * \note This is where black magic happens!
  *
- * \param ptr    Pointer to the member
- * \param type   Type of the container structure this is embedded in
- * \param member Name of the member within this structure
+ * \param[in] ptr    Pointer to the member
+ * \param[in] type   Type of the container structure this is embedded in
+ * \param[in] member Name of the member within this structure
  */
 // clang-format off
 #define CONTAINER_OF(ptr, type, member)                    \
@@ -94,20 +94,18 @@ struct gpr_klist
 // clang-format on
 
 /**
- * \brief Initialize a circular doubly linked list (at runtime)
+ * \brief Initializes a circular doubly linked list (at runtime)
  */
 #define GPR_KLIST_INIT(name) \
     {                        \
         &(name), &(name)     \
     }
 
-/******************************************************************************
+/**
+ * \brief Initializes a circular doubly linked list (at compile time)
  *
- * \brief Initialize a circular doubly linked list (at compile time)
- *
- * \param list circular doubly linked list to initialize
- *
- *****************************************************************************/
+ * \param list Circular doubly linked list to initialize
+ */
 static inline void gpr_klist_init(struct gpr_klist *list)
 {
 #ifdef DEBUG
@@ -121,23 +119,19 @@ static inline void gpr_klist_init(struct gpr_klist *list)
     list->next = list;
 }
 
-/******************************************************************************
+/**
+ * \brief Adds a new entry according to previous and next entry
  *
- * \brief Add a new entry according to previous and next entry
+ * \warning This is only for internal list manipulation. Don't use it directly!
  *
- * \note This is only only for internal list manipulation. Don't use it
- * directly
+ * \param[in] new  New entry to be added
+ * \param[in] prev Previous entry of the new one
+ * \param[in] next Next entry of the new one
  *
- * \param new  New entry to be added
- * \param prev Previous entry of the new one
- * \param next Next entry of the new one
- *
- * \return
- *     GPR_ERR_OK: The entry has correctly been added\n
- *     GPR_ERR_INVALID_PARAMETER: The new entry is NULL, the previous entry is
- *     NULL or the next entry is NULL (DEBUG mode only)
- *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK The entry has correctly been added
+ * \retval #GPR_ERR_INVALID_PARAMETER The new entry is \c NULL, the previous entry is \c NULL
+ *         or the next entry is \c NULL (for \e DEBUG mode only)
+ */
 static inline enum GPR_Err __list_add_entry(struct gpr_klist *new, struct gpr_klist *prev, struct gpr_klist *next)
 {
 #ifdef DEBUG
@@ -160,22 +154,18 @@ static inline enum GPR_Err __list_add_entry(struct gpr_klist *new, struct gpr_kl
     return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
-/******************************************************************************
+/**
+ * \brief Deletes an entry by making the \p prev and \p next entries point to each other
  *
- * \brief Delete an entry by making the prev/next entries point to each other
+ * \warning This is only for internal list manipulation. Don't use it directly!
  *
- * \note This is only only for internal list manipulation. Don't use it
- * directly
+ * \param[in] prev Previous entry to join
+ * \param[in] next Next entry to join
  *
- * \param prev Previous entry to join
- * \param next Next entry to join
- *
- * \return
- *     GPR_ERR_OK: The entry has correctly been deleted\n
- *     GPR_ERR_INVALID_PARAMETER: The previous entry is NULL or the next entry
- *     is NULL (DEBUG mode only)
- *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK The entry has correctly been deleted
+ * \retval #GPR_ERR_INVALID_PARAMETER The previous entry is \c NULL or the next entry is \c NULL
+ *         (for \e DEBUG mode only)
+ */
 static inline enum GPR_Err __list_del_entry(struct gpr_klist *prev, struct gpr_klist *next)
 {
 #ifdef DEBUG
@@ -193,21 +183,18 @@ static inline enum GPR_Err __list_del_entry(struct gpr_klist *prev, struct gpr_k
     return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
-/******************************************************************************
+/**
+ * \brief Adds a new entry after the specified head
  *
- * \brief Add a new entry after the specified head
+ * \note Useful to implement stacks (*LIFO*)
  *
- * \note Useful to implement stacks (LIFO)
+ * \param[in] new  New entry to be added
+ * \param[in] head List head to add it after
  *
- * \param new  New entry to be added
- * \param head List head to add it after
- *
- * \return
- *     GPR_ERR_OK: The entry has correctly been added\n
- *     GPR_ERR_INVALID_PARAMETER: The new entry is NULL or the list entry is
- *     NULL (DEBUG mode only)
- *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK The entry has correctly been added
+ * \retval #GPR_ERR_INVALID_PARAMETER The new entry is \c NULL or the list entry is \c NULL
+ *         (for \e DEBUG mode only)
+ */
 static inline enum GPR_Err gpr_klist_push_front(struct gpr_klist *new, struct gpr_klist *head)
 {
 #ifdef DEBUG
@@ -223,21 +210,18 @@ static inline enum GPR_Err gpr_klist_push_front(struct gpr_klist *new, struct gp
     return __list_add_entry(new, head, head->next);
 }
 
-/******************************************************************************
+/**
+ * \brief Adds a new entry before the specified head
  *
- * \brief Add a new entry before the specified head
+ * \note Useful to implement queues (*FIFO*)
  *
- * \note Useful to implement queues (FIFO)
+ * \param[in] new  New entry to be added
+ * \param[in] head List head to add it before
  *
- * \param new  New entry to be added
- * \param head List head to add it before
- *
- * \return
- *     GPR_ERR_OK: The entry has correctly been added\n
- *     GPR_ERR_INVALID_PARAMETER: The new entry is NULL or the list entry is
- *     NULL (DEBUG mode only)
- *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK The entry has correctly been added
+ * \retval #GPR_ERR_INVALID_PARAMETER The new entry is \c NULL or the list entry is \c NULL
+ *         (for \e DEBUG mode only)
+ */
 static inline enum GPR_Err gpr_klist_push_back(struct gpr_klist *new, struct gpr_klist *head)
 {
 #ifdef DEBUG
@@ -253,19 +237,16 @@ static inline enum GPR_Err gpr_klist_push_back(struct gpr_klist *new, struct gpr
     return __list_add_entry(new, head->prev, head);
 }
 
-/******************************************************************************
+/**
+ * \brief Deletes an entry from a list
  *
- * \brief Delete an entry from a list
+ * \warning The deleted entry will not be freed (*DIY*)
  *
- * \note The deleted entry will not be freed (DIY)
+ * \param[in] entry Entry to delete
  *
- * \param entry Entry to delete
- *
- * \return
- *     GPR_ERR_OK: The entry has correctly been deleted\n
- *     GPR_ERR_INVALID_PARAMETER: The entry is NULL (DEBUG mode only)
- *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK The entry has correctly been deleted
+ * \retval #GPR_ERR_INVALID_PARAMETER The entry is \c NULL (for \e DEBUG mode only)
+ */
 static inline enum GPR_Err gpr_klist_delete(struct gpr_klist *entry)
 {
 #ifdef DEBUG
@@ -282,17 +263,13 @@ static inline enum GPR_Err gpr_klist_delete(struct gpr_klist *entry)
     return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
-/******************************************************************************
+/**
+ * \brief Checks if list is empty
  *
- * \brief Check if list is empty
+ * \param[in] head List to check
  *
- * \param head List to check
- *
- * \return
- *     True if the list is empty or not allocated
- *     False otherwise
- *
- *****************************************************************************/
+ * \return Returns \c true if the list is empty or not allocated, \c false otherwise
+ */
 static inline bool gpr_klist_is_empty(const struct gpr_klist *head)
 {
 #ifdef DEBUG
@@ -305,114 +282,114 @@ static inline bool gpr_klist_is_empty(const struct gpr_klist *head)
 }
 
 /**
- * \brief Get the containing structure for this entry
+ * \brief Gets the containing structure for this entry
  *
- * \param ptr    Entry in the containing structure
- * \param type   Type of the containing structure
- * \param member Name of the GPR list within containing structure
+ * \param[in] ptr    Entry in the containing structure
+ * \param[in] type   Type of the containing structure
+ * \param[in] member Name of the GPR list within containing structure
  */
 #define GPR_KLIST_ENTRY(ptr, type, member) CONTAINER_OF(ptr, type, member)
 
 /**
- * \brief Get the first element from a list
+ * \brief Gets the first element from a list
  *
- * \param ptr    List head to take the element from
- * \param type   Type of the containing structure
- * \param member Name of the GPR list within containing structure
+ * \param[in] ptr    List head to take the element from
+ * \param[in] type   Type of the containing structure
+ * \param[in] member Name of the GPR list within containing structure
  */
 #define GPR_KLIST_FIRST_ENTRY(ptr, type, member) GPR_KLIST_ENTRY((ptr)->next, type, member)
 
 /**
- * \brief Get the last element from a list
+ * \brief Gets the last element from a list
  *
- * \param ptr    List head to take the element from
- * \param type   Type of the containing structure
- * \param member Name of the GPR list within containing structure
+ * \param[in] ptr    List head to take the element from
+ * \param[in] type   Type of the containing structure
+ * \param[in] member Name of the GPR list within containing structure
  */
 #define GPR_KLIST_LAST_ENTRY(ptr, type, member) GPR_KLIST_ENTRY((ptr)->prev, type, member)
 
 /**
- * \brief Get the next element in a list
+ * \brief Gets the next element in a list
  *
- * \param pos    Structure pointer to use as a loop cursor
- * \param member Name of the GPR list within containing structure
+ * \param[out] pos    Structure pointer to use as a loop cursor
+ * \param[in]  member Name of the GPR list within containing structure
  */
 #define GPR_KLIST_NEXT_ENTRY(pos, member) GPR_KLIST_ENTRY((pos)->member.next, typeof(*(pos)), member)
 
 /**
- * \brief Get the previous element in a list
+ * \brief Gets the previous element in a list
  *
- * \param pos    Structure pointer to use as a loop cursor
- * \param member Name of the GPR list within containing structure
+ * \param[out] pos    Structure pointer to use as a loop cursor
+ * \param[in]  member Name of the GPR list within containing structure
  */
 #define GPR_KLIST_PREV_ENTRY(pos, member) GPR_KLIST_ENTRY((pos)->member.prev, typeof(*(pos)), member)
 
 /**
- * \brief Iterate over a list
+ * \brief Iterates over a list
  *
- * \param pos  Entry pointer to use as a loop cursor
- * \param head Head of the list
+ * \param[out] pos  Entry pointer to use as a loop cursor
+ * \param[in]  head Head of the list
  */
 #define GPR_KLIST_FOR_EACH(pos, head) for (pos = (head)->next; pos != (head); pos = pos->next)
 
 /**
- * \brief Iterate backwards over a list
+ * \brief Iterates backwards over a list
  *
- * \param pos  Entry pointer to use as a loop cursor
- * \param head Head of the list
+ * \param[out] pos  Entry pointer to use as a loop cursor
+ * \param[in]  head Head of the list
  */
 #define GPR_KLIST_FOR_EACH_REVERSE(pos, head) for (pos = (head)->prev; pos != (head); pos = pos->prev)
 
 /**
- * \brief Test if the entry points to the head of the list
+ * \brief Tests if the entry points to the head of the list
  *
- * \param pos    Structure pointer containing entry to test
- * \param head   Head of the list
- * \param member Name of the GPR list within containing structure
+ * \param[in] pos    Structure pointer containing entry to test
+ * \param[in] head   Head of the list
+ * \param[in] member Name of the GPR list within containing structure
  */
 #define GPR_KLIST_ENTRY_IS_HEAD(pos, head, member) (&pos->member == (head))
 
 /**
- * \brief Iterate over a list of a given type
+ * \brief Iterates over a list of a given type
  *
- * \param pos    Structure pointer to use as a loop cursor
- * \param head   Head of the list
- * \param member Name of the GPR list within containg structure
+ * \param[out] pos    Structure pointer to use as a loop cursor
+ * \param[in]  head   Head of the list
+ * \param[in]  member Name of the GPR list within containg structure
  */
 #define GPR_KLIST_FOR_EACH_ENTRY(pos, head, member)                                                            \
     for (pos = GPR_KLIST_FIRST_ENTRY(head, typeof(*pos), member); !GPR_KLIST_ENTRY_IS_HEAD(pos, head, member); \
          pos = GPR_KLIST_NEXT_ENTRY(pos, member))
 
 /**
- * \brief Iterate over a list of a given type, safe against removal of list entry
+ * \brief Iterates over a list of a given type, safe against removal of list entry
  *
- * \param pos    Structure pointer to use as a loop cursor
- * \param tmp    Structure pointer to use as a temporary storage
- * \param head   Head of the list
- * \param member Name of the GPR list within containg structure
+ * \param[out] pos    Structure pointer to use as a loop cursor
+ * \param[out] tmp    Structure pointer to use as a temporary storage
+ * \param[in]  head   Head of the list
+ * \param[in]  member Name of the GPR list within containg structure
  */
 #define GPR_KLIST_FOR_EACH_ENTRY_SAFE(pos, tmp, head, member)                                              \
     for (pos = GPR_KLIST_FIRST_ENTRY(head, typeof(*pos), member), tmp = GPR_KLIST_NEXT_ENTRY(pos, member); \
          !GPR_KLIST_ENTRY_IS_HEAD(pos, head, member); pos = tmp, tmp = GPR_KLIST_NEXT_ENTRY(pos, member))
 
 /**
- * \brief Iterate backwards over a list of a given type
+ * \brief Iterates backwards over a list of a given type
  *
- * \param pos    Structure pointer to use as a loop cursor
- * \param head   Head of the list
- * \param member Name of the GPR list within containg structure
+ * \param[out] pos    Structure pointer to use as a loop cursor
+ * \param[in]  head   Head of the list
+ * \param[in]  member Name of the GPR list within containg structure
  */
 #define GPR_KLIST_FOR_EACH_ENTRY_REVERSE(pos, head, member)                                                   \
     for (pos = GPR_KLIST_LAST_ENTRY(head, typeof(*pos), member); !GPR_KLIST_ENTRY_IS_HEAD(pos, head, member); \
          pos = GPR_KLIST_PREV_ENTRY(pos, member))
 
 /**
- * \brief Iterate backwards over a list of a given type, safe against removal of list entry
+ * \brief Iterates backwards over a list of a given type, safe against removal of list entry
  *
- * \param pos    Structure pointer to use as a loop cursor
- * \param tmp    Structure pointer to use as a temporary storage
- * \param head   Head of the list
- * \param member Name of the GPR list within containg structure
+ * \param[out] pos    Structure pointer to use as a loop cursor
+ * \param[out] tmp    Structure pointer to use as a temporary storage
+ * \param[in]  head   Head of the list
+ * \param[in]  member Name of the GPR list within containg structure
  */
 #define GPR_KLIST_FOR_EACH_ENTRY_REVERSE_SAFE(pos, tmp, head, member)                                     \
     for (pos = GPR_KLIST_LAST_ENTRY(head, typeof(*pos), member), tmp = GPR_KLIST_PREV_ENTRY(pos, member); \

@@ -53,16 +53,4 @@
 #include "gpr_tree.h"
 #include "gpr_utils.h"
 
-/**
- * \brief Initialize the GPR library in one go by calling initializations
- * macros from all other modules
- */
-#define GPR_ALLOC_LIBRARY GPR_ALLOC_ERR_MODULE
-
-/**
- * \brief Free the GPR library in one go by calling free macros from all
- * other modules
- */
-#define GPR_FREE_LIBRARY GPR_FREE_ERR_MODULE
-
 #endif /* H_GPR */

@@ -39,10 +39,9 @@
 #define H_GPR_ERR
 
 /**
- * \brief Length of the complementary error message buffer, not including the
- * trailing '\0'
+ * \brief Length of the error message buffer, not including the trailing \c \0
  */
-#define CMPL_ERR_MSG_LEN 512 // WARN : Not thread safe
+#define GPR_ERR_MSG_LEN 512
 
 /**
  * \brief Possible errors that can be returned by GPR modules
@@ -54,79 +53,43 @@ enum GPR_Err
     /* 002 */ GPR_ERR_INVALID_PARAMETER, ///< One or multiple invalid parameter
     /* 003 */ GPR_ERR_MEMORY_FAILURE,    ///< Failure caused by a lack of memory
     /* 004 */ GPR_ERR_LOOP_DETECTED,     ///< An infinite loop has been detected
-    /* 004 */ GPR_ERR_NOT_IMPLEMENTED,   ///< Feature not implemented
-    /* 005 */ GPR_ERR_NETWORK_ERROR,     ///< A network error occurred
-    /* xxx */ GPR_ERR_NUMBERS            ///< Number of errors (DO NOT USE)
+    /* 005 */ GPR_ERR_NOT_IMPLEMENTED,   ///< Feature not implemented
+    /* 006 */ GPR_ERR_NETWORK_ERROR,     ///< A network error occurred
+    /* xxx */ GPR_ERR_NUMBERS            ///< Number of errors (*DO NOT USE*)
 };
 
-/******************************************************************************
+/**
+ * \brief Gets error string
  *
- * \brief Stringify error
+ * \param[in] error Error to stringify
  *
- * \param error Error to stringify
- *
- * \return
- *     C-string representing error
- *
- *****************************************************************************/
+ * \return Returns the C-string representing error
+ */
 const char *gpr_err_to_str(enum GPR_Err error);
 
-/******************************************************************************
+/**
+ * \brief Gets error message
  *
- * \brief Allocate complementary error message buffer
+ * \note This error message can be positionned by functions from various GPR modules
  *
- *****************************************************************************/
-void gpr_err_allocate_cmpl_err(void);
+ * \return Returns the C-string containing error message
+ */
+char *gpr_err_get_msg(void);
 
 /**
- * \brief Allocate the complementary error message buffer
+ * \brief Raises a GPR error and fills the error message buffer
+ *
+ * \note This function always resets the error message, even if \c NULL is passed
+ *
+ * \warning The error message can't exceed #GPR_ERR_MSG_LEN bytes, otherwise it will be
+ *          truncated by this function
+ *
+ * \param[in] err GPR error to raise
+ * \param[in] fmt Error message format or \c NULL
+ * \param[in] ... Optional arguments
+ *
+ * \return Returns \p err
  */
-#define GPR_ALLOC_ERR_MODULE gpr_err_allocate_cmpl_err();
-
-/******************************************************************************
- *
- * \brief Free complementary error message buffer
- *
- *****************************************************************************/
-void gpr_err_free_cmpl_err(void);
-
-/**
- * \brief Free the complementary error message buffer
- */
-#define GPR_FREE_ERR_MODULE gpr_err_free_cmpl_err();
-
-/******************************************************************************
- *
- * \brief Get last complementary error message
- *
- * \note This complementary error message can be positionned by functions from
- * various GPR modules
- *
- * \return
- *     C-string containing complementary error message
- *
- *****************************************************************************/
-char *gpr_err_get_cmpl_err(void);
-
-/******************************************************************************
- *
- * \brief Raise a GPR error and attempts to fill the complementary error
- * message buffer if possible
- *
- * \note A call to this function always reset the previous complementary error
- * message
- *
- * \warning The complementary error message can't exceed CMPL_ERR_MSG_LEN
- * bytes, otherwise it will be truncated by this function
- *
- * \param err GPR error to raise
- * \param fmt Complementary error message format (Can be NULL)
- * \param ... Optional arguments
- *
- * \return
- *     The GPR error specified in parameter
- *
- *****************************************************************************/
 enum GPR_Err gpr_err_raise(enum GPR_Err err, const char *fmt, ...) __attribute__((format(printf, 2, 3)));
 
 #endif /* H_GPR_ERR */

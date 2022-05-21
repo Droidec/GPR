@@ -37,23 +37,15 @@
 #include "gpr_log.h"
 
 #include <stdarg.h> // va_list, va_start, va_end
-#include <stdio.h> // ssize_t
+#include <stdio.h>  // ssize_t
 
 #include "gpr_err.h"
 #include "gpr_utils.h"
-
-/******************************************************************************
- * Private prototypes
- *****************************************************************************/
 
 /**
  * \brief Default log level
  */
 static enum GPR_Log Default_Log_Level = GPR_LOG_INFO;
-
-/******************************************************************************
- * Public functions
- *****************************************************************************/
 
 enum GPR_Err gpr_log_configure(const char *filename, enum GPR_Log level)
 {

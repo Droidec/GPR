@@ -65,8 +65,6 @@ bool search_student_by_name(const struct student *st, const char *name)
 
 int main()
 {
-    GPR_ALLOC_ERR_MODULE
-
     struct gpr_dlklist *list = NULL;
     struct gpr_dlknode *node = NULL;
     enum GPR_Err err;
@@ -132,8 +130,6 @@ int main()
 
     /* Free list */
     gpr_dlklist_free(list, free_student);
-
-    GPR_FREE_ERR_MODULE
 
     return 0;
 }

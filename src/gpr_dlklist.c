@@ -38,22 +38,14 @@
 
 #include <stdbool.h> // bool
 #include <stddef.h>  // size_t
-#include <stdlib.h> // malloc, free
+#include <stdlib.h>  // malloc, free
 
 #include "gpr_err.h"
 #include "gpr_utils.h"
 
-/******************************************************************************
- * Private prototypes
- *****************************************************************************/
-
 static struct gpr_dlknode *new_node(void *data);
 static void free_node(struct gpr_dlknode *node, void (*data_free)());
 static struct gpr_dlknode *search_node_by_position(const struct gpr_dlklist *list, size_t pos);
-
-/******************************************************************************
- * Public functions
- *****************************************************************************/
 
 struct gpr_dlklist *gpr_dlklist_new(void)
 {
@@ -501,21 +493,13 @@ struct gpr_dlknode *gpr_dlklist_node_next(const struct gpr_dlknode *node)
     return node->next;
 }
 
-/******************************************************************************
- * Private functions
- *****************************************************************************/
-
-/******************************************************************************
+/**
+ * \brief Allocates and initializes a new node
  *
- * \brief Allocate and initialize a new node
+ * \param[in] data Data to point to for the new node
  *
- * \param data Data to point to for the new node
- *
- * \return
- *     On success, return a pointer to the new node\n
- *     On failure, return NULL
- *
- *****************************************************************************/
+ * \return Returns a pointer to the new node or \c NULL on allocation failure
+ */
 static struct gpr_dlknode *new_node(void *data)
 {
     struct gpr_dlknode *node = NULL;
@@ -539,15 +523,15 @@ static struct gpr_dlknode *new_node(void *data)
     return node;
 }
 
-/******************************************************************************
+/**
+ * \brief Frees a node
  *
- * \brief Free a node
+ * \note Call this function if you allocated a node with #new_node
  *
- * \param node      Node to free
- * \param data_free Callback function that will be called to free data of the
- *                  node (Can be NULL)
- *
- *****************************************************************************/
+ * \param[out] node      Node to free
+ * \param[in]  data_free Callback function that will be called to free data of the
+ *                       node or \c NULL
+ */
 static void free_node(struct gpr_dlknode *node, void (*data_free)())
 {
 #ifdef DEBUG
@@ -563,19 +547,14 @@ static void free_node(struct gpr_dlknode *node, void (*data_free)())
     free(node);
 }
 
-/******************************************************************************
+/**
+ * \brief Searches by dichotomy the node at the requested position in a doubly linked list
  *
- * \brief Search by dichotomy the node at the requestsed position in a doubly
- * linked list
+ * \param[in] list Doubly linked list where to search for a node
+ * \param[in] pos  Position of the node (Starting from \e 0)
  *
- * \param list Doubly linked list where to search for a node
- * \param pos  Position of the node (Starting from 0)
- *
- * \return
- *     On success, return a pointer to the node at the requested position\n
- *     On failure, return NULL
- *
- *****************************************************************************/
+ * \return Returns a pointer to the node at the requested position or \c NULL on failure
+ */
 static struct gpr_dlknode *search_node_by_position(const struct gpr_dlklist *list, size_t pos)
 {
     struct gpr_dlknode *scout = NULL;

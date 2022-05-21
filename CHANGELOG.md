@@ -2,6 +2,13 @@
 
 This CHANGELOG indicates the different versions of the `GPR` project.
 
+## Version 0.0.24
+
+- Update `Doxygen` layout
+- Revise `Doxygen` comments
+- Simplify allocation on the stack for various modules
+- Protect error messages from multithreading
+
 ## Version 0.0.23
 
 - Add C standard in `cmake` compilation options

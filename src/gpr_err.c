@@ -41,10 +41,6 @@
 
 #include "gpr_utils.h"
 
-/******************************************************************************
- * Private prototypes
- *****************************************************************************/
-
 /**
  * \brief Possible errors strings
  */
@@ -59,60 +55,39 @@ static const char *Err_Array[] = {
 };
 
 /**
- * \brief Complementary error message
+ * \brief Error message (\e thread-safe)
  */
-char *Cmpl_Err_Msg = NULL;
-
-/******************************************************************************
- * Public functions
- *****************************************************************************/
+__thread char Err_Msg[GPR_ERR_MSG_LEN + 1] = {0};
 
 const char *gpr_err_to_str(enum GPR_Err error)
 {
 #ifdef DEBUG
     /* Check consistency */
     if ((error < 0) || (error >= GPR_ERR_NUMBERS))
-        return "UNKNOWN";
+        return "Unknown error";
 #endif
 
     return Err_Array[error];
 }
 
-void gpr_err_allocate_cmpl_err(void)
+char *gpr_err_get_msg(void)
 {
-    Cmpl_Err_Msg = (char *)malloc(CMPL_ERR_MSG_LEN + 1);
-}
-
-void gpr_err_free_cmpl_err(void)
-{
-    if (Cmpl_Err_Msg != NULL)
-        free(Cmpl_Err_Msg);
-}
-
-char *gpr_err_get_cmpl_err(void)
-{
-    if (Cmpl_Err_Msg == NULL)
-        return "";
-
-    return Cmpl_Err_Msg;
+    return Err_Msg;
 }
 
 enum GPR_Err gpr_err_raise(enum GPR_Err err, const char *fmt, ...)
 {
     va_list list;
 
-    if (Cmpl_Err_Msg != NULL)
+    if (fmt != NULL)
     {
-        if (fmt != NULL)
-        {
-            va_start(list, fmt);
-            VSCNPRINTF(Cmpl_Err_Msg, CMPL_ERR_MSG_LEN + 1, fmt, list);
-            va_end(list);
-        }
-        else
-        {
-            Cmpl_Err_Msg[0] = '\0';
-        }
+        va_start(list, fmt);
+        VSCNPRINTF(Err_Msg, GPR_ERR_MSG_LEN + 1, fmt, list);
+        va_end(list);
+    }
+    else
+    {
+        Err_Msg[0] = '\0';
     }
 
     return err;

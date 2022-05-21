@@ -45,10 +45,6 @@
 #include "gpr_err.h"
 #include "gpr_utils.h"
 
-/******************************************************************************
- * Private prototypes
- *****************************************************************************/
-
 /**
  * \brief Available searching patterns on node components that can be performed
  */
@@ -61,10 +57,6 @@ enum Search_By_Node
 
 static bool is_contained(struct gpr_tnode *node1, struct gpr_tnode *node2);
 static struct gpr_tnode *search_by_node_component(struct gpr_tnode *origin, const char *match, enum Search_By_Node pattern);
-
-/******************************************************************************
- * Public functions
- *****************************************************************************/
 
 struct gpr_tnode *gpr_tree_new_node(const char *label)
 {
@@ -362,25 +354,17 @@ enum GPR_Err gpt_tree_convert_to_xml(unsigned char *UNUSED(out), struct gpr_tnod
     return gpr_err_raise(GPR_ERR_NOT_IMPLEMENTED, "Feature not currently available");
 }
 
-/******************************************************************************
- * Private functions
- *****************************************************************************/
-
-/******************************************************************************
+/**
+ * \brief Checks if the tree path from \p node1 (included) contains \p node2
  *
- * \brief Check if the tree path from \a node1 (included) contains \a node2
+ * \note This function performs a vertical search of the tree path (children first)
  *
- * \note This function performs a vertical search of the tree path
- * (children first)
+ * \param[in] node1 Node from where to explore tree path
+ * \param[in] node2 Node to look at
  *
- * \param node1 Node from where to explore tree path
- * \param node2 Node to look at
- *
- * \return
- *     True if the tree path from \a node1 (included) contains \a node2 \n
- *     False otherwise
- *
- *****************************************************************************/
+ * \return returns \c true if the tree path from \p node1 (included) contains \p node2,
+ *         \c false otherwise
+ */
 static bool is_contained(struct gpr_tnode *node1, struct gpr_tnode *node2)
 {
 #ifdef DEBUG
@@ -404,24 +388,19 @@ static bool is_contained(struct gpr_tnode *node1, struct gpr_tnode *node2)
     return false;
 }
 
-/******************************************************************************
+/**
+ * \brief Searches the first occurence of a node that match one of its components
+ *        from an \p origin node
  *
- * \brief Search the first occurence of a node that match one of its components
- * from an \a origin node
+ * \note This function performs a vertical search of the tree path (children first)
  *
- * \note This function performs a vertical search of the tree path
- * (children first)
+ * \param[in] origin  Origin node from where to explore tree path
+ * \param[in] match   C-string to search for
+ * \param[in] pattern Searching pattern to perform
  *
- * \param origin Origin node from where to explore tree path
- * \param match  C-string to search for
- * \param pattern Searching pattern to perform
- *
- * \return
- *     A pointer to the first occurence of the node that match one of its
- *     components\n
- *     A NULL pointer if no matching node found
- *
- *****************************************************************************/
+ * \return Returns a pointer to the first occurence of the node that match one of its
+ *     components or a \c NULL pointer if no matching node found
+ */
 static struct gpr_tnode *search_by_node_component(struct gpr_tnode *origin, const char *match, enum Search_By_Node pattern)
 {
     struct gpr_tnode *scout = NULL;
