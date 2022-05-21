@@ -42,18 +42,10 @@
 #include "gpr_err.h"
 #include "gpr_utils.h"
 
-/******************************************************************************
- * Private prototypes
- *****************************************************************************/
-
 /**
  * \brief Default log level
  */
 static enum GPR_Log Default_Log_Level = GPR_LOG_INFO;
-
-/******************************************************************************
- * Public functions
- *****************************************************************************/
 
 enum GPR_Err gpr_log_configure(const char *filename, enum GPR_Log level)
 {

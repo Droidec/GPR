@@ -40,23 +40,18 @@
 
 #include <stdbool.h> // bool
 
-/******************************************************************************
+/**
+ * \brief Checks if the \p pos bit of a \p byte is set
  *
- * \brief Check if the \a pos bit of a \a byte is set
+ * \note The position of a bit is between `0` and `7`\n
+ *       \c 0 represents the least significant bit (*LSB*)\n
+ *       \c 7 represents the most significant bit (*MSB*)
  *
- * \note
- *     The position of a bit is between 0 and 7\n
- *     0 represents the least significant bit (LSB)\n
- *     7 represents the most significant bit (MSB)
+ * \param[in] byte Byte to check
+ * \param[in] pos  Position of the bit to check
  *
- * \param byte Byte to check
- * \param pos  Position of the bit to check
- *
- * \return
- *     True if the bit is set (1)\n
- *     False otherwise (0)
- *
- *****************************************************************************/
+ * \return Returns \c true if the bit is set (1), \c false otherwise (0)
+ */
 bool gpr_bit_is_set(unsigned char byte, unsigned int pos);
 
 #endif /* H_GPR_BIT */

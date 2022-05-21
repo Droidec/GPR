@@ -14,8 +14,6 @@
 
 int main(int argc, char *argv[])
 {
-    GPR_ALLOC_ERR_MODULE
-
     enum GPR_Err err;
 
     if (argc > 1)
@@ -23,8 +21,7 @@ int main(int argc, char *argv[])
         err = gpr_log_configure(argv[1], GPR_LOG_DEFAULT);
         if (err != GPR_ERR_OK)
         {
-            fprintf(stderr, "gpr_log_configure(): %s (%s)\n", gpr_err_to_str(err), gpr_err_get_cmpl_err());
-            GPR_FREE_ERR_MODULE
+            fprintf(stderr, "gpr_log_configure(): [%s] %s\n", gpr_err_to_str(err), gpr_err_get_msg());
             return 1;
         }
     }
@@ -41,8 +38,7 @@ int main(int argc, char *argv[])
     err = gpr_log_configure(NULL, GPR_LOG_DEBUG);
     if (err != GPR_ERR_OK)
     {
-        fprintf(stderr, "gpr_log_configure(): %s (%s)\n", gpr_err_to_str(err), gpr_err_get_cmpl_err());
-        GPR_FREE_ERR_MODULE
+        fprintf(stderr, "gpr_log_configure(): [%s] %s\n", gpr_err_to_str(err), gpr_err_get_msg());
         return 1;
     }
 
@@ -52,8 +48,6 @@ int main(int argc, char *argv[])
     GPR_LOG_WARN("This is a WARNING log message");
     GPR_LOG_ERR("This is an ERROR log message");
     GPR_LOG_CRIT("This is a CRITICAL log message");
-
-    GPR_FREE_ERR_MODULE
 
     return 0;
 }

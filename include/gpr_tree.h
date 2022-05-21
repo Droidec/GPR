@@ -87,275 +87,222 @@ struct gpr_tnode
     struct gpr_tnode *sibling;               ///< Next sibling
 };
 
-/******************************************************************************
+/**
+ * \brief Allocates and initializes a new tree node with a \p label
  *
- * \brief Allocate and initialize a new tree node with a label but no value
+ * \warning The label can't exceed #GPR_TREE_NODE_LABEL_LEN bytes, otherwise it
+ *          will be truncated by this function
  *
- * \warning The label can't exceed GPR_TREE_NODE_LABEL_LEN bytes, otherwise it
- * will be truncated by this function
+ * \param[in] label Node's label to set as a C-string
  *
- * \param label Node's label to set as a C-string
- *
- * \return
- *     On success, returns a pointer to the tree node\n
- *     On failure, returns NULL
- *
- *****************************************************************************/
+ * \return Returns a pointer to the tree node or \c NULL on failure
+ */
 struct gpr_tnode *gpr_tree_new_node(const char *label);
 
-/******************************************************************************
+/**
+ * \brief Allocates and initializes a new tree node with a \p label and a \p value
  *
- * \brief Allocate and initialize a new tree node with a label and a value
+ * \note A call to this function is equivalent to a call of #gpr_tree_new_node
+ *       and #gpr_tree_set_node_value, in that order
  *
- * \note A call to this function is equivalent to a call of gpr_tree_new_node
- * and gpr_tree_set_node_value, in that order
+ * \warning The label can't exceed #GPR_TREE_NODE_LABEL_LEN bytes, otherwise it
+ *          will be truncated by this function
  *
- * \warning The label can't exceed GPR_TREE_NODE_LABEL_LEN bytes, otherwise it
- * will be truncated by this function
+ * \warning The value can't exceed #GPR_TREE_NODE_VALUE_LEN bytes, otherwise it
+ *          will be truncated by this function
  *
- * \warning The value can't exceed GPR_TREE_NODE_VALUE_LEN bytes, otherwise it
- * will be truncated by this function
+ * \param[in] label Node's label to set as a C-string
+ * \param[in] value Node's value to set as a C-string
+ * \param[in] ...   Optional arguments
  *
- * \param label Node's label to set as a C-string
- * \param value Node's value to set as a C-string
- * \param ...   Optional arguments
- *
- * \return
- *     On success, returns a pointer to the tree node\n
- *     On failure, returns NULL
- *
- *****************************************************************************/
+ * \return Returns a pointer to the tree node or \c NULL on failure
+ */
 struct gpr_tnode *gpr_tree_new_vnode(const char *label, const char *value, ...) __attribute__((format(printf, 2, 3)));
 
-/******************************************************************************
+/**
+ * \brief Allocates and initializes a new tree node with a \p label, and associates it
+ *        to an \p origin node as a child
  *
- * \brief Allocate and initialize a new tree node with a label but no value,
- * and associate it to an \a origin node as a child
+ * \warning The label can't exceed #GPR_TREE_NODE_LABEL_LEN bytes, otherwise it
+ *          will be truncated by this function
  *
- * \warning The label can't exceed GPR_TREE_NODE_LABEL_LEN bytes, otherwise it
- * will be truncated by this function
+ * \param[out] origin Origin node to be associated with
+ * \param[in]  label  Node's label to set for child node as a C-string
  *
- * \param origin Origin node to be associated with
- * \param label Node's label to set for child node as a C-string
- *
- * \return
- *     On success, returns a pointer to the child node\n
- *     On failure, returns NULL
- *
- *****************************************************************************/
+ * \return Returns a pointer to the child node or \c NULL on failure
+ */
 struct gpr_tnode *gpr_tree_new_child(struct gpr_tnode *origin, const char *label);
 
-/******************************************************************************
+/**
+ * \brief Allocates and initializes a new tree node with a \p label and a \p value,
+ *        and associates it to an \p origin node as a child
  *
- * \brief Allocate and initialize a new tree node with a label and a value,
- * and associate it to an \a origin node as a child
+ * \note A call to this function is equivalent to a call of #gpr_tree_new_child
+ *       and #gpr_tree_set_node_value, in that order
  *
- * \note A call to this function is equivalent to a call of gpr_tree_new_child
- * and gpr_tree_set_node_value, in that order
+ * \warning The label can't exceed #GPR_TREE_NODE_LABEL_LEN bytes, otherwise it
+ *          will be truncated by this function
  *
- * \warning The label can't exceed GPR_TREE_NODE_LABEL_LEN bytes, otherwise it
- * will be truncated by this function
+ * \warning The value can't exceed #GPR_TREE_NODE_VALUE_LEN bytes, otherwise it
+ *          will be truncated by this function
  *
- * \warning The value can't exceed GPR_TREE_NODE_VALUE_LEN bytes, otherwise it
- * will be truncated by this function
+ * \param[out] origin Origin node to be associated with
+ * \param[in]  label  Node's label to set for child node as a C-string
+ * \param[in]  value  Node's value to set for child node as a C-string
+ * \param[in]  ...    Optional arguments
  *
- * \param origin Origin node to be associated with
- * \param label  Node's label to set for child node as a C-string
- * \param value  Node's value to set for child node as a C-string
- * \param ...    Optional arguments
- *
- * \return
- *     On success, returns a pointer to the child node\n
- *     On failure, returns NULL
- *
- *****************************************************************************/
+ * \return Returns a pointer to the child node or \c NULL on failure
+ */
 struct gpr_tnode *gpr_tree_new_vchild(struct gpr_tnode *origin, const char *label, const char *value, ...)
     __attribute__((format(printf, 3, 4)));
 
-/******************************************************************************
+/**
+ * \brief Allocates and initializes a new tree node with a \p label, and associate it
+ *        to an \p origin node as a sibling
  *
- * \brief Allocate and initialize a new tree node with a label but no value,
- * and associate it to an \a origin node as a sibling
+ * \warning The label can't exceed #GPR_TREE_NODE_LABEL_LEN bytes, otherwise it
+ *          will be truncated by this function
  *
- * \warning The label can't exceed GPR_TREE_NODE_LABEL_LEN bytes, otherwise it
- * will be truncated by this function
+ * \param[out] origin Origin node to be associated with
+ * \param[in]  label  Node's label to set for sibling node as a C-string
  *
- * \param origin Origin node to be associated with
- * \param label Node's label to set for sibling node as a C-string
- *
- * \return
- *     On success, returns a pointer to the sibling node\n
- *     On failure, returns NULL
- *
- *****************************************************************************/
+ * \return Returns a pointer to the sibling node or \c NULL on failure
+ */
 struct gpr_tnode *gpr_tree_new_sibling(struct gpr_tnode *origin, const char *label);
 
-/******************************************************************************
+/**
+ * \brief Allocates and initializes a new tree node with a \p label and a \p value,
+ *        and associates it to an \p origin node as a sibling
  *
- * \brief Allocate and initialize a new tree node with a label and a value,
- * and associate it to an \a origin node as a sibling
+ * \note A call to this function is equivalent to a call of #gpr_tree_new_sibling
+ *       and #gpr_tree_set_node_value, in that order
  *
- * \note A call to this function is equivalent to a call of
- * gpr_tree_new_sibling and gpr_tree_set_node_value, in that order
+ * \warning The label can't exceed #GPR_TREE_NODE_LABEL_LEN bytes, otherwise it
+ *          will be truncated by this function
  *
- * \warning The label can't exceed GPR_TREE_NODE_LABEL_LEN bytes, otherwise it
- * will be truncated by this function
+ * \warning The value can't exceed #GPR_TREE_NODE_VALUE_LEN bytes, otherwise it
+ *          will be truncated by this function
  *
- * \warning The value can't exceed GPR_TREE_NODE_VALUE_LEN bytes, otherwise it
- * will be truncated by this function
+ * \param[out] origin Origin node to be associated with
+ * \param[in]  label  Node's label to set for sibling node as a C-string
+ * \param[in]  value  Node's value to set for sibling node as a C-string
+ * \param[in]  ...    Optional arguments
  *
- * \param origin Origin node to be associated with
- * \param label  Node's label to set for sibling node as a C-string
- * \param value  Node's value to set for sibling node as a C-string
- * \param ...    Optional arguments
- *
- * \return
- *     On success, returns a pointer to the sibling node\n
- *     On failure, returns NULL
- *
- *****************************************************************************/
+ * \return Returns a pointer to the sibling node or \c NULL on failure
+ */
 struct gpr_tnode *gpr_tree_new_vsibling(struct gpr_tnode *origin, const char *label, const char *value, ...)
     __attribute__((format(printf, 3, 4)));
 
-/******************************************************************************
- *
- * \brief Initialize tree node components
+/**
+ * \brief Initializes tree node components
  *
  * \param node Tree node to initialize
- *
- *****************************************************************************/
+ */
 void gpr_tree_init_node(struct gpr_tnode *node);
 
-/******************************************************************************
+/**
+ * \brief Frees a tree node
  *
- * \brief Free a tree node
- *
- * \param node Tree node to free
- *
- *****************************************************************************/
+ * \param[out] node Tree node to free
+ */
 void gpr_tree_free_node(struct gpr_tnode *node);
 
-/******************************************************************************
+/**
+ * \brief Frees a tree node and all its associated tree nodes
  *
- * \brief Free a tree node and all its associated tree nodes
+ * \note This function performs a vertical free of the tree path (siblings first)
  *
- * \note This function performs a vertical free of the tree path
- * (siblings first)
- *
- * \param origin Origin node of the tree to free
- *
- *****************************************************************************/
+ * \param[out] origin Origin node of the tree to free
+ */
 void gpr_tree_free(struct gpr_tnode *origin);
 
-/******************************************************************************
+/**
+ * \brief Adds a \p child node to an \p origin node
  *
- * \brief Add a \a child node to an \a origin node
+ * \param[out] origin Origin node to be associated with
+ * \param[in]  child  Child node to add
  *
- * \param origin Origin node to be associated with
- * \param child  Child node to add
- *
- * \return
- *     GPR_ERR_OK: The child node has been associated to the origin node\n
- *     GPR_ERR_INVALID_PARAMETER: The origin node is NULL or the child node
- *     is NULL (DEBUG mode only)\n
- *     GPR_ERR_LOOP_DETECTED: The child node already contains the origin node
- *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK The child node has been associated to the origin node
+ * \retval #GPR_ERR_INVALID_PARAMETER The origin node is \c NULL or the child node is \c NULL
+ *         (for \e DEBUG mode only)
+ * \retval #GPR_ERR_LOOP_DETECTED The child node already contains the origin node
+ */
 enum GPR_Err gpr_tree_add_child(struct gpr_tnode *origin, struct gpr_tnode *child);
 
-/******************************************************************************
+/**
+ * \brief Adds a \p sibling node to an \p origin node
  *
- * \brief Add a \a sibling node to an \a origin node
+ * \param[out] origin  Origin node to be associated with
+ * \param[in]  sibling Sibling node to add
  *
- * \param origin  Origin node to be associated with
- * \param sibling Sibling node to add
- *
- * \return
- *     GPR_ERR_OK: The sibling node has been associated to the origin node\n
- *     GPR_ERR_INVALID_PARAMETER: The origin node is NULL or the sibling node
- *     is NULL (DEBUG mode only)\n
- *     GPR_ERR_LOOP_DETECTED: The sibling node already contains the origin node
- *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK The sibling node has been associated to the origin node
+ * \retval #GPR_ERR_INVALID_PARAMETER The origin node is \c NULL or the sibling node is \c NULL
+ *         (for \e DEBUG mode only)
+ * \retval #GPR_ERR_LOOP_DETECTED The sibling node already contains the origin node
+ */
 enum GPR_Err gpr_tree_add_sibling(struct gpr_tnode *origin, struct gpr_tnode *sibling);
 
-/******************************************************************************
+/**
+ * \brief Sets \p node value
  *
- * \brief Set \a node value
+ * \warning The value can't exceed #GPR_TREE_NODE_VALUE_LEN bytes, otherwise it
+ *          will be truncated by this function
  *
- * \warning The value can't exceed GPR_TREE_NODE_VALUE_LEN bytes, otherwise it
- * will be truncated by this function
+ * \param[out] node  Node to be set
+ * \param[in]  value Node's value to set as a C-string
  *
- * \param node  Node to be set
- * \param value Node's value to set as a C-string
- *
- * \return
- *     GPR_ERR_OK: The node value has been set\n
- *     GPR_ERR_INVALID_PARAMETER: The node is NULL or the value is NULL
- *     (DEBUG mode only)
- *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK The node value has been set
+ * \retval #GPR_ERR_INVALID_PARAMETER The node is \c NULL or the value is \c NULL
+ *         (for \e DEBUG mode only)
+ */
 enum GPR_Err gpr_tree_set_node_value(struct gpr_tnode *node, const char *value, ...) __attribute__((format(printf, 2, 3)));
 
-/******************************************************************************
+/**
+ * \brief Searches the first occurence of a node, according to its \p label, from an \p origin node
  *
- * \brief Search the first occurence of a node, according to its label, from
- * an \a origin node
+ * \note This function performs a vertical search of the tree path (children first)
  *
- * \note This function performs a vertical search of the tree path
- * (children first)
+ * \param[in] origin Origin node from where to explore tree path
+ * \param[in] label  Node's label to search for
  *
- * \param origin Origin node from where to explore tree path
- * \param label  Node's label to search for
- *
- * \return
- *     A pointer to the first occurence of the node that match with the label
- *     A NULL pointer if no matching node found
- *
- *****************************************************************************/
+ * \return Returns a pointer to the first occurence of the node that match with the \p label
+ *         or \c NULL if no matching node found
+ */
 struct gpr_tnode *gpr_tree_search_node_by_label(struct gpr_tnode *origin, const char *label);
 
-/******************************************************************************
+/**
+ * \brief Searches the first occurence of a node, according to its \p value, from an \p origin node
  *
- * \brief Search the first occurence of a node, according to its value, from
- * an \a origin node
+ * \note This function performs a vertical search of the tree path (children first)
  *
- * \note This function performs a vertical search of the tree path
- * (children first)
+ * \param[in] origin Origin node from where to explore tree path
+ * \param[in] value  Node's value to search for
  *
- * \param origin Origin node from where to explore tree path
- * \param value  Node's value to search for
- *
- * \return
- *     A pointer to the first occurence of the node that match with the value
- *     A NULL pointer if no matching node found
- *
- *****************************************************************************/
+ * \return Returns a pointer to the first occurence of the node that match with the \p value
+ *         or a \c NULL pointer if no matching node found
+ */
 struct gpr_tnode *gpr_tree_search_node_by_value(struct gpr_tnode *origin, const char *value);
 
-/******************************************************************************
+/**
+ * \brief Converts a tree node and all its associated nodes in an XML byte array
  *
- * \brief Convert a tree node and all its associated nodes in an XML byte
- * array.
+ * \param[out] out    Byte array to place the result into
+ * \param[in]  origin Origin node from where to start conversion
+ * \param[in]  size   Number of bytes available in the byte array
  *
- * \param out    Byte array to place the result into
- * \param origin Origin node from where to start conversion
- * \param size   Number of bytes available in the byte array
- *
- * \return
- *     GPR_ERR_NOT_IMPLEMENTED: Feature not currently available (Should
- *     return the number of bytes written in the XML byte array)
- *
- *****************************************************************************/
+ * \retval #GPR_ERR_NOT_IMPLEMENTED Feature not currently available (Should
+ *         return the number of bytes written in the XML byte array)
+ */
 enum GPR_Err gpt_tree_convert_to_xml(unsigned char *out, struct gpr_tnode *origin, size_t size);
 
 /**
- * \brief Handle failure of tree parts\n
- * If \a node is NULL, the tree path starting from
- * the \a origin node is freed and the macro returns NULL
+ * \brief Handle failure of tree parts
  *
- * \param node   Node to check
- * \param origin Origin node of the tree to free
+ * \details If \p node is \c NULL, the tree path starting from
+ *          the \p origin node is freed and the macro returns \c NULL
+ *
+ * \param[in]  node   Node to check
+ * \param[out] origin Origin node of the tree to free
  */
 #define FREE_AND_RETURN_ON_TREE_FAILURE(node, origin) \
     do                                                \

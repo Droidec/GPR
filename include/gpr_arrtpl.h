@@ -64,17 +64,17 @@
 #include <stddef.h>  // size_t
 #include <stdlib.h>  // realloc, free
 
-/**
+/*
  * Type for the elements of the array (required)
  */
 // #define GPR_ARRTPL_TYPE
 
-/**
+/*
  * Name of the array structure (required)
  */
 // #define GPR_ARRTPL_ST
 
-/**
+/*
  * Prefix for function names (required)
  *
  * func Suffix for function name
@@ -88,10 +88,12 @@
 // clang-format on
 
 /**
- * \brief Function to (re)allocate the GPR_ARRTPL_TYPE array, by default "realloc" is used (optional)
+ * \brief Function to (re)allocate the \e GPR_ARRTPL_TYPE array
  *
- * \param ptr Pointer to the memory area to be reallocated (NULL if first allocation)
- * \param size Size for the array (re)allocation in bytes
+ * \note By default, \c realloc is used
+ *
+ * \param[out] ptr  Pointer to the memory area to be reallocated (\c NULL if first allocation)
+ * \param[in]  size Size for the array (re)allocation in bytes
  */
 // clang-format off
 #ifndef GPR_ARRTPL_REALLOC_FUNC
@@ -100,9 +102,11 @@
 // clang-format on
 
 /**
- * \brief Function to free the GPR_ARRTPL_TYPE array, by default "free" is used (optional)
+ * \brief Function to free the \e GPR_ARRTPL_TYPE array
  *
- * \param ptr Pointer to the memory area to be reallocated (NULL if first allocation)
+ * \note By default, \c free is used
+ *
+ * \param[out] ptr Pointer to the memory area to free
  */
 // clang-format off
 #ifndef GPR_ARRTPL_DEALLOC_FUNC
@@ -120,18 +124,14 @@ struct GPR_ARRTPL_ST
     GPR_ARRTPL_TYPE *array; ///< Pointer on the array
 };
 
-/******************************************************************************
+/**
+ * \brief Initializes a new templated array
  *
- * \brief Initialize a new templated array (GPR_ARRTPL_ST)
+ * \param[out] arr      Templated array to initialize
+ * \param[in]  capacity Number of elements to allocate
  *
- * \param arr      Templated array to initialize
- * \param capacity Number of elements to allocate
- *
- * \return
- *     True if the templated array has been initialized\n
- *     False otherwise
- *
- *****************************************************************************/
+ * \return Returns \c true if the templated array has been initialized or \c false otherwise
+ */
 static inline bool GPR_ARRTPL_FUNC(init)(struct GPR_ARRTPL_ST *arr, size_t capacity)
 {
 #ifdef DEBUG
@@ -158,13 +158,11 @@ static inline bool GPR_ARRTPL_FUNC(init)(struct GPR_ARRTPL_ST *arr, size_t capac
     return true;
 }
 
-/******************************************************************************
+/**
+ * \brief Frees a templated array
  *
- * \brief Free a templated array (GPR_ARRTPL_ST)
- *
- * \param arr Templated array to free
- *
- *****************************************************************************/
+ * \param[out] arr Templated array to free
+ */
 static inline void GPR_ARRTPL_FUNC(free)(struct GPR_ARRTPL_ST *arr)
 {
 #ifdef DEBUG

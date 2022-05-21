@@ -39,36 +39,36 @@
 #include <stdbool.h> // bool
 #include <stdlib.h>  // malloc, free
 
+#include "gpr_err.h"
 #include "gpr_utils.h"
-
-/******************************************************************************
- * Public functions
- *****************************************************************************/
 
 struct gpr_buffer *gpr_buf_new(unsigned int size)
 {
     struct gpr_buffer *buf = NULL;
 
-    /* Allocate buffer */
-
-    // Allocate structure
+    /* Allocate structure */
     buf = (struct gpr_buffer *)malloc(sizeof(struct gpr_buffer));
     if (UNLIKELY(buf == NULL))
         return NULL;
 
-    // Allocate buffer
+    /* Allocate buffer */
+    gpr_buf_new_buffer(buf, size);
+
+    return buf;
+}
+
+enum GPR_Err gpr_buf_new_buffer(struct gpr_buffer *buf, unsigned int size)
+{
+    /* Allocate buffer */
     buf->buf = (unsigned char *)malloc(sizeof(unsigned char) * size);
     if (UNLIKELY(buf->buf == NULL))
-    {
-        free(buf);
-        return NULL;
-    }
+        return gpr_err_raise(GPR_ERR_MEMORY_FAILURE, "Buffer allocation failed");
 
     /* Initialize buffer */
     gpr_buf_reset(buf);
     buf->size = size;
 
-    return buf;
+    return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
 void gpr_buf_reset(struct gpr_buffer *buf)
@@ -94,10 +94,22 @@ void gpr_buf_free(struct gpr_buffer *buf)
 #endif
 
     /* Free buffer */
-    free(buf->buf);
+    gpr_buf_free_buffer(buf);
 
     /* Free structure */
     free(buf);
+}
+
+void gpr_buf_free_buffer(struct gpr_buffer *buf)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if ((buf == NULL) || (buf->buf == NULL))
+        return;
+#endif
+
+    /* Free buffer */
+    free(buf->buf);
 }
 
 bool gpr_buf_is_empty(const struct gpr_buffer *buf)

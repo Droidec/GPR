@@ -6,7 +6,7 @@
  * This module defines a way to handle data by declaring buffers
  *
  * A buffer is declared on the heap, has a fixed size which cannot exceed
- * UINT_MAX bytes (~ 4Gb) and is composed of offset pointers (ofs_)
+ * \c UINT_MAX bytes (~ 4Gb) and is composed of offset pointers (*ofs_*)
  *
  * \verbatim
  *
@@ -14,26 +14,31 @@
  * │                │         │                        │
  * v                v         v                        v
  * ├────────────────┼─────────┼────────────────────────┼─────────────────────┤
+ *                                                     ======================
+ *                                                           free size
+ *                            =========================
+ *                                    rest size
  *                  ===================================
- *                               used area
+ *                               used size
  * \endverbatim
  *
  * Inside the buffer is a used area delimited by two offset pointers:
- * - 'ofs_b' represents the *b*egin pointer of the used area
- * - 'ofs_e' represents the *e*nd pointer of the used area
- * The used area itself contains the active data the program can work on,
- * using the 'ofs_d' *d*ecoding pointer, which can can be freely moved
+ * - \c ofs_b represents the *b*egin pointer of the used area
+ * - \c ofs_e represents the *e*nd pointer of the used area
  *
- * The free area is delimited by the 'ofs_e' pointer and the buffer size\n
- * The rest area is delimited by the 'ofs_d' pointer and the 'ofs_e' pointer
+ * The used area itself contains the active data the program can work on,
+ * using the \c ofs_d *d*ecoding pointer, which can can be freely moved
+ *
+ * The free area is delimited by the \c ofs_e pointer and the buffer size\n
+ * The rest area is delimited by the \c ofs_d pointer and the \c ofs_e pointer
  *
  * As the buffer is composed of standard C data types, it can be used with any
- * standard functions, such as: read, send, recv, ...\n
+ * standard functions, such as: \c read, \c send, \c recv, ...\n
  * The only additional step is to:
- * - Update the used area at successful reception by moving the 'ofs_e' pointer
- * - Update the used area at successful sending by moving the 'ofs_b' pointer
+ * - Update the used area at successful reception by moving the \c ofs_e pointer
+ * - Update the used area at successful sending by moving the \c ofs_b pointer
  *
- * When the buffer is full, the 'ofs_e' pointer will be in overflow of 1 byte,
+ * When the buffer is full, the \c ofs_e pointer will be in overflow of 1 byte,
  * but arithmetic pointers will still work, even with cyclic memory addresses
  *
  ******************************************************************************
@@ -72,6 +77,8 @@
 
 #include <stdbool.h> // bool
 
+#include "gpr_err.h"
+
 /**
  * \brief Buffer structure
  */
@@ -84,98 +91,98 @@ struct gpr_buffer
     unsigned int size;    ///< Size of the buffer (Number of bytes)
 };
 
-/******************************************************************************
- *
- * \brief Allocate and initialize a new buffer
+/**
+ * \brief Allocates and initializes a new buffer
  *
  * \note Offset pointers are set at the very first byte of the buffer
  *
- * \param size Size of the buffer to allocate (Number of bytes)
+ * \param[in] size Size of the buffer to allocate (Number of bytes)
  *
- * \return
- *     On success, returns a buffer allocated and initialized\n
- *     On failure, returns NULL. This can occur if allocation failed
- *
- *****************************************************************************/
+ * \return Returns a buffer allocated and initialized or \c NULL on allocation failure
+ */
 struct gpr_buffer *gpr_buf_new(unsigned int size);
 
-/******************************************************************************
+/**
+ * \brief Allocates and initializes a new internal buffer
  *
- * \brief Reset the offset pointers of a buffer
+ * \note Offset pointers are set at the very first byte of the buffer
  *
- * \param buf Buffer to reset
+ * \param[out] buf Buffer to allocate and initialize
+ * \param[in] size Size of the buffer to allocate (Number of bytes)
  *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK The buffer has been allocated
+ * \retval #GPR_ERR_MEMORY_FAILURE The buffer allocation failed
+ */
+enum GPR_Err gpr_buf_new_buffer(struct gpr_buffer *buf, unsigned int size);
+
+/**
+ * \brief Resets the offset pointers of a buffer
+ *
+ * \param[out] buf Buffer to reset
+ */
 void gpr_buf_reset(struct gpr_buffer *buf);
 
-/******************************************************************************
+/**
+ * \brief Frees a buffer
  *
- * \brief Free a buffer
+ * \note Call this function if you allocated a buffer with #gpr_buf_new
  *
- * \param buf Buffer to free
- *
- *****************************************************************************/
+ * \param[out] buf Buffer to free
+ */
 void gpr_buf_free(struct gpr_buffer *buf);
 
-/******************************************************************************
+/**
+ * \brief Frees an internal buffer
  *
- * \brief Check if a buffer is empty
+ * \note Call this function if you allocated a buffer with #gpr_buf_new_buffer
  *
- * \param buf Buffer to check
+ * \param[out] buf Buffer to free
+ */
+void gpr_buf_free_buffer(struct gpr_buffer *buf);
+
+/**
+ * \brief Checks if a buffer is empty
  *
- * \return
- *     True if the buffer is empty\n
- *     False otherwise
+ * \param[in] buf Buffer to check
  *
- *****************************************************************************/
+ * \return Returns \c true if the buffer is empty, \c false otherwise
+ */
 bool gpr_buf_is_empty(const struct gpr_buffer *buf);
 
-/******************************************************************************
+/**
+ * \brief Gets the size of a buffer
  *
- * \brief Get the size of a buffer
+ * \param[in] buf Buffer you want the size of
  *
- * \param buf Buffer you want the size of
- *
- * \return
- *     The size of the buffer
- *
- *****************************************************************************/
+ * \return Returns the size of the buffer in byte
+ */
 unsigned int gpr_buf_get_size(const struct gpr_buffer *buf);
 
-/******************************************************************************
+/**
+ * \brief Gets the used size of a buffer (offset between \c ofs_e and \c ofs_b)
  *
- * \brief Get the used size of a buffer (offset between ofs_e and ofs_b)
+ * \param[in] buf Buffer you want the used size of
  *
- * \param buf Buffer you want the used size of
- *
- * \return
- *     The used size of the buffer
- *
- *****************************************************************************/
+ * \return Returns the used size of the buffer in byte
+ */
 unsigned int gpr_buf_get_used_size(const struct gpr_buffer *buf);
 
-/******************************************************************************
+/**
+ * \brief Gets the free size of a buffer (offset between \c ofs_e and buffer size)
  *
- * \brief Get the free size of a buffer (offset between ofs_e and buffer size)
+ * \param[in] buf Buffer you want the free size of
  *
- * \param buf Buffer you want the free size of
- *
- * \return
- *     The free size of the buffer
- *
- *****************************************************************************/
+ * \return Returns the free size of the buffer in byte
+ */
 unsigned int gpr_buf_get_free_size(const struct gpr_buffer *buf);
 
-/******************************************************************************
+/**
+ * \brief Gets the rest size of a buffer (offset between \c ofs_d and \c ofs_e)
  *
- * \brief Get the rest size of a buffer (offset between ofs_d and ofs_e)
+ * \param[in] buf Buffer you want the rest size of
  *
- * \param buf Buffer you want the rest size of
- *
- * \return
- *     The rest size of the buffer
- *
- *****************************************************************************/
+ * \return Returns the rest size of the buffer in byte
+ */
 unsigned int gpr_buf_get_rest_size(const struct gpr_buffer *buf);
 
 #endif /* H_GPR_BUF */

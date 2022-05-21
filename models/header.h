@@ -51,13 +51,10 @@
  * \brief Enum, typedef and structures
  */
 
-/******************************************************************************
- * Optional: Separator (Group of functions)
- *****************************************************************************/
-
-/******************************************************************************
- *
+/**
  * \brief Explanation about what the function do
+ *
+ * \details More details about the function [Optional]
  *
  * \note Important catch-eye note
  * \warning Import catch-eye warning
@@ -65,12 +62,12 @@
  * \param param1 Explanation about parameter1
  * \param param2 Explanation about parameter2
  *
- * \return
- *     Explanation about the return value
- *
- *****************************************************************************/
+ * \return Explanation about return
+ * or
+ * \retval Explanation about return value
+ */
 /**
- * Function prototype
+ * Function declaration
  */
 
 /**

@@ -40,10 +40,6 @@
 #include <stddef.h> // size_t
 #include <string.h> // strlen
 
-/******************************************************************************
- * Public functions
- *****************************************************************************/
-
 size_t gpr_str_tolower(char *dst, const char *src, size_t num)
 {
     size_t count = 0;

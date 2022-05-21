@@ -43,24 +43,24 @@
 #include <stddef.h> // size_t
 
 /**
- * \brief Optimize branch prediction \a x in favour of a "likely" side jump
+ * \brief Optimizes branch prediction \a x in favour of a *likely* side jump
  * instruction
  */
 #define LIKELY(x) __builtin_expect((x), 1)
 
 /**
- * \brief Optimize branch prediction \a x in favour of an "unlikely" side jump
+ * \brief Optimizes branch prediction \a x in favour of an *unlikely* side jump
  * instruction
  */
 #define UNLIKELY(x) __builtin_expect((x), 0)
 
 /**
- * \brief Get the number of elements in an array
+ * \brief Gets the number of elements in an array
  */
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof(x)[0])
 
 /**
- * \brief Prevent the compiler to generate feedback for unused variables
+ * \brief Prevents the compiler to generate feedback for unused variables
  */
 #ifdef __GNUC__
 #define UNUSED(x) UNUSED_##x __attribute__((__unused__))
@@ -69,7 +69,7 @@
 #endif
 
 /**
- * \brief Prevent the compiler to generate feedback for unused functions
+ * \brief Prevents the compiler to generate feedback for unused functions
  */
 #ifdef __GNUC__
 #define UNUSED_FUNC(x) __attribute__((__unused__)) UNUSED_##x
@@ -77,55 +77,49 @@
 #define UNUSED_FUNC(x) UNUSED_##x
 #endif
 
-/******************************************************************************
+/**
+ * \brief Formats a string according to a list and place it in a buffer
  *
- * \brief Format a string according to a list and place it in a buffer
- *
- * \note This version of vsnprintf returns the length of the string actually
+ * \note This version of \c vsnprintf returns the length of the string actually
  * written in the buffer, according to truncation
  *
- * \param buf  The buffer to place the result into
- * \param size The size of the buffer, including the trailing '\0'
- * \param fmt  The format string to use
- * \param args Arguments for the format string
+ * \param[out] buf  The buffer to place the result into
+ * \param[in]  size The size of the buffer, including the trailing \c \0
+ * \param[in]  fmt  The format string to use
+ * \param[in]  args Arguments for the format string
  *
- * \return
- *     The return value is the number of characters which have been written
- *     into the buffer not including the trailing '\0'\n
- *     If the size of the buffer is equal to 0, the function returns 0\n
- *     If an error occurred, the function returns a negative number
- *
- *****************************************************************************/
+ * \return The return value is the number of characters which have been written
+ *         into the buffer not including the trailing \c \0.\n
+ *         If the size of the buffer is equal to \c 0, the function returns \c 0.\n
+ *         If an error occurred, the function returns a negative number
+ */
 int gpr_utils_vscnprintf(char *buf, size_t size, const char *fmt, va_list args);
 
 /**
- * \brief Macro for the \a gpr_utils_vscnprintf function
+ * \brief Macro for the #gpr_utils_vscnprintf function
  */
 #define VSCNPRINTF(buf, size, fmt, args) gpr_utils_vscnprintf(buf, size, fmt, args)
 
-/******************************************************************************
+/**
+ * \brief Formats a string and place it in a buffer
  *
- * \brief Format a string and place it in a buffer
- *
- * \note This version of snprintf returns the length of the string actually
+ * \note This version of \c snprintf returns the length of the string actually
  * written in the buffer, according to truncation
  *
- * \param buf  The buffer to place the result into
- * \param size The size of the buffer, including the trailing '\0'
- * \param fmt  The format string to use
- * \param ...  Arguments for the format string
+ * \param[out] buf  The buffer to place the result into
+ * \param[in]  size The size of the buffer, including the trailing \c \0
+ * \param[in]  fmt  The format string to use
+ * \param[in]  ...  Arguments for the format string
  *
- * \return
- *     The return value is the number of characters which have been written
- *     into the buffer not including the trailing '\0'\n
- *     If the size of the buffer is equal to 0, the function returns 0\n
- *     If an error occurred, the function returns a negative number
- *
- *****************************************************************************/
+ * \return The return value is the number of characters which have been written
+ *         into the buffer not including the trailing \c \0.\n
+ *         If the size of the buffer is equal to \c 0, the function returns \c 0.\n
+ *         If an error occurred, the function returns a negative number
+ */
 int gpr_utils_scnprintf(char *buf, size_t size, const char *fmt, ...) __attribute__((format(printf, 3, 4)));
 
 /**
- * \brief Macro for the \a gpr_utils_scnprintf function
+ * \brief Macro for the #gpr_utils_scnprintf function
  */
 #define SCNPRINTF(buf, size, fmt, ...) gpr_utils_scnprintf(buf, size, fmt, ##__VA_ARGS__)
 

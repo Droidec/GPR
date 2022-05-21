@@ -44,16 +44,8 @@
 
 #include "gpr_utils.h"
 
-/******************************************************************************
- * Private prototypes
- *****************************************************************************/
-
 static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *addr, const char *service);
 static enum GPR_Err connect_to_peer(struct gpr_socket *sock);
-
-/******************************************************************************
- * Public functions
- *****************************************************************************/
 
 struct gpr_socket *gpr_net_new_socket(int domain, int type, int protocol, int flags)
 {
@@ -107,10 +99,19 @@ enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock)
     if (sock->result != NULL)
         freeaddrinfo(sock->result);
 
-    /* Deallocate GPR socket */
-    free(sock);
-
     return gpr_err_raise(GPR_ERR_OK, NULL);
+}
+
+void gpr_net_free_socket(struct gpr_socket *sock)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (sock == NULL)
+        return;
+#endif
+
+    /* Free GPR socket */
+    free(sock);
 }
 
 enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *addr, const char *service)
@@ -166,23 +167,16 @@ enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *addr, const ch
     return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
-/******************************************************************************
- * Private functions
- *****************************************************************************/
-
-/******************************************************************************
+/**
+ * \brief Searches network addresses according to peer endpoint
  *
- * \brief Search network addresses according to peer endpoint
+ * \param[in] sock    GPR socket to use
+ * \param[in] addr    Peer address/hostname to connect to
+ * \param[in] service Peer service to connect to
  *
- * \param sock    GPR socket to use
- * \param addr    Peer address/hostname to connect to
- * \param service Peer service to connect to
- *
- * \return
- *     GPR_ERR_OK: Network adresses found\n
- *     GPR_ERR_NETWORK_ERROR: No network addresses found
- *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK Network adresses found
+ * \retval #GPR_ERR_NETWORK_ERROR No network addresses found
+ */
 static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *addr, const char *service)
 {
     int err;
@@ -195,20 +189,15 @@ static enum GPR_Err search_peer_endpoint(struct gpr_socket *sock, const char *ad
     return gpr_err_raise(GPR_ERR_OK, NULL);
 }
 
-/*****************************************************************************
- *
- * \brief Attempt to connect to peer by testing all network addresses stored
+/**
+ * \brief Attempts to connect to peer by testing all network addresses stored
  * inside the given GPR socket
  *
- * \param sock GPR socket to use
+ * \param[in] sock GPR socket to use
  *
- * \return
- *     GPR_ERR_OK: The connection to one of the network addresses has been
- *     successful\n
- *     GPR_ERR_NETWORK_ERROR: All network addresses connection attempt
- *     failed
- *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK The connection to one of the network addresses has been successful
+ * \retval #GPR_ERR_NETWORK_ERROR All network addresses connection attempt failed
+ */
 static enum GPR_Err connect_to_peer(struct gpr_socket *sock)
 {
     int err;

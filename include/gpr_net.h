@@ -7,7 +7,8 @@
  * remote host, with a SSL layer if needed\n
  * The primary goal of this module is to hide the painful manipulation of
  * sockets and/or known SSL encryption libraries\n
- * --- /!\ WORK IN PROGRESS /!\ ---
+ *
+ * \warning WORK IN PROGRESS
  *
  ******************************************************************************
  *
@@ -70,66 +71,64 @@ struct gpr_socket
     struct addrinfo *curr;   ///< Current network address being tested
 };
 
-/******************************************************************************
+/**
+ * \brief Allocates and initializes a new GPR socket used for communication
  *
- * \brief Allocate and initialize a new GPR socket used for communication
- *
- * \note For more information about parameters, please consult getaddrinfo()
+ * \note For more information about parameters, please consult \c getaddrinfo
  * manual
  *
- * \param domain   Address family (AF_INET, AF_INET6)
- * \param type     Socket type (SOCK_STREAM, SOCK_DGRAM) (Can be 0)
- * \param protocol Socket address protocol (Can be 0)
- * \param flags    Additional flags (Can be 0)
+ * \param[in] domain   Address family
+ * \param[in] type     Socket type or \c 0
+ * \param[in] protocol Socket address protocol or \c 0
+ * \param[in] flags    Additional flags or \c 0
  *
- * \return
- *     On success, returns a GPR socket allocated and initialized\n
- *     On failure, returns NULL. This can occur if allocation failed
- *
- *****************************************************************************/
+ * \return Returns a GPR socket allocated and initialized or \c NULL on allocation failure
+ */
 struct gpr_socket *gpr_net_new_socket(int domain, int type, int protocol, int flags);
 
-/******************************************************************************
+/**
+ * \brief Initializes a GPR socket used for communication
  *
- * \brief Initialize a GPR socket used for communication
- *
- * \param sock     GPR socket to initialize
- * \param domain   Address family (AF_INET, AF_INET6)
- * \param type     Socket type (SOCK_STREAM, SOCK_DGRAM) (Can be 0)
- * \param protocol Socket address protocol (Can be 0)
- * \param flags    Additional flags (Can be 0)
- *
- *****************************************************************************/
+ * \param[out] sock    GPR socket to initialize
+ * \param[in] domain   Address family
+ * \param[in] type     Socket type or \c 0
+ * \param[in] protocol Socket address protocol or \c 0
+ * \param[in] flags    Additional flags or \c 0
+ */
 void gpr_net_init_socket(struct gpr_socket *sock, int domain, int type, int protocol, int flags);
 
-/******************************************************************************
+/**
+ * \brief Closes a GPR socket
  *
- * \brief Close and free a GPR socket
+ * \note Call this function to end an established connection on a GPR socket
  *
- * \param sock GPR socket to close and free
+ * \param[out] sock GPR socket to close
  *
- * \return
- *     GPR_ERR_OK: The socket has been closed\n
- *     GPR_ERR_INVALID_PARAMETER: The socket is NULL (DEBUG mode only)
- *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK The socket has been closed
+ * \retval #GPR_ERR_INVALID_PARAMETER The socket is \c NULL (for \e DEBUG mode only)
+ */
 enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock);
 
-/******************************************************************************
+/**
+ * \brief Frees a GPR socket
  *
- * \brief Initiate a connection attempt with a GPR socket
+ * \note Call this function if you allocated a GPR socket with #gpr_net_new_socket
  *
- * \param sock    GPR socket to use
- * \param addr    Peer address/hostname to connect to
- * \param service Peer service to connect to
+ * \param[out] sock GPR socket to free
+ */
+void gpr_net_free_socket(struct gpr_socket *sock);
+
+/**
+ * \brief Initiates a connection attempt with a GPR socket
  *
- * \return
- *     GPR_ERR_OK: The connection has been established\n
- *     GPR_ERR_INVALID_PARAMETER: One of the parameter is NULL
- *     (DEBUG mode only)\n
- *     GPR_ERR_NETWORK_ERROR: A network error occurred
+ * \param[in] sock    GPR socket to use
+ * \param[in] addr    Peer address/hostname to connect to
+ * \param[in] service Peer service to connect to
  *
- *****************************************************************************/
+ * \retval #GPR_ERR_OK The connection has been established
+ * \retval #GPR_ERR_INVALID_PARAMETER One of the parameter is \c NULL (for \e DEBUG mode only)
+ * \retval #GPR_ERR_NETWORK_ERROR A network error occurred
+ */
 enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *addr, const char *service);
 
 // ssize_t gpr_net_recv();

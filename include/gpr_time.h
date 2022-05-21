@@ -40,55 +40,47 @@
 
 #include <stddef.h> // size_t
 
-/******************************************************************************
+/**
+ * \brief Copies in a buffer the current local date with format
+ * `%d/%m/%Y-%H:%M:%S"`.\n
+ * Read it as `day/month/year-hour:minutes:seconds`
  *
- * \brief Copy in a buffer the current local date with format
- * "%d/%m/%Y-%H:%M:%S".\n
- * Read it as "day/month/year-hour:minutes:seconds"
+ * \warning The given buffer should be at least `GPR_DATE_SEC_LEN + 1` bytes long
  *
- * \warning The given buffer should be at least "GPR_DATE_SEC_LEN + 1" bytes
- * long
+ * \param[out] buffer Buffer where to copy the current local date
  *
- * \param buffer Buffer where to copy the current local date
- *
- * \return
- *     Returns the total number of characters copied in the buffer
- *     (not including the terminating null-character)\n
- *     If an error occurred, returns zero, and the content of the array
- *     pointed by buffer is indeterminate
- *
- *****************************************************************************/
+ * \return Returns the total number of characters copied in the buffer
+ *         (not including the trailing \c \0).\n
+ *         If an error occurred, returns \c 0, and the content of the array
+ *         pointed by buffer is indeterminate
+ */
 size_t gpr_time_get_date_sec(char *buffer);
 
 /**
- * \brief Number of bytes needed for the \a gpr_time_get_date_sec function
- * without the null character
+ * \brief Number of bytes needed for the #gpr_time_get_date_sec function
+ * without the trailing \c \0
  */
 #define GPR_DATE_SEC_LEN 19
 
-/******************************************************************************
+/**
+ * \brief Copies in a buffer the current local date with format
+ *  `%d/%m/%Y-%H:%M:%S.ms`.\n
+ * Read it as `day/month/year-hour:minutes:seconds.milliseconds`
  *
- * \brief Copy in a buffer the current local date with format
- * "%d/%m/%Y-%H:%M:%S.ms".\n
- * Read it as "day/month/year-hour:minutes:seconds.milliseconds"
+ * \warning The given buffer should be at least `GPR_DATE_MILLISEC_LEN + 1` bytes long
  *
- * \warning The given buffer should be at least "GPR_DATE_MILLISEC_LEN + 1"
- * bytes long
+ * \param[out] buffer Buffer where to copy the current local date
  *
- * \param buffer Buffer where to copy the current local date
- *
- * \return
- *     Returns the total number of characters copied in the buffer
- *     (not including the terminating null-character)\n
- *     If an error occurred, returns zero, and the content of the array
- *     pointed by buffer is indeterminate
- *
- *****************************************************************************/
+ * \return Returns the total number of characters copied in the buffer
+ *         (not including the trailing \c \0).\n
+ *         If an error occurred, returns \c 0, and the content of the array
+ *         pointed by buffer is indeterminate
+ */
 size_t gpr_time_get_date_millisec(char *buffer);
 
 /**
- * \brief Number of bytes needed for the \a gpr_time_get_date_millisec function
- * without the null character
+ * \brief Number of bytes needed for the #gpr_time_get_date_millisec function
+ * without the trailing \c \0
  */
 #define GPR_DATE_MILLISEC_LEN 23
 

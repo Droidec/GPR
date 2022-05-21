@@ -40,94 +40,79 @@
 
 #include <stddef.h> // size_t
 
-/******************************************************************************
+/**
+ * \brief Converts in lowercase the first \p num characters of \p src to \p dst
  *
- * \brief Convert in lowercase the first \a num characters of \a src to \a dst
- *
- * \note If the end of \a src is reached before \a num characters have been
+ * \note If the end of \p src is reached before \p num characters have been
  * converted, the functions stops conversion and returns the number of
- * characters of \a src string, without the trailing '\0'
+ * characters of \p src string, without the trailing \c \0
  *
  * \note If a character can't be converted, it will be copied as is
  *
  * \note This function is overlapping safe
  *
- * \param dst Destination array where the content is to be copied
- * \param src C-string to be copied
- * \param num Maximum number of characters to be copied from \a src
+ * \param[out] dst Destination array where the content is to be copied
+ * \param[in]  src C-string to be copied
+ * \param[in]  num Maximum number of characters to be copied from \p src
  *
- * \return
- *     Number of characters written in dst
- *
- *****************************************************************************/
+ * \return Returns the number of characters written in \p dst
+ */
 size_t gpr_str_tolower(char *dst, const char *src, size_t num);
 
-/******************************************************************************
+/**
+ * \brief Converts in uppercase the first \p num characters of \p src to \p dst
  *
- * \brief Convert in uppercase the first \a num characters of \a src to \a dst
- *
- * \note If the end of \a src is reached before \a num characters have been
+ * \note If the end of \p src is reached before \p num characters have been
  * converted, the functions stops conversion and returns the number of
- * characters of \a src string, without the trailing '\0'
+ * characters of \p src string, without the trailing \c \0
  *
  * \note If a character can't be converted, it will be copied as is
  *
  * \note This function is overlapping safe
  *
- * \param dst Destination array where the content is to be copied
- * \param src C-string to be copied
- * \param num Maximum number of characters to be copied from \a src
+ * \param[out] dst Destination array where the content is to be copied
+ * \param[in]  src C-string to be copied
+ * \param[in]  num Maximum number of characters to be copied from \p src
  *
- * \return
- *     Number of characters written in \a dst
- *
- *****************************************************************************/
+ * \return Returns the number of characters written in \p dst
+ */
 size_t gpr_str_toupper(char *dst, const char *src, size_t num);
 
-/******************************************************************************
+/**
+ * \brief Trims leading spaces of \p str by moving C-string pointer until it
+ * reaches the new start or a trailing \c \0
  *
- * \brief Trim leading spaces of \a str by moving C-string pointer until it
- * reaches the new start or a trailing '\0'
+ * \param[out] str C-string to trim
  *
- * \param str C-string to trim
- *
- * \return
- *     Pointer to the new start of \a str \n
- *     NULL if \a str is NULL (DEBUG mode only)
- *
- *****************************************************************************/
+ * \return Returns a pointer to the new start of \p str or \c NULL if \p str
+ *         is \c NULL (for \e DEBUG mode only)
+ */
 char *gpr_str_ltrim(char *str);
 // TODO: trim according to a set of characters, not only spaces
 
-/******************************************************************************
- *
- * \brief Trim trailing spaces of \a str by adding a new trailing '\0' at the
+/**
+ * \brief Trims trailing spaces of \p str by adding a new trailing \c \0 at the
  * new end of the string
  *
- * \param str C-string to trim
+ * \param[out] str C-string to trim
  *
- * \return
- *     Pointer to \a str trimmed\n
- *     NULL if C-string is NULL (DEBUG mode only)
- *
- *****************************************************************************/
+ * \return Returns a pointer to \p str trimmed or \c NULL if C-string is \c NULL
+ *         (for \e DEBUG mode only)
+ */
 char *gpr_str_rtrim(char *str);
 // TODO: trim according to a set of characters, not only spaces
 
-/******************************************************************************
+/**
+ * \brief Trims leading and trailing spaces of \p str
  *
- * \brief Trim leading and trailing spaces of \a str
- *
- * \note A call to this function is equivalent to a call of gpr_str_ltrim
- * and gpr_str_rtrim, in any order
+ * \note A call to this function is equivalent to a call of #gpr_str_ltrim
+ * and #gpr_str_rtrim, in any order
  *
  * \param str C-string to trim
  *
- * \return
- *     Pointer to \a str trimmed\n
- *     NULL if C-string is NULL (DEBUG mode only)
- *
- *****************************************************************************/
+ * \return Returns a pointer to \p str trimmed or \c NULL if C-string is \c NULL
+ *         (for \e DEBUG mode only)
+ */
 char *gpr_str_trim(char *str);
 // TODO: trim according to a set of characters, not only spaces
 

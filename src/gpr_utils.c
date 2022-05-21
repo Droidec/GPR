@@ -40,10 +40,6 @@
 #include <stddef.h> // size_t
 #include <stdio.h>  // vsnprintf, ssize_t
 
-/******************************************************************************
- * Public functions
- *****************************************************************************/
-
 int gpr_utils_vscnprintf(char *buf, size_t size, const char *fmt, va_list args)
 {
     int i;

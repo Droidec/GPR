@@ -38,10 +38,6 @@
 
 #include <stdbool.h> // bool
 
-/******************************************************************************
- * Public functions
- *****************************************************************************/
-
 bool gpr_bit_is_set(unsigned char byte, unsigned int pos)
 {
     return (byte & (1 << pos)) ? true : false;
