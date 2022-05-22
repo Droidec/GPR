@@ -41,7 +41,7 @@
 #include <netdb.h>      // addrinfo, getaddrinfo, freeaddrinfo, gai_strerror
 #include <stdlib.h>     // malloc, free
 #include <string.h>     // memset
-#include <sys/socket.h> // socket, setsockopt, bind, listen
+#include <sys/socket.h> // socket, setsockopt, bind, listen, connect
 #include <unistd.h>     // close
 
 #include "gpr_err.h"
@@ -50,7 +50,9 @@
 static void close_socket(struct gpr_socket *sock);
 static enum GPR_Err resolve_hostname(struct gpr_socket *sock, const char *addr, const char *service);
 static enum GPR_Err prepare_server_socket(struct gpr_socket *sock);
+static enum GPR_Err prepare_client_socket(struct gpr_socket *sock);
 static enum GPR_Err listen_to_service(struct gpr_socket *sock, int backlog);
+static enum GPR_Err connect_to_peer(struct gpr_socket *sock);
 
 struct gpr_socket *gpr_net_new_socket(int domain, int type, int protocol, int flags, bool nonblock)
 {
@@ -145,6 +147,10 @@ enum GPR_Err gpr_net_listen(struct gpr_socket *sock, const char *addr, const cha
     if (sock == NULL)
         return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid GPR socket");
 
+    // Check address
+    if (addr == NULL)
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid address/hostname");
+
     // Check service
     if (service == NULL)
         return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid service");
@@ -178,6 +184,58 @@ enum GPR_Err gpr_net_listen(struct gpr_socket *sock, const char *addr, const cha
     sock->res = NULL;
     sock->cur = NULL;
     sock->state = GPR_NET_STATE_LISTENING;
+
+    return err;
+}
+
+enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *addr, const char *service)
+{
+    enum GPR_Err err;
+
+#ifdef DEBUG
+    /* Check consistency */
+
+    // Check GPR socket
+    if (sock == NULL)
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid GPR socket");
+
+    // Check address
+    if (addr == NULL)
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid address/hostname");
+
+    // Check service
+    if (service == NULL)
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid service");
+#endif
+
+    /* Resolve hostname */
+    err = resolve_hostname(sock, addr, service);
+    if (err != GPR_ERR_OK)
+        return err;
+
+    // Loop through network addresses and bind to the first we can
+    for (sock->cur = sock->res; sock->cur != NULL; sock->cur = sock->cur->ai_next)
+    {
+        err = prepare_client_socket(sock);
+        if (err != GPR_ERR_OK)
+        {
+            close_socket(sock);
+            continue; // Abort current network address
+        }
+
+        err = connect_to_peer(sock);
+        if (err != GPR_ERR_OK)
+        {
+            close_socket(sock);
+            continue; // Abort current network address
+        }
+    }
+
+    // All done with network addresses
+    freeaddrinfo(sock->res);
+    sock->res = NULL;
+    sock->cur = NULL;
+    sock->state = GPR_NET_STATE_CONNECTED;
 
     return err;
 }
@@ -292,6 +350,37 @@ static enum GPR_Err prepare_server_socket(struct gpr_socket *sock)
 }
 
 /**
+ * \brief Prepares GPR socket for a client communication
+ *
+ * \param[in,out] sock GPR socket to prepare
+ *
+ * \return This function prepares the communication endpoint contained in the GPR socket.
+ *         Its value should be different from #GPR_INVALID_SOCKET at exit
+ *
+ * \retval #GPR_ERR_OK The GPR socket is ready to connect
+ * \retval #GPR_ERR_INVALID_PARAMETER The socket is \c NULL (for \e DEBUG mode only)
+ * \retval #GPR_ERR_NETWORK_ERROR One of the steps failed
+ */
+static enum GPR_Err prepare_client_socket(struct gpr_socket *sock)
+{
+#ifdef DEBUG
+    /* Check consistency */
+    if (sock == NULL)
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid GPR socket");
+#endif
+
+    /* Get a file descriptor */
+    sock->socket = socket(sock->cur->ai_family, sock->cur->ai_socktype, sock->cur->ai_protocol);
+    if (sock->socket == GPR_INVALID_SOCKET)
+        return gpr_err_raise(GPR_ERR_NETWORK_ERROR, "socket: [Errno %d] %s", errno, strerror(errno));
+
+    /* Non-blocking operations */
+    // TODO : Handle async here
+
+    return gpr_err_raise(GPR_ERR_OK, NULL);
+}
+
+/**
  * \brief Binds and listens to the service contained in the GPR socket
  *
  * \param[in,out] sock    GPR socket to bind/listen to
@@ -321,6 +410,35 @@ static enum GPR_Err listen_to_service(struct gpr_socket *sock, int backlog)
     err = listen(sock->socket, backlog);
     if (err < 0)
         return gpr_err_raise(GPR_ERR_NETWORK_ERROR, "listen: [Errno %d] %s", errno, strerror(errno));
+
+    return gpr_err_raise(GPR_ERR_OK, NULL);
+}
+
+/**
+ * \brief Connects to an \c addr on a \c service
+ *
+ * \param[in,out] sock GPR socket to connect to
+ *
+ * \retval #GPR_ERR_OK The GPR socket is connected
+ * \retval #GPR_ERR_INVALID_PARAMETER The socket is \c NULL (for \e DEBUG mode only)
+ * \retval #GPR_ERR_NETWORK_ERROR One of the steps failed
+ */
+static enum GPR_Err connect_to_peer(struct gpr_socket *sock)
+{
+    int err;
+
+#ifdef DEBUG
+    /* Check consistency */
+    if (sock == NULL)
+        return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid GPR socket");
+#endif
+
+    // TODO: bind here if user wants a specific port
+
+    /* Connect to peer */
+    err = connect(sock->socket, sock->cur->ai_addr, sock->cur->ai_addrlen);
+    if (err < 0)
+        return gpr_err_raise(GPR_ERR_NETWORK_ERROR, "connect: [Errno %d] %s", errno, strerror(errno));
 
     return gpr_err_raise(GPR_ERR_OK, NULL);
 }

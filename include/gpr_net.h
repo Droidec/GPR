@@ -31,6 +31,7 @@
  * - How to use gpr_net_connect function and choose the binding port (bind) ?
  * - strerror not thread-safe !
  * - bind/listen for UDP sockets ?
+ * - Careful with the broken pipe issue
  *
  ******************************************************************************
  *
@@ -169,7 +170,7 @@ void gpr_net_free_socket(struct gpr_socket *sock);
 const char *gpr_net_socket_state_to_str(enum GPR_Net_State state);
 
 /**
- * \brief Listens to a \p service on the \c addr host (*Server side*)
+ * \brief Listens to a \p service on the \p addr host (*Server side*)
  *
  * \note If the service is still in use (a fast restart of the server for example),
  *       this function will try to reuse the service as fast as possible with \c SO_REUSEADDR
@@ -180,11 +181,25 @@ const char *gpr_net_socket_state_to_str(enum GPR_Net_State state);
  * \param[in]     backlog Number of connections allowed on the incoming accepted queue before
  *                        rejecting them (Please consult \c listen function and \c SOMAXCONN definition)
  *
- * \retval #GPR_ERR_OK The service is now listening
+ * \retval #GPR_ERR_OK The socket is now listening
  * \retval #GPR_ERR_INVALID_PARAMETER The socket is \c NULL or the address is \c NULL
  *         or the service is \c NULL (for \e DEBUG mode only)
  * \retval #GPR_ERR_NETWORK_ERROR A network error occured. Consult error message with #gpr_err_get_msg
  */
 enum GPR_Err gpr_net_listen(struct gpr_socket *sock, const char *addr, const char *service, int backlog);
+
+/**
+ * \brief Connects to an \p addr on a \p service (*Client side*)
+ *
+ * \param[in,out] sock    GPR socket to use
+ * \param[in]     addr    Adress/hostname to connect to
+ * \param[in]     service Service number of known service name to listen to
+ *
+ * \retval #GPR_ERR_OK The socket is now connected
+ * \retval #GPR_ERR_INVALID_PARAMETER The socket is \c NULL or the address is \c NULL
+ *         or the service is \c NULL (for \e DEBUG mode only)
+ * \retval #GPR_ERR_NETWORK_ERROR A network error occured. Consult error message with #gpr_err_get_msg
+ */
+enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *addr, const char *service);
 
 #endif /* H_GPR_NETWORK */
