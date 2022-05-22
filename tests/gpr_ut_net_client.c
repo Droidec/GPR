@@ -11,6 +11,7 @@
 #include "gpr_err.h"
 #include "gpr_net.h"
 
+#include <stdbool.h> // bool
 #include <stdio.h>  // fprintf, printf
 
 int main()
