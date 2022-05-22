@@ -4,11 +4,33 @@
  * \brief Network module
  * \details
  * This module offers a way to open network services and/or connect to a
- * remote host, with a SSL layer if needed\n
+ * remote host, with a SSL layer if needed.\n
  * The primary goal of this module is to hide the painful manipulation of
- * sockets and/or known SSL encryption libraries\n
+ * sockets and/or known SSL encryption libraries
+ *
+ * \c domain argument:
+ * - AF_INET: IPv4 protocol
+ * - AF_INET6: IPv6 protocol
+ * - AF_UNSPEC: IPv4 or IPv6 protocol
+ *
+ * \c type argument:
+ * - SOCK_STREAM: TCP socket
+ * - SOCK_DGRAM: UDP socket
+ * - SOCK_NONBLOCK: Linux specific, put socket in non-blocking mode
+ *
+ * \c protocol argument:
+ * - Set to \c 0 if \c domain and \c type are set or a specific value otherwise
+ *
+ * \c flags argument:
+ * - AI_PASSIVE: bind to local host
  *
  * \warning WORK IN PROGRESS
+ *
+ * Current interrogations:
+ * - How to use gpr_net_listen function with localhost interface ?
+ * - How to use gpr_net_connect function and choose the binding port (bind) ?
+ * - strerror not thread-safe !
+ * - bind/listen for UDP sockets ?
  *
  ******************************************************************************
  *
@@ -44,63 +66,79 @@
 #ifndef H_GPR_NETWORK
 #define H_GPR_NETWORK
 
-#include <netdb.h> // addrinfo
+#include <netdb.h>   // addrinfo
+#include <stdbool.h> // bool
 
 #include "gpr_err.h"
 
 /**
- * \brief GPR sockets statuses showing network progression
+ * \brief GPR socket states showing network progression
  */
-enum GPR_Net
+enum GPR_Net_State
 {
-    GPR_NET_NONE,    ///< First connection attempt
-    GPR_NET_PENDING, ///< Connection establishment in progress
-    GPR_NET_OK,      ///< Establishment successful
-    GPR_NET_ERR      ///< Establishment failure
+    GPR_NET_STATE_CLOSED,     ///< Socket closed
+    GPR_NET_STATE_CLOSING,    ///< Shutdown in progress
+    GPR_NET_STATE_CONNECTING, ///< Connection establishment in progress
+    GPR_NET_STATE_CONNECTED,  ///< Socket connected to peer
+    GPR_NET_STATE_LISTENING,  ///< Socket listening service
+    GPR_NET_STATE_NUMBERS     ///< Number of socket states (*DO NOT USE*)
+};
+
+struct gpr_socket
+{
+    int socket;               ///< Socket communication endpoint
+    enum GPR_Net_State state; ///< Socket network progression
+    struct addrinfo hints;    ///< Communication criterias
+    struct addrinfo *res;     ///< List of available network addresses
+    struct addrinfo *cur;     ///< Current network address being tested
+    bool nonblock;            ///< Perform non-blocking operations
 };
 
 /**
- * \brief GPR socket structure
+ * \brief Invalid GPR socket reference value
  */
-struct gpr_socket
-{
-    int socket;              ///< C-socket communication endpoint
-    enum GPR_Net status;     ///< GPR socket establishment progress
-    struct addrinfo info;    ///< Communication criterias
-    struct addrinfo *result; ///< List of available network adresses
-    struct addrinfo *curr;   ///< Current network address being tested
-};
+#define GPR_INVALID_SOCKET -1
 
 /**
  * \brief Allocates and initializes a new GPR socket used for communication
  *
- * \note For more information about parameters, please consult \c getaddrinfo
- * manual
+ * \note For more information about parameters, please consult \c socket and \c getaddrinfo
+ * manuals
  *
- * \param[in] domain   Address family
- * \param[in] type     Socket type or \c 0
- * \param[in] protocol Socket address protocol or \c 0
- * \param[in] flags    Additional flags or \c 0
+ * \warning For Linux >= 2.6.27, \c SOCK_NONBLOCK can be used instead of \p nonblock parameter
+ *
+ * \param[in] domain    Address family
+ * \param[in] type      Socket type
+ * \param[in] protocol  Socket address protocol
+ * \param[in] flags     Additional flags
+ * \param[in] nonblock  Set socket in non-blocking state if true
  *
  * \return Returns a GPR socket allocated and initialized or \c NULL on allocation failure
  */
-struct gpr_socket *gpr_net_new_socket(int domain, int type, int protocol, int flags);
+struct gpr_socket *gpr_net_new_socket(int domain, int type, int protocol, int flags, bool nonblock);
 
 /**
  * \brief Initializes a GPR socket used for communication
  *
- * \param[out] sock    GPR socket to initialize
- * \param[in] domain   Address family
- * \param[in] type     Socket type or \c 0
- * \param[in] protocol Socket address protocol or \c 0
- * \param[in] flags    Additional flags or \c 0
+ * \note For more information about parameters, please consult \c socket and \c getaddrinfo
+ * manuals
+ *
+ * \warning For Linux >= 2.6.27, \c SOCK_NONBLOCK can be used instead of \p nonblock parameter
+ *
+ * \param[out] sock     GPR socket to initialize
+ * \param[in]  domain   Address family
+ * \param[in]  type     Socket type
+ * \param[in]  protocol Socket address protocol
+ * \param[in]  flags    Additional flags
+ * \param[in]  nonblock Set socket in non-blocking state if true
  */
-void gpr_net_init_socket(struct gpr_socket *sock, int domain, int type, int protocol, int flags);
+void gpr_net_init_socket(struct gpr_socket *sock, int domain, int type, int protocol, int flags, bool nonblock);
 
 /**
- * \brief Closes a GPR socket
+ * \brief Closes communication on a GPR socket
  *
- * \note Call this function to end an established connection on a GPR socket
+ * \note This function can be called after a communication is established or in
+ *       progress to stop communications and free ressources
  *
  * \param[out] sock GPR socket to close
  *
@@ -112,6 +150,9 @@ enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock);
 /**
  * \brief Frees a GPR socket
  *
+ * \note If a communication is established or in progress, this function shutdowns
+ *       the GPR socket first
+ *
  * \note Call this function if you allocated a GPR socket with #gpr_net_new_socket
  *
  * \param[out] sock GPR socket to free
@@ -119,19 +160,31 @@ enum GPR_Err gpr_net_close_socket(struct gpr_socket *sock);
 void gpr_net_free_socket(struct gpr_socket *sock);
 
 /**
- * \brief Initiates a connection attempt with a GPR socket
+ * \brief Gets GPR socket state string
  *
- * \param[in] sock    GPR socket to use
- * \param[in] addr    Peer address/hostname to connect to
- * \param[in] service Peer service to connect to
+ * \param[in] state State to stringify
  *
- * \retval #GPR_ERR_OK The connection has been established
- * \retval #GPR_ERR_INVALID_PARAMETER One of the parameter is \c NULL (for \e DEBUG mode only)
- * \retval #GPR_ERR_NETWORK_ERROR A network error occurred
+ * \return Returns the C-string representing GPR socket state
  */
-enum GPR_Err gpr_net_connect(struct gpr_socket *sock, const char *addr, const char *service);
+const char *gpr_net_socket_state_to_str(enum GPR_Net_State state);
 
-// ssize_t gpr_net_recv();
-// ssize_t gpr_net_send();
+/**
+ * \brief Listens to a \p service on the \c addr host (*Server side*)
+ *
+ * \note If the service is still in use (a fast restart of the server for example),
+ *       this function will try to reuse the service as fast as possible with \c SO_REUSEADDR
+ *
+ * \param[in,out] sock    GPR socket to use
+ * \param[in]     addr    Address/hostname to bind to
+ * \param[in]     service Service number or known service name to listen to
+ * \param[in]     backlog Number of connections allowed on the incoming accepted queue before
+ *                        rejecting them (Please consult \c listen function and \c SOMAXCONN definition)
+ *
+ * \retval #GPR_ERR_OK The service is now listening
+ * \retval #GPR_ERR_INVALID_PARAMETER The socket is \c NULL or the address is \c NULL
+ *         or the service is \c NULL (for \e DEBUG mode only)
+ * \retval #GPR_ERR_NETWORK_ERROR A network error occured. Consult error message with #gpr_err_get_msg
+ */
+enum GPR_Err gpr_net_listen(struct gpr_socket *sock, const char *addr, const char *service, int backlog);
 
 #endif /* H_GPR_NETWORK */
