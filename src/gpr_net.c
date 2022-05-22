@@ -320,13 +320,13 @@ static enum GPR_Err resolve_hostname(struct gpr_socket *sock, const char *addr, 
  */
 static enum GPR_Err prepare_server_socket(struct gpr_socket *sock)
 {
+    int err, yes = 1;
+
 #ifdef DEBUG
     /* Check consistency */
     if (sock == NULL)
         return gpr_err_raise(GPR_ERR_INVALID_PARAMETER, "Invalid GPR socket");
 #endif
-
-    int err, yes = 1;
 
     /* Get a file descriptor */
     sock->socket = socket(sock->cur->ai_family, sock->cur->ai_socktype, sock->cur->ai_protocol);

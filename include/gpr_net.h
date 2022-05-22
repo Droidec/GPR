@@ -85,6 +85,9 @@ enum GPR_Net_State
     GPR_NET_STATE_NUMBERS     ///< Number of socket states (*DO NOT USE*)
 };
 
+/**
+ * \brief Socket structure
+ */
 struct gpr_socket
 {
     int socket;               ///< Socket communication endpoint
