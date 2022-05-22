@@ -298,7 +298,7 @@ static enum GPR_Err resolve_hostname(struct gpr_socket *sock, const char *addr, 
 
     enum GPR_Err err;
 
-    /* Search peer endpoint */
+    /* Resolve hostname */
     err = getaddrinfo(addr, service, &(sock->hints), &(sock->res));
     if (err != 0)
         return gpr_err_raise(GPR_ERR_NETWORK_ERROR, "getaddrinfo: %s", gai_strerror(err)); // gai_strerror should be thread-safe
@@ -385,7 +385,8 @@ static enum GPR_Err prepare_client_socket(struct gpr_socket *sock)
  *
  * \param[in,out] sock    GPR socket to bind/listen to
  * \param[in]     backlog Number of connections allowed on the incoming accepted queue before
- *                        rejecting them (Please consult \c listen function and \c SOMAXCONN definition)
+ *                        rejecting them for connection-oriented sockets (Please consult
+ *                        \c listen function and \c SOMAXCONN definition)
  *
  * \retval #GPR_ERR_OK The GPR socket is listening
  * \retval #GPR_ERR_INVALID_PARAMETER The socket is \c NULL (for \e DEBUG mode only)
@@ -407,9 +408,12 @@ static enum GPR_Err listen_to_service(struct gpr_socket *sock, int backlog)
         return gpr_err_raise(GPR_ERR_NETWORK_ERROR, "bind: [Errno %d] %s", errno, strerror(errno));
 
     /* Listen to service */
-    err = listen(sock->socket, backlog);
-    if (err < 0)
-        return gpr_err_raise(GPR_ERR_NETWORK_ERROR, "listen: [Errno %d] %s", errno, strerror(errno));
+    if ((sock->cur->ai_socktype & SOCK_DGRAM) == 0) // No listen in UDP
+    {
+        err = listen(sock->socket, backlog);
+        if (err < 0)
+            return gpr_err_raise(GPR_ERR_NETWORK_ERROR, "listen: [Errno %d] %s", errno, strerror(errno));
+    }
 
     return gpr_err_raise(GPR_ERR_OK, NULL);
 }

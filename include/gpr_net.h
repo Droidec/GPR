@@ -179,7 +179,8 @@ const char *gpr_net_socket_state_to_str(enum GPR_Net_State state);
  * \param[in]     addr    Address/hostname to bind to
  * \param[in]     service Service number or known service name to listen to
  * \param[in]     backlog Number of connections allowed on the incoming accepted queue before
- *                        rejecting them (Please consult \c listen function and \c SOMAXCONN definition)
+ *                        rejecting them for connection-oriented sockets (Please consult
+ *                        \c listen function and \c SOMAXCONN definition)
  *
  * \retval #GPR_ERR_OK The socket is now listening
  * \retval #GPR_ERR_INVALID_PARAMETER The socket is \c NULL or the address is \c NULL

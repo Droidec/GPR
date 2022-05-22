@@ -22,6 +22,7 @@ int main()
 
     gpr_net_init_socket(&sock, AF_INET, SOCK_STREAM, 0, 0, false);
 
+    // For IPv6, "AF_INET6" and "::1" for loopback
     err = gpr_net_listen(&sock, "127.0.0.1", "9500", SOMAXCONN);
     if (err != GPR_ERR_OK)
     {
