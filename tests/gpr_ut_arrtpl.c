@@ -8,7 +8,6 @@
  *
  *****************************************************************************/
 
-#include <assert.h>  // assert
 #include <stdbool.h> // bool
 #include <stdio.h>   // printf
 #include <stdlib.h>  // malloc, free
@@ -67,7 +66,7 @@ int main()
 
     /* New array */
     err = gpr_arrtpl_init(&arr, 5);
-    assert(err);
+    ASSERT(err);
 
     /* Free array */
     gpr_arrtpl_free(&arr);

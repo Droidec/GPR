@@ -44,12 +44,12 @@ file(GLOB TESTS CONFIGURE_DEPENDS "${TEST_REP}/*.c")
 # Build shared API
 add_library(GPR SHARED ${SOURCES})
 target_include_directories(GPR PUBLIC ${INC_REP})
-target_compile_options(GPR PRIVATE -Wall -Wextra -Werror)
+target_compile_options(GPR PRIVATE -Wall -Wextra -Werror -D_GNU_SOURCE)
 
 # Build static API
 add_library(GPR_static STATIC ${SOURCES})
 target_include_directories(GPR_static PUBLIC ${INC_REP})
-target_compile_options(GPR_static PRIVATE -Wall -Wextra -Werror)
+target_compile_options(GPR_static PRIVATE -Wall -Wextra -Werror -D_GNU_SOURCE)
 
 # Add optimization flags
 if (${CMAKE_BUILD_TYPE} MATCHES Release)
@@ -102,6 +102,12 @@ foreach(file ${TESTS})
     get_filename_component(UTNAME ${file} NAME_WLE)
     add_executable(${UTNAME} ${file})
     target_link_libraries(${UTNAME} PRIVATE GPR)
+    if (${CMAKE_BUILD_TYPE} MATCHES Release)
+        target_compile_options(${UTNAME} PRIVATE -Wall -Wextra -D_GNU_SOURCE -O3)
+    endif ()
+    if (${CMAKE_BUILD_TYPE} MATCHES Debug)
+        target_compile_options(${UTNAME} PRIVATE -Wall -Wextra -D_GNU_SOURCE -g -DDEBUG)
+    endif ()
 endforeach()
 
 # Install API unit tests

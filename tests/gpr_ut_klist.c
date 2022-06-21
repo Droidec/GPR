@@ -1,16 +1,15 @@
 /******************************************************************************
  *
- * gpr_ut_list.c
+ * gpr_ut_klist.c
  *
  ******************************************************************************
  *
- * Unit tests on "gpr_Klist" module
+ * Unit tests on "gpr_klist" module
  *
  *****************************************************************************/
 
 #include "gpr_klist.h"
 
-#include <assert.h> // assert
 #include <stdio.h>  // printf
 #include <stdlib.h> // malloc, free
 #include <string.h> // memset
@@ -66,7 +65,7 @@ unsigned int insert_student_by_mark(struct student *st, struct gpr_klist *list, 
     if (list_size == 0)
     {
         err = gpr_klist_push_back(&st->head, list);
-        assert(err == GPR_ERR_OK);
+        ASSERT(err == GPR_ERR_OK);
         return list_size + 1;
     }
 
@@ -77,14 +76,14 @@ unsigned int insert_student_by_mark(struct student *st, struct gpr_klist *list, 
         if (cur_student->mark > st->mark)
         {
             err = gpr_klist_push_back(&st->head, &cur_student->head);
-            assert(err == GPR_ERR_OK);
+            ASSERT(err == GPR_ERR_OK);
             return list_size + 1;
         }
     }
 
     // We have the best mark
     err = gpr_klist_push_back(&st->head, list);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
 
     return list_size + 1;
 }
@@ -127,7 +126,7 @@ int main()
     /* Delete worst student */
     worst_student = GPR_KLIST_ENTRY(list.next, struct student, head);
     err = gpr_klist_delete(list.next);
-    assert(err == GPR_ERR_OK);
+    ASSERT(err == GPR_ERR_OK);
     free_student(worst_student);
 
     /* Print students */

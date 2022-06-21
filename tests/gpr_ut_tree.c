@@ -86,7 +86,7 @@ struct gpr_tnode *build_milky_way(void)
 
     // Build Solar System
     struct gpr_tnode *solar_system = build_solar_system();
-    FREE_AND_RETURN_ON_TREE_FAILURE(solar_system, milky_way);
+    GPR_FREE_AND_RETURN_ON_TREE_FAILURE(solar_system, milky_way);
 
     // Add Solar System as a child of the Orion arm
     gpr_tree_add_child(orion_arm, solar_system);
@@ -113,7 +113,7 @@ struct gpr_tnode *build_big_bang(void)
 
     /* Build the Milky Way */
     struct gpr_tnode *milky_way = build_milky_way();
-    FREE_AND_RETURN_ON_TREE_FAILURE(milky_way, big_bang);
+    GPR_FREE_AND_RETURN_ON_TREE_FAILURE(milky_way, big_bang);
 
     /* Build Andromeda as a sibling of the Milky Way */
     gpr_tree_new_vsibling(milky_way, "Andromeda", "A galaxy that will collide with the Mily Way one day");

@@ -60,6 +60,21 @@
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof(x)[0])
 
 /**
+ * \brief Prevents the compiler to generate feedback in release mode
+ *        with unit tests
+ */
+#ifdef DEBUG
+#include <assert.h> // assert
+#define ASSERT(x) assert(x)
+#else
+#define ASSERT(x)        \
+    do                   \
+    {                    \
+        (void)sizeof(x); \
+    } while (0)
+#endif
+
+/**
  * \brief Prevents the compiler to generate feedback for unused variables
  */
 #ifdef __GNUC__

@@ -293,7 +293,7 @@ struct gpr_tnode *gpr_tree_search_node_by_value(struct gpr_tnode *origin, const 
  * \retval #GPR_ERR_NOT_IMPLEMENTED Feature not currently available (Should
  *         return the number of bytes written in the XML byte array)
  */
-enum GPR_Err gpt_tree_convert_to_xml(unsigned char *out, struct gpr_tnode *origin, size_t size);
+enum GPR_Err gpr_tree_convert_to_xml(unsigned char *out, struct gpr_tnode *origin, size_t size);
 
 /**
  * \brief Handle failure of tree parts
@@ -304,14 +304,14 @@ enum GPR_Err gpt_tree_convert_to_xml(unsigned char *out, struct gpr_tnode *origi
  * \param[in]  node   Node to check
  * \param[out] origin Origin node of the tree to free
  */
-#define FREE_AND_RETURN_ON_TREE_FAILURE(node, origin) \
-    do                                                \
-    {                                                 \
-        if (node == NULL)                             \
-        {                                             \
-            gpr_tree_free(origin);                    \
-            return NULL;                              \
-        }                                             \
+#define GPR_FREE_AND_RETURN_ON_TREE_FAILURE(node, origin) \
+    do                                                    \
+    {                                                     \
+        if (node == NULL)                                 \
+        {                                                 \
+            gpr_tree_free(origin);                        \
+            return NULL;                                  \
+        }                                                 \
     } while (0)
 
 #endif /* H_GPR_TREE */

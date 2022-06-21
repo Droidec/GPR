@@ -86,7 +86,7 @@ struct gpr_klist
  * \param[in] member Name of the member within this structure
  */
 // clang-format off
-#define CONTAINER_OF(ptr, type, member)                    \
+#define GPR_CONTAINER_OF(ptr, type, member)                \
     ({                                                     \
         const typeof(((type *)0)->member) *__mptr = (ptr); \
         (type *)((char *)__mptr - offsetof(type, member)); \
@@ -274,7 +274,7 @@ static inline bool gpr_klist_is_empty(const struct gpr_klist *head)
 {
 #ifdef DEBUG
     /* Check consistency */
-    if (entry == NULL)
+    if (head == NULL)
         return true;
 #endif
 
@@ -288,7 +288,7 @@ static inline bool gpr_klist_is_empty(const struct gpr_klist *head)
  * \param[in] type   Type of the containing structure
  * \param[in] member Name of the GPR list within containing structure
  */
-#define GPR_KLIST_ENTRY(ptr, type, member) CONTAINER_OF(ptr, type, member)
+#define GPR_KLIST_ENTRY(ptr, type, member) GPR_CONTAINER_OF(ptr, type, member)
 
 /**
  * \brief Gets the first element from a list
