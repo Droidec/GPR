@@ -2,6 +2,16 @@
 
 This CHANGELOG indicates the different versions of the `GPR` project.
 
+## Version 0.0.25
+
+- Complete revision and improvements of the `gpr_net` module
+- Improve unit tests with Release/Debug mode
+- Enable GNU extensions
+- Rename some macros
+- Update CREDITS
+- Update README
+- Fix typo
+
 ## Version 0.0.24
 
 - Update `Doxygen` layout
