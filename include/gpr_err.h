@@ -55,6 +55,7 @@ enum GPR_Err
     /* 004 */ GPR_ERR_LOOP_DETECTED,     ///< An infinite loop has been detected
     /* 005 */ GPR_ERR_NOT_IMPLEMENTED,   ///< Feature not implemented
     /* 006 */ GPR_ERR_NETWORK_ERROR,     ///< A network error occurred
+    /* 007 */ GPR_ERR_PENDING,           ///< An operation is pending
     /* xxx */ GPR_ERR_NUMBERS            ///< Number of errors (*DO NOT USE*)
 };
 
