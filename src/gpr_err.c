@@ -52,7 +52,7 @@ static const char *Err_Array[] = {
     /* 004 */ "Loop detected",
     /* 005 */ "Not implemented",
     /* 006 */ "Network error",
-};
+    /* 007 */ "Pending operation"};
 
 /**
  * \brief Error message (\e thread-safe)

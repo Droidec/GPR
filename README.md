@@ -5,7 +5,8 @@ is to offer common functionnalities such as date manipulation, network
 management and log writing. It gathers diversified features in a single,
 easy to use, library. The targeted compilers are [GCC](https://gcc.gnu.org/)
 and [CLANG](https://clang.llvm.org/). The targeted OS are
-[Linux](https://www.linux.org) and [MacOS](https://www.apple.com/).
+[Linux](https://www.linux.org) and [MacOS](https://www.apple.com/). This project
+involves [GNU](https://www.gnu.org/) extensions.
 
 ## Content
 

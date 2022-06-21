@@ -41,7 +41,7 @@
 /**
  * \brief Hexadecimal array
  */
-static const char *Hex_Arr = "0123456789ABCDEF";
+static const char *Hex_Array = "0123456789ABCDEF";
 
 void gpr_bin_hexlify(char *dst, const void *src, size_t size)
 {
@@ -50,8 +50,8 @@ void gpr_bin_hexlify(char *dst, const void *src, size_t size)
     for (; size > 0; size--)
     {
         /* Process byte per byte */
-        *dst++ = Hex_Arr[(*ptr >> 4) & 0x0F];
-        *dst++ = Hex_Arr[*ptr & 0x0F];
+        *dst++ = Hex_Array[(*ptr >> 4) & 0x0F];
+        *dst++ = Hex_Array[*ptr & 0x0F];
         ptr++;
     }
 }

@@ -349,7 +349,7 @@ struct gpr_tnode *gpr_tree_search_node_by_value(struct gpr_tnode *origin, const 
     return search_by_node_component(origin, value, SEARCH_BY_NODE_VALUE);
 }
 
-enum GPR_Err gpt_tree_convert_to_xml(unsigned char *UNUSED(out), struct gpr_tnode *UNUSED(origin), size_t UNUSED(size))
+enum GPR_Err gpr_tree_convert_to_xml(unsigned char *UNUSED(out), struct gpr_tnode *UNUSED(origin), size_t UNUSED(size))
 {
     return gpr_err_raise(GPR_ERR_NOT_IMPLEMENTED, "Feature not currently available");
 }

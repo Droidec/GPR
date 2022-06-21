@@ -9,10 +9,11 @@
  *****************************************************************************/
 
 #include "gpr_time.h"
-#include "gpr_utils.h"
 
 #include <stdio.h>  // printf
 #include <string.h> // strlen
+
+#include "gpr_utils.h"
 
 int main()
 {

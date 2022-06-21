@@ -50,11 +50,12 @@ enum GPR_Err
 {
     /* 000 */ GPR_ERR_OK,                ///< Success
     /* 001 */ GPR_ERR_KO,                ///< Generic error
-    /* 002 */ GPR_ERR_INVALID_PARAMETER, ///< One or multiple invalid parameter
+    /* 002 */ GPR_ERR_INVALID_PARAMETER, ///< One or multiple invalid parameters
     /* 003 */ GPR_ERR_MEMORY_FAILURE,    ///< Failure caused by a lack of memory
     /* 004 */ GPR_ERR_LOOP_DETECTED,     ///< An infinite loop has been detected
     /* 005 */ GPR_ERR_NOT_IMPLEMENTED,   ///< Feature not implemented
     /* 006 */ GPR_ERR_NETWORK_ERROR,     ///< A network error occurred
+    /* 007 */ GPR_ERR_PENDING,           ///< An operation is pending
     /* xxx */ GPR_ERR_NUMBERS            ///< Number of errors (*DO NOT USE*)
 };
 
