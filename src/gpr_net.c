@@ -399,14 +399,17 @@ ssize_t gpr_net_recv(const struct gpr_socket *sock, void *buf, size_t size, int 
             return recv(sock->socket, buf, size, flags);
 
         case GPR_NET_TYPE_CONNECTION_LESS:
-#ifdef UNIX
         {
-            socklen_t info_len = sizeof(struct sockaddr_storage);
-            return recvfrom(sock->socket, buf, size, flags, (struct sockaddr *)&(sock->peer_info), &info_len);
+            if (sock->state == GPR_NET_STATE_CONNECTED)
+            {
+                return recvfrom(sock->socket, buf, size, flags, NULL, NULL);
+            }
+            else
+            {
+                socklen_t info_len = sizeof(struct sockaddr_storage);
+                return recvfrom(sock->socket, buf, size, flags, (struct sockaddr *)&(sock->peer_info), &info_len);
+            }
         }
-#else
-        return recvfrom(sock->socket, buf, size, flags, NULL, 0);
-#endif
 
         default:
             errno = EBADF;
@@ -440,11 +443,10 @@ ssize_t gpr_net_send(const struct gpr_socket *sock, void *buf, size_t size, int 
             return send(sock->socket, buf, size, flags);
 
         case GPR_NET_TYPE_CONNECTION_LESS:
-#ifdef UNIX
-            return sendto(sock->socket, buf, size, flags, (struct sockaddr *)&(sock->peer_info), sizeof(struct sockaddr_storage));
-#else
-            return sendto(sock->socket, buf, size, flags, NULL, 0);
-#endif
+            if (sock->socket == GPR_NET_STATE_CONNECTED)
+                return sendto(sock->socket, buf, size, flags, NULL, 0);
+            else
+                return sendto(sock->socket, buf, size, flags, (struct sockaddr *)&(sock->peer_info), sizeof(struct sockaddr_storage));
 
         default:
             errno = EBADF;
